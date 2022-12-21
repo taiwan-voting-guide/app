@@ -1,3 +1,3 @@
 <template>
-	<h1>Hello, Taiwan Voting Guide</h1>
+  <h1>Hello, Taiwan Voting Guide</h1>
 </template>
