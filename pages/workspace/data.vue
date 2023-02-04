@@ -1,4 +1,4 @@
-<template>點選你要的工具</template>
+<template>abc</template>
 
 <script>
 definePageMeta({
