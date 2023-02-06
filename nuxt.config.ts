@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       googleClientId: process.env.NUXT_GOOGLE_CLIENT_ID,
+      backendEndpoint: process.env.NUXT_BACKEND_ENDPOINT,
     },
   },
 });

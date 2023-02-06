@@ -3,7 +3,7 @@
     id="g_id_onload"
     :data-client_id="config.public.googleClientId"
     data-auto_prompt="false"
-    data-login_uri="https://your.domain/your_login_endpoint"
+    :data-login_uri="googleAuthEndpoint"
   ></div>
   <div
     class="g_id_signin"
@@ -23,4 +23,5 @@ useHead({
   ],
 });
 const config = useRuntimeConfig();
+const googleAuthEndpoint = `${config.public.backendEndpoint}/auth/google`;
 </script>
