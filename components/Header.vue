@@ -4,7 +4,12 @@
       <object type="image/svg+xml" data="/logo.svg"></object>
       <div class="ml-auto">
         <Hamburger />
+        {{ user.name }}
       </div>
     </div>
   </header>
 </template>
+
+<script setup>
+const user = useState("user");
+</script>
