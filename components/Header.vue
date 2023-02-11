@@ -4,14 +4,7 @@
       <object type="image/svg+xml" data="/logo.svg"></object>
       <div class="ml-auto">
         <Hamburger />
-        <span v-if="user">
-          {{ user }}
-        </span>
       </div>
     </div>
   </header>
 </template>
-
-<script setup>
-const user = useState("user");
-</script>

@@ -22,12 +22,14 @@
     >
       <div class="py-2">
         <NuxtLink
+          v-if="!user"
           to="/login"
           class="block px-4 py-2 text-primary hover:bg-slate-100"
         >
           登入
         </NuxtLink>
         <NuxtLink
+          v-if="user"
           to="/workspace"
           class="block px-4 py-2 text-primary hover:bg-slate-100"
         >
@@ -51,4 +53,8 @@ export default {
     },
   },
 };
+</script>
+
+<script setup>
+const user = useState("user");
 </script>

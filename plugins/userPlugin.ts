@@ -3,6 +3,5 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     headers: useRequestHeaders(["cookie"]) as HeadersInit,
   });
 
-  console.log(res.data.value);
-  useState("user", () => res.data);
+  useState("user", () => res.data.value);
 });
