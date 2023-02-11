@@ -4,7 +4,9 @@
       <object type="image/svg+xml" data="/logo.svg"></object>
       <div class="ml-auto">
         <Hamburger />
-        {{ user.name }}
+        <span v-if="user">
+          {{ user }}
+        </span>
       </div>
     </div>
   </header>
