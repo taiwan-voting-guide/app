@@ -28,6 +28,9 @@
         >
           登入
         </NuxtLink>
+        <div class="block px-4 py-2 text-primary hover:bg-slate-100">
+          hi, {{ user.name }}
+        </div>
         <NuxtLink
           v-if="user"
           to="/workspace"
