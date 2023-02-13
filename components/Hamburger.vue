@@ -1,20 +1,6 @@
 <template>
-  <div ref="dropdown">
-    <nav
-      @click="toggleDropdown"
-      class="mr-4 cursor-pointer rounded border border-primary p-2"
-    >
-      <svg
-        class="fill-primary"
-        width="20"
-        height="14"
-        viewBox="0 0 20 14"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M0 0H20V2H0V0ZM0 6H20V8H0V6ZM0 12H20V14H0V12Z" />
-      </svg>
-    </nav>
+  <div v-if="user">
+    <Avatar :handleClick="toggleDropdown" :src="user.avatarUrl" />
 
     <div
       v-if="showDropdown"
@@ -32,7 +18,7 @@
           v-if="user"
           class="block px-4 py-2 text-primary hover:bg-slate-100"
         >
-          hi, {{ user.name }}
+          Hi, {{ user.name }}
         </div>
         <NuxtLink
           v-if="user"
@@ -44,6 +30,14 @@
       </div>
     </div>
   </div>
+
+  <NuxtLink
+    v-else
+    to="/login"
+    class="block rounded px-4 py-2 text-primary hover:bg-slate-100"
+  >
+    登入
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
