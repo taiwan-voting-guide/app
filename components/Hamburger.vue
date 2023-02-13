@@ -52,4 +52,6 @@ const showDropdown = ref(false);
 function toggleDropdown() {
   showDropdown.value = !showDropdown.value;
 }
+
+const user = useState("user");
 </script>
