@@ -46,21 +46,10 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      showDropdown: false,
-    };
-  },
-  methods: {
-    toggleDropdown() {
-      this.showDropdown = !this.showDropdown;
-    },
-  },
-};
-</script>
+<script setup lang="ts">
+const showDropdown = ref(false);
 
-<script setup>
-const user = useState("user");
+function toggleDropdown() {
+  showDropdown.value = !showDropdown.value;
+}
 </script>

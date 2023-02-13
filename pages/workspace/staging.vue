@@ -1,6 +1,6 @@
 <template>abc</template>
 
-<script>
+<script setup>
 definePageMeta({
   layout: "workspace",
 });
