@@ -9,7 +9,8 @@ npm install
 # Copy env file
 cp example.env .env
 
-# Copy Google client id from slack channel to .env ＣＣＣ
+# Go to #tech and copy `google client id` from pin to `NUXT_GOOGLE_CLIENT_ID`
+
 
 # Start the development server on http://localhost:3000
 npm run dev
