@@ -1,3 +1,7 @@
+type Politician = {
+  id: number;
+}
+
 export default async function useSearchPoliticians(
   name?: string,
   birthdate?: string
@@ -10,6 +14,6 @@ export default async function useSearchPoliticians(
     queryStrs.push(`birthdate=${birthdate}`);
   }
   const queryStr = queryStrs.join("&");
-
-  return useFetch(`http://localhost:8080/politician?${queryStr}`);
+  const config = useRuntimeConfig()
+  return useFetch<Array<Politician>>(`${config.public.backendEndpoint}/politician?${queryStr}`);
 }
