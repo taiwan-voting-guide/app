@@ -21,24 +21,46 @@
           :key="post.id"
         >
           <td class="px-6 py-4">
-            
             <tr v-for="record in post.records">
-              
               <td>{{ record.table }}</td>
               <td>
-                <div v-if="record.record.avatar_url">{{ record.record.avatar_url }}</div>
+                <div v-if="record.record.avatar_url">
+                  {{ record.record.avatar_url }}
+                </div>
                 <div v-if="record.record.name">{{ record.record.name }}</div>
-                <div v-if="record.record.en_name">{{ record.record.en_name }}</div>
-                <div v-if="record.record.committee">(委員會){{ record.record.committee }}</div>
-                <div v-if="record.record.onboard_date">(就職日期){{ record.record.onboard_date }}</div>
-                <div v-if="record.record.session">(會期){{ record.record.session }}</div>
-                <div v-if="record.record.term">(任期){{ record.record.term }}</div>
-                <div v-if="record.record.chairman">(黨主席){{ record.record.chairman }}</div>
-                <div v-if="record.record.established_date">(成立時間){{ record.record.established_date }}</div>
-                <div v-if="record.record.filing_date">(filing_date){{ record.record.filing_date }}</div>
-                <div v-if="record.record.mailing_address">(傳真地址){{ record.record.mailing_address }}</div>
-                <div v-if="record.record.main_office_address">(總部地址){{ record.record.main_office_address }}</div>
-                <div v-if="record.record.phone_number">{{ record.record.phone_number }}</div>
+                <div v-if="record.record.en_name">
+                  {{ record.record.en_name }}
+                </div>
+                <div v-if="record.record.committee">
+                  (委員會){{ record.record.committee }}
+                </div>
+                <div v-if="record.record.onboard_date">
+                  (就職日期){{ record.record.onboard_date }}
+                </div>
+                <div v-if="record.record.session">
+                  (會期){{ record.record.session }}
+                </div>
+                <div v-if="record.record.term">
+                  (任期){{ record.record.term }}
+                </div>
+                <div v-if="record.record.chairman">
+                  (黨主席){{ record.record.chairman }}
+                </div>
+                <div v-if="record.record.established_date">
+                  (成立時間){{ record.record.established_date }}
+                </div>
+                <div v-if="record.record.filing_date">
+                  (filing_date){{ record.record.filing_date }}
+                </div>
+                <div v-if="record.record.mailing_address">
+                  (傳真地址){{ record.record.mailing_address }}
+                </div>
+                <div v-if="record.record.main_office_address">
+                  (總部地址){{ record.record.main_office_address }}
+                </div>
+                <div v-if="record.record.phone_number">
+                  {{ record.record.phone_number }}
+                </div>
               </td>
             </tr>
           </td>
@@ -57,19 +79,18 @@
       </tbody>
     </table>
   </div>
-
 </template>
 
 <script setup>
 definePageMeta({
-  layout: 'workspace',
+  layout: "workspace",
 });
-const tableHeaders = ['records', 'createdAt', 'updatedAt'];
-const apiUrl = `http://localhost:8080`
+const tableHeaders = ["records", "createdAt", "updatedAt"];
+const apiUrl = `http://localhost:8080`;
 const { data } = await useFetch(`${apiUrl}/workspace/staging`);
 
 const submit = () => {
   // onClick handler
-  console.log('submit');
+  console.log("submit");
 };
 </script>

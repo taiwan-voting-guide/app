@@ -7,4 +7,7 @@ export default defineNuxtConfig({
       backendEndpoint: process.env.NUXT_BACKEND_ENDPOINT,
     },
   },
+  typescript: {
+    typeCheck: true,
+  },
 });

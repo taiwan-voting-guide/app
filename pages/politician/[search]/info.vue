@@ -35,27 +35,27 @@ interface User {
 }
 const data: User = {
   imageUrl: `https://www.ly.gov.tw/Images/Legislators/100014.jpg`,
-  alt: '吳思瑤',
+  alt: "吳思瑤",
 };
-const message = ref('');
+const message = ref("");
 const policyCategory = [
-  '防疫政策',
-  '憲法改革',
-  '國家安全',
-  '外交事務',
-  '社會福利',
-  '育兒支持',
-  '教育文化',
-  '環境能源',
-  '司法法制',
+  "防疫政策",
+  "憲法改革",
+  "國家安全",
+  "外交事務",
+  "社會福利",
+  "育兒支持",
+  "教育文化",
+  "環境能源",
+  "司法法制",
 ];
 const selectedCats = ref([]);
 // initialize
 policyCategory.forEach((item, i) => {
   selectedCats[i] = false;
 });
-const answers = [{ category: '', message: ''}]
+const answers = [{ category: "", message: "" }];
 const clickHandler = (item) => (e) => {
-  console.log('check', item)
-}
+  console.log("check", item);
+};
 </script>
