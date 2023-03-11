@@ -1,7 +1,11 @@
-export default defineNuxtPlugin(async (nuxtApp) => {
-  const res = await useFetch("http://localhost:8080/user", {
+export default defineNuxtPlugin(async (_nuxtApp) => {
+  const config = useRuntimeConfig();
+  const res = await useFetch<User>(`${config.public.backendEndpoint}/user`, {
     headers: useRequestHeaders(["cookie"]) as HeadersInit,
   });
 
-  useState("user", () => res.data.value);
+  const { value } = res.data;
+  if (value) {
+    useState<User>("user", () => value);
+  }
 });

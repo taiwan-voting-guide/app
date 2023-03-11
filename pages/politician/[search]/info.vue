@@ -1,8 +1,7 @@
 <template>
   立委個人頁
-  <!-- Basic info -->
   <div>
-    <img class="h-20 w-20 rounded-full" :src="data.imageUrl" :alt="data.alt" />
+    <img class="h-20 w-20 rounded-full" :src="u.avatarUrl" :alt="u.name" />
     請在以下十個議題中選出您在當選後希望重點關注的三個領域。
     <div v-for="(item, index) in policyCategory" :key="index">
       <input
@@ -29,15 +28,12 @@
 </template>
 
 <script setup lang="ts">
-interface User {
-  imageUrl: string;
-  alt: string;
-}
-const data: User = {
-  imageUrl: `https://www.ly.gov.tw/Images/Legislators/100014.jpg`,
-  alt: "吳思瑤",
+const u: User = {
+  id: 1,
+  avatarUrl: `https://www.ly.gov.tw/Images/Legislators/100014.jpg`,
+  name: "吳思瑤",
 };
-const message = ref("");
+
 const policyCategory = [
   "防疫政策",
   "憲法改革",
@@ -49,13 +45,12 @@ const policyCategory = [
   "環境能源",
   "司法法制",
 ];
-const selectedCats = ref([]);
-// initialize
-policyCategory.forEach((item, i) => {
-  selectedCats[i] = false;
-});
+
+const selectedCats = ref<Array<string>>(
+  new Array(policyCategory.length).fill("")
+);
 const answers = [{ category: "", message: "" }];
-const clickHandler = (item) => (e) => {
+const clickHandler = (item: string) => () => {
   console.log("check", item);
 };
 </script>
