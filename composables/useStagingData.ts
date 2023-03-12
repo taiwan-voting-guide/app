@@ -13,5 +13,19 @@ interface Staging {
 }
 
 interface Field {
-  [key: string]: any;
+  [key: string]: FieldCompare | any;
+}
+
+interface FieldCompare {
+  changed: boolean;
+  old: any;
+  new: any;
+}
+
+export default async function useStagingData(table: string) {
+  const config = useRuntimeConfig();
+  const { data } = await useFetch<Res>(
+    `${config.public.backendEndpoint}/workspace/staging/${table}`
+  );
+  return data.value?.stagings;
 }
