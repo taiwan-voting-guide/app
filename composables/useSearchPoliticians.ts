@@ -1,3 +1,15 @@
+type Res = {
+  politicians: Array<Politician>;
+};
+
+type Politician = {
+  id: number;
+  name: string;
+  birthdate: string;
+  sex: string;
+  avatarUrl: string;
+};
+
 export default async function useSearchPoliticians(
   name?: string,
   birthdate?: string
@@ -10,6 +22,9 @@ export default async function useSearchPoliticians(
     queryStrs.push(`birthdate=${birthdate}`);
   }
   const queryStr = queryStrs.join("&");
-
-  return useFetch(`http://localhost:8080/politician?${queryStr}`);
+  const config = useRuntimeConfig();
+  const { data } = await useFetch<Res>(
+    `${config.public.backendEndpoint}/politician?${queryStr}`
+  );
+  return data.value?.politicians;
 }

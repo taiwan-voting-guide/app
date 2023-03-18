@@ -9,7 +9,5 @@
 </template>
 
 <script setup lang="ts">
-const { data } = await useSearchPoliticians();
-const { politicians } = data.value;
-console.log(politicians);
+const politicians = await useSearchPoliticians();
 </script>

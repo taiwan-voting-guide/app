@@ -1,7 +1,6 @@
 <template>
-  <div v-if="user">
+  <div v-if="user && user.avatarUrl">
     <Avatar :handleClick="toggleDropdown" :src="user.avatarUrl" />
-
     <div
       v-if="showDropdown"
       class="absolute mt-2 w-max rounded border border-primary bg-white shadow-lg"
@@ -47,5 +46,5 @@ function toggleDropdown() {
   showDropdown.value = !showDropdown.value;
 }
 
-const user = useState("user");
+const user = useUser();
 </script>
