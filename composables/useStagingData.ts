@@ -7,5 +7,10 @@ export default async function useStagingData(table: string) {
   const { data } = await useFetch<Res>(
     `${config.public.backendEndpoint}/workspace/staging/${table}`
   );
-  return data.value?.stagings;
+
+  if (!data.value) {
+    return [];
+  }
+
+  return data.value.stagings;
 }
