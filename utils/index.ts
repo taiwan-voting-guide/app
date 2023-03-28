@@ -62,4 +62,13 @@ declare global {
     old: Value;
     new: Value;
   }
+
+  interface PoliticiansResult {
+    politicians: Array<{
+      name: string;
+      birthdate: string;
+      avatarUrl: string;
+      sex: string;
+    }>;
+  }
 }
