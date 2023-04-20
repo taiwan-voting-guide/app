@@ -1,9 +1,12 @@
 <template>
-	<Header />
-	<div v-for="politician in politicians" :key="politician.name + politician.birthdate">
-		<h1>{{ politician.name }}</h1>
-	</div>
-	<POC />
+  <Header />
+  <div
+    v-for="politician in politicians"
+    :key="politician.name + politician.birthdate"
+  >
+    <h1>{{ politician.name }}</h1>
+  </div>
+  <POC />
 </template>
 
 <script setup lang="ts">

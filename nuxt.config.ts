@@ -1,9 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: [
-    "@nuxtjs/tailwindcss",
-    "@nuxt/content",
-  ],
+  modules: ["@nuxtjs/tailwindcss", "@nuxt/content"],
   runtimeConfig: {
     public: {
       googleClientId: process.env.NUXT_GOOGLE_CLIENT_ID,
