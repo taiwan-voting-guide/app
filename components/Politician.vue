@@ -6,11 +6,15 @@
       :alt="candidate.name"
     />
     <h1 class="mt-4 text-center text-2xl font-bold">{{ candidate.name }}</h1>
-    <section v-for="content in contents" :key="content.body.title">
-      <h2 class="mt-4 font-bold text-primary">{{ content.title }}</h2>
-      <ContentRenderer :value="content">
-        <ContentRendererMarkdown :value="content" />
+    <section v-for="hint in getHints()" :key="hint">
+      <h2 class="mt-4 font-bold text-primary">{{ hint }}</h2>
+      <ContentRenderer>
+        <ContentRendererMarkdown
+          v-if="contents.get(hint)"
+          :value="contents.get(hint) || {}"
+        />
       </ContentRenderer>
+      <div v-if="!contents.has(hint)">目前沒有資料</div>
     </section>
   </div>
 </template>
@@ -29,15 +33,15 @@ const { data } = await useAsyncData(`content-${candidate.name}`, () =>
   queryContent<ParsedContent>().where({ title: candidate.name }).findOne()
 );
 
-console.log(data.value?.body);
+const { isHintClicked, getHints } = useHints();
 
-const contents: Ref<Array<ParsedContent>> = ref([]);
+const contents: Ref<Map<string, ParsedContent>> = ref(new Map());
 let newContent: ParsedContent | undefined;
 
 data.value?.body.children.forEach((child: any, i: number, arr: Array<any>) => {
   if (child.tag === "h2") {
-    if (newContent) {
-      contents.value.push(newContent);
+    if (newContent && newContent.title) {
+      contents.value.set(newContent.title, newContent);
     }
 
     newContent = {
@@ -52,8 +56,8 @@ data.value?.body.children.forEach((child: any, i: number, arr: Array<any>) => {
     newContent.body.children.push(child);
   }
 
-  if (i === arr.length - 1 && newContent) {
-    contents.value.push(newContent);
+  if (i === arr.length - 1 && newContent && newContent.title) {
+    contents.value.set(newContent.title, newContent);
   }
 });
 </script>

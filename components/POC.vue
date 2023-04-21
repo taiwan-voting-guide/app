@@ -6,7 +6,7 @@
         :key="hint"
         :text="hint"
         :onClick="() => toggleHint(hint)"
-        :clicked="hintsClicked.has(hint)"
+        :clicked="isHintClicked(hint)"
       />
     </div>
     <div class="mt-8 flex flex-nowrap justify-around">
@@ -20,13 +20,5 @@
 </template>
 
 <script setup lang="ts">
-const hintsClicked = ref<Set<string>>(new Set());
-
-function toggleHint(hint: string): void {
-  if (hintsClicked.value.has(hint)) {
-    hintsClicked.value.delete(hint);
-  } else {
-    hintsClicked.value.add(hint);
-  }
-}
+const { toggleHint, isHintClicked } = useHints();
 </script>
