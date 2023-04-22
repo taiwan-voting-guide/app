@@ -20,8 +20,8 @@
             :value="contents.get(tag) || {}"
           />
         </ContentRenderer>
+        <div v-if="!contents.has(tag)">目前沒有資料</div>
       </div>
-      <div v-if="!contents.has(tag)">目前沒有資料</div>
     </section>
   </div>
 </template>
