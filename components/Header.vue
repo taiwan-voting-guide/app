@@ -1,7 +1,7 @@
 <template>
   <header class="border-b-2 border-primary py-2">
     <div class="mx-auto flex max-w-4xl items-center">
-      <object type="image/svg+xml" data="/logo.svg"></object>
+      <object type="image/svg+xml" data="/frontend/logo.svg"></object>
       <div class="ml-auto flex">
         <NuxtLink
           to="https://hackmd.io/Hn_mHU8iRxOW8lg7amAuBg"
