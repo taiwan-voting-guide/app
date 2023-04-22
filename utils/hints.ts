@@ -20,9 +20,11 @@ const hintMap: Array<{ category: string; items: Array<string> }> = [
   { category: "負面資訊", items: ["犯罪記錄", "貪污舞弊", "與不良團體關聯"] },
 ];
 
-const hints = hintMap.reduce<Array<string>>(
+let hints = hintMap.reduce<Array<string>>(
   (acc, cur) => [...acc, ...cur.items],
   []
 );
+
+hints = [...hints, "Facebook"];
 
 export { hints, hintMap };

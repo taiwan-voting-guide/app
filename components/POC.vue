@@ -1,5 +1,5 @@
 <template>
-  <main class="mx-auto mt-8 max-w-3xl">
+  <main class="mx-auto mt-8 max-w-4xl">
     <div class="flex flex-wrap justify-center">
       <Tag
         v-for="hint in hints"

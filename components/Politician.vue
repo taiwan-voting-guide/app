@@ -1,13 +1,19 @@
 <template>
-  <div class="m-4 flex-none rounded-lg bg-slate-100 px-8 py-4">
+  <div
+    class="m-2 flex flex-1 flex-col items-center rounded-lg bg-slate-50 px-4 py-4"
+  >
     <img
       :src="candidate.imageURL"
       class="h-32 w-32 rounded-full border-2 border-primary object-scale-down object-center"
       :alt="candidate.name"
     />
     <h1 class="mt-4 text-center text-2xl font-bold">{{ candidate.name }}</h1>
-    <section v-for="hint in getHints()" :key="hint">
-      <h2 class="mt-4 font-bold text-primary">{{ hint }}</h2>
+    <section
+      class="mt-4 w-full rounded-lg bg-blue-100 p-2"
+      v-for="hint in getHints()"
+      :key="hint"
+    >
+      <h2 class="mb-1 font-bold text-primary">{{ hint }}</h2>
       <ContentRenderer>
         <ContentRendererMarkdown
           v-if="contents.get(hint)"
