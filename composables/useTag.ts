@@ -2,7 +2,7 @@ import { ref } from "vue";
 
 const tagsClicked = ref<Set<string>>(new Set());
 
-export function useTags() {
+export function useTag() {
   function toggleTag(tag: string): void {
     if (tagsClicked.value.has(tag)) {
       tagsClicked.value.delete(tag);

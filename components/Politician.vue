@@ -3,24 +3,24 @@
     class="m-2 flex flex-1 flex-col items-center rounded-lg bg-slate-50 px-4 py-4"
   >
     <img
-      :src="candidate.imageURL"
+      :src="data.imageURL"
       class="h-32 w-32 rounded-full border-2 border-primary object-scale-down object-center"
-      :alt="candidate.name"
+      :alt="name"
     />
-    <h1 class="mt-4 text-center text-2xl font-bold">{{ candidate.name }}</h1>
+    <h1 class="mt-4 text-center text-2xl font-bold">{{ name }}</h1>
     <section
       class="mt-4 w-full rounded-lg bg-blue-100 p-2"
-      v-for="hint in getHints()"
-      :key="hint"
+      v-for="tag in getTags()"
+      :key="tag"
     >
-      <h2 class="mb-1 font-bold text-primary">{{ hint }}</h2>
+      <h2 class="mb-1 font-bold text-primary">{{ tag }}</h2>
       <ContentRenderer>
         <ContentRendererMarkdown
-          v-if="contents.get(hint)"
-          :value="contents.get(hint) || {}"
+          v-if="contents.get(tag)"
+          :value="contents.get(tag) || {}"
         />
       </ContentRenderer>
-      <div v-if="!contents.has(hint)">目前沒有資料</div>
+      <div v-if="!contents.has(tag)">目前沒有資料</div>
     </section>
   </div>
 </template>
@@ -28,42 +28,15 @@
 <script setup lang="ts">
 import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
 
-const { candidate } = defineProps<{
-  candidate: {
-    name: string;
-    imageURL: string;
-  };
+const { name } = defineProps<{
+  name: string;
 }>();
 
-const { data } = await useAsyncData(`content-${candidate.name}`, () =>
-  queryContent<ParsedContent>().where({ title: candidate.name }).findOne()
-);
+const { getTags } = useTag();
 
-const { isHintClicked, getHints } = useHints();
+const data = await queryContent<ParsedContent>()
+  .where({ title: name })
+  .findOne();
 
-const contents: Ref<Map<string, ParsedContent>> = ref(new Map());
-let newContent: ParsedContent | undefined;
-
-data.value?.body.children.forEach((child: any, i: number, arr: Array<any>) => {
-  if (child.tag === "h2") {
-    if (newContent && newContent.title) {
-      contents.value.set(newContent.title, newContent);
-    }
-
-    newContent = {
-      _id: "",
-      title: child.children[0].value,
-      body: {
-        type: "root",
-        children: [],
-      },
-    };
-  } else if (newContent) {
-    newContent.body.children.push(child);
-  }
-
-  if (i === arr.length - 1 && newContent && newContent.title) {
-    contents.value.set(newContent.title, newContent);
-  }
-});
+const contents: Ref<Map<string, ParsedContent>> = ref(createContent(data));
 </script>
