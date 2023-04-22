@@ -1,25 +1,26 @@
 <template>
   <div
-    class="m-2 flex flex-1 flex-col items-center rounded-lg bg-slate-50 px-4 py-4"
+    class="m-2 flex flex-1 flex-col items-center rounded-md bg-[#F9F9F9] px-2 py-2"
   >
     <img
       :src="data.imageURL"
-      class="h-32 w-32 rounded-full border-2 border-primary object-scale-down object-center"
+      class="h-32 w-32 rounded-full object-scale-down object-center"
       :alt="name"
     />
     <h1 class="mt-4 text-center text-2xl font-bold">{{ name }}</h1>
-    <section
-      class="mt-4 w-full rounded-lg bg-blue-100 p-2"
-      v-for="tag in getTags()"
-      :key="tag"
-    >
-      <h2 class="mb-1 font-bold text-primary">{{ tag }}</h2>
-      <ContentRenderer>
-        <ContentRendererMarkdown
-          v-if="contents.get(tag)"
-          :value="contents.get(tag) || {}"
-        />
-      </ContentRenderer>
+    <section class="mt-6 w-full" v-for="tag in getTags()" :key="tag">
+      <div class="flex items-center">
+        <span class="mr-2 h-[24px] w-2 rounded-full bg-primary"></span>
+        <h2 class="text-xl font-bold">{{ tag }}</h2>
+      </div>
+      <div class="mt-2 rounded-md bg-white p-2 shadow">
+        <ContentRenderer>
+          <ContentRendererMarkdown
+            v-if="contents.get(tag)"
+            :value="contents.get(tag) || {}"
+          />
+        </ContentRenderer>
+      </div>
       <div v-if="!contents.has(tag)">目前沒有資料</div>
     </section>
   </div>
