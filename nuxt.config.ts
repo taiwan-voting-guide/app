@@ -15,4 +15,7 @@ export default defineNuxtConfig({
       },
     },
   },
+  app: {
+    baseURL: '/frontend/',
+  },
 });
