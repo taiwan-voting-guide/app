@@ -4,7 +4,7 @@
       <object type="image/svg+xml" data="/frontend/logo.svg"></object>
       <div class="ml-auto flex">
         <NuxtLink
-          to="https://hackmd.io/Hn_mHU8iRxOW8lg7amAuBg"
+          to="https://hackmd.io/GUqwe4eoR-WG4GnvJwvN1Q"
           class="block px-4 py-2 text-primary hover:bg-slate-100"
         >
           貢獻資料 / #標籤
