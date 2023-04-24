@@ -4,7 +4,10 @@
       <NuxtLink
         class="rounded p-1 text-right text-sm text-slate-500 hover:bg-slate-200"
         to="https://hackmd.io/GUqwe4eoR-WG4GnvJwvN1Q"
-        >覺得標籤需新增或修改嗎? 點這裡優化</NuxtLink
+        >點這裡<span class="text-primary">新增</span>或<span
+          class="text-primary"
+          >優化</span
+        >#標籤</NuxtLink
       >
     </div>
     <div class="mt-2 flex flex-wrap justify-center">
