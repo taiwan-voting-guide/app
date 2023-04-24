@@ -10,7 +10,7 @@
           許願#標籤
         </NuxtLink>
         <NuxtLink
-          to="https://forms.gle/BYicpZErjGDuQoUSA"
+          to="https://forms.gle/nytHi9hDbkX7miRz7"
           class="block px-4 py-2 text-primary hover:bg-slate-100"
         >
           意見回饋
