@@ -1,6 +1,13 @@
 <template>
   <main class="mx-auto mt-8 max-w-4xl">
-    <div class="flex flex-wrap justify-center">
+    <div class="text-right">
+      <NuxtLink
+        class="rounded p-1 text-right text-sm text-slate-500 hover:bg-slate-200"
+        to="https://hackmd.io/GUqwe4eoR-WG4GnvJwvN1Q"
+        >覺得標籤需新增或修改嗎? 點這裡優化</NuxtLink
+      >
+    </div>
+    <div class="mt-2 flex flex-wrap justify-center">
       <Tag
         v-for="tag in tags"
         :key="tag"

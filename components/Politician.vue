@@ -8,7 +8,6 @@
       :alt="name"
     />
     <h1 class="mt-4 text-center text-2xl font-bold">{{ name }}</h1>
-	<NuxtLink :to="data.contribute" class="text-sm text-primary underline">貢獻資料</NuxtLink>
     <section class="mt-6 w-full" v-for="tag in getTags()" :key="tag">
       <div class="flex items-center">
         <span class="mr-2 h-[24px] w-2 rounded-full bg-primary"></span>
@@ -21,7 +20,15 @@
             :value="contents.get(tag) || {}"
           />
         </ContentRenderer>
-        <div v-if="!contents.has(tag)">目前沒有資料</div>
+        <div>
+          <div v-if="!contents.has(tag)">目前沒有資料</div>
+          <NuxtLink
+            class="rounded p-1 text-xs text-slate-500 hover:bg-slate-200"
+            :to="`${data.contribute}#${tag}`"
+          >
+            貢獻資料
+          </NuxtLink>
+        </div>
       </div>
     </section>
   </div>
