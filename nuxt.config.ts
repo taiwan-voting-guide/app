@@ -1,10 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ["@nuxtjs/tailwindcss", "@nuxt/content"],
+  modules: ["@nuxtjs/tailwindcss", "@nuxt/content", "nuxt-monaco-editor"],
   runtimeConfig: {
     public: {
       googleClientId: process.env.NUXT_GOOGLE_CLIENT_ID,
-      backendEndpoint: process.env.NUXT_BACKEND_ENDPOINT,
     },
   },
   typescript: {
@@ -17,5 +16,19 @@ export default defineNuxtConfig({
   },
   app: {
     baseURL: "/frontend/",
+  },
+  content: {
+    sources: {
+      politician: {
+        prefix: "/politician",
+        driver: "github",
+        repo: "taiwan-voting-guide/content",
+        branch: "main",
+        dir: "politician",
+      },
+    },
+  },
+  routeRules: {
+    "/docs": { redirect: { to: "docs/introduction", statusCode: 302 } },
   },
 });
