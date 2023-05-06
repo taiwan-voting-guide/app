@@ -1,8 +1,8 @@
 <template>
   <header class="border-b-2 border-primary py-2">
     <div class="mx-auto flex items-center">
-      <NuxtLink to="/">
-        <object type="image/svg+xml" data="/logo.svg"></object>
+      <NuxtLink href="/">
+        <img src="/logo.svg" />
       </NuxtLink>
       <div class="ml-auto flex">
         <NuxtLink
