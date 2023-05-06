@@ -14,9 +14,6 @@ export default defineNuxtConfig({
       },
     },
   },
-  app: {
-    baseURL: "/frontend/",
-  },
   content: {
     sources: {
       politician: {
