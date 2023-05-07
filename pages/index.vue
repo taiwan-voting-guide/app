@@ -33,4 +33,8 @@ const tags = tagsContent.body.children[0].children.map(
 
 const candidates = ["侯友宜", "賴清德", "柯文哲"];
 const { toggleTag, isTagClicked } = useTag();
+
+useHead({
+  title: "選前大補帖",
+});
 </script>

@@ -3,8 +3,6 @@ export default defineNuxtConfig({
   app: {
     head: {
       link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
-
-      title: "選前大補帖",
     },
   },
   modules: ["@nuxtjs/tailwindcss", "@nuxt/content", "nuxt-monaco-editor"],
