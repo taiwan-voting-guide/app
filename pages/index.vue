@@ -1,24 +1,21 @@
 <template>
-  <main class="mx-auto mt-8 max-w-4xl">
-    <div class="text-right">
-      <NuxtLink
-        class="rounded p-1 text-right text-sm text-slate-500 hover:bg-slate-200"
-        to="https://hackmd.io/GUqwe4eoR-WG4GnvJwvN1Q"
-        >點這裡<span class="text-primary">新增</span>或<span
-          class="text-primary"
-          >優化</span
-        >#標籤</NuxtLink
-      >
-    </div>
-    <div class="mt-2 flex flex-wrap justify-center">
-      <Tag
-        v-for="tag in tags"
-        :key="tag"
-        :text="tag"
-        :onClick="() => toggleTag(tag)"
-        :clicked="isTagClicked(tag)"
+  <div class="sticky top-0 h-full w-60 overflow-y-scroll px-8">
+    <div class="sticky top-0 w-full bg-white py-4">
+      <input
+        placeholder="搜尋"
+        type="search"
+        class="box-border h-8 w-full rounded border-primary bg-slate-100 pl-4 placeholder:text-slate-400 focus:border-2"
       />
     </div>
+    <Tag
+      v-for="tag in tags"
+      :key="tag"
+      :text="tag"
+      :onClick="() => toggleTag(tag)"
+      :clicked="isTagClicked(tag)"
+    />
+  </div>
+  <main class="flex-1 px-1">
     <div class="mt-8 flex flex-nowrap justify-around">
       <Politician v-for="name in candidates" :key="name" :name="name" />
     </div>

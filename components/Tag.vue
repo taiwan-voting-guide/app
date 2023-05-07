@@ -1,7 +1,10 @@
 <template>
   <button
-    class="m-2 rounded border border-primary px-4 py-2 text-primary"
-    :class="{ 'bg-blue-100 font-bold': props.clicked }"
+    class="my-2 w-full rounded px-4 py-2 hover:bg-slate-100"
+    :class="{
+      'bg-slate-100 font-bold text-primary': props.clicked,
+      'text-gray-500': !props.clicked,
+    }"
     @click="onClick"
   >
     {{ props.text }}
