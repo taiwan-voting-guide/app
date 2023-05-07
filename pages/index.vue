@@ -1,5 +1,5 @@
 <template>
-  <div class="sticky top-0 h-full w-60 overflow-y-scroll px-8">
+  <div class="sticky top-0 h-full w-60 shrink-0 overflow-y-scroll px-8">
     <div class="sticky top-0 w-full bg-white py-4">
       <input
         placeholder="搜尋"
@@ -15,7 +15,7 @@
       :clicked="isTagClicked(tag)"
     />
   </div>
-  <main class="flex-1 px-1">
+  <main class="shrink-0 grow px-1">
     <div class="mt-8 flex flex-nowrap justify-around">
       <Politician v-for="name in candidates" :key="name" :name="name" />
     </div>
