@@ -5,7 +5,7 @@
         <img src="/logo.svg" />
       </NuxtLink>
       <div class="mx-4">
-        <NuxtLink to="/docs/introduction"> <Button>使用文件</Button></NuxtLink>
+        <NuxtLink to="/docs/introduction"> <Button>文件</Button></NuxtLink>
         <NuxtLink to="/data"> <Button>數據</Button></NuxtLink>
       </div>
       <div class="ml-auto mr-4 flex">
