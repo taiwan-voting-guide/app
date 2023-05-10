@@ -1,7 +1,19 @@
 <template>
   <button
-    class="ease mx-1 rounded px-4 py-1 text-sm text-gray-400 duration-300 hover:bg-slate-100 hover:text-gray-500"
+    class="ease m-1 rounded px-2 py-1 text-left text-sm hover:bg-slate-100"
+    :class="{
+      'font-bold text-primary': props.activated,
+      'text-gray-500': !props.activated,
+    }"
+    :onClick="onClick"
   >
     <slot></slot>
   </button>
 </template>
+
+<script setup lang="ts">
+const props = defineProps<{
+  activated?: boolean;
+  onClick?: () => void;
+}>();
+</script>
