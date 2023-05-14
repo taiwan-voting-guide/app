@@ -12,16 +12,13 @@
       </ul>
     </nav>
   </Sidebar>
-  <main>
-    <ContentDoc>
-      <template #not-found>
-        <h1>404</h1>
-      </template>
-    </ContentDoc>
-  </main>
+  <ContentDoc tag="main" class="h-fit max-w-3xl p-4">
+    <template #not-found>
+      <h1>404</h1>
+    </template>
+  </ContentDoc>
 </template>
 
 <script setup lang="ts">
 const docs = await queryContent("docs").sort({ order: 1 }).find();
-// current page url
 </script>
