@@ -28,6 +28,13 @@ export default defineNuxtConfig({
         branch: "main",
         dir: "politician",
       },
+      tags: {
+        prefix: "/tag",
+        driver: "github",
+        repo: "taiwan-voting-guide/content",
+        branch: "main",
+        dir: "/tag",
+      },
     },
   },
   routeRules: {

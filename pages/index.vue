@@ -17,20 +17,47 @@
     </SidebarItem>
   </Sidebar>
   <main class="flex-1 p-2">
-    <div class="flex flex-nowrap justify-around">
-      <Politician v-for="name in candidates" :key="name" :name="name" />
-    </div>
+    <table class="table-fixed">
+      <thead>
+        <tr>
+          <th v-for="politician in politicians" :key="politician">
+            <PoliticianHeader
+              v-if="politicianContents.has(politician)"
+              :photoURL="politicianContents.get(politician)?.photoURL"
+              :name="politician"
+            />
+          </th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </main>
 </template>
 
 <script setup lang="ts">
-const tagsContent = await queryContent().where({ title: "標籤" }).findOne();
-const tags = tagsContent.body.children[0].children.map(
+import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
+
+const tagsContent = await queryContent("tag").findOne();
+const tags = tagsContent.body.children[1].children.map(
   (tag: any) => tag.children[0].value
 );
 
-const candidates = ["侯友宜", "賴清德", "柯文哲"];
+const politicians = ["侯友宜", "賴清德", "柯文哲"];
+
 const { toggleTag, isTagClicked } = useTag();
+
+const data = await queryContent<ParsedContent>()
+  .where({ title: { $in: politicians } })
+  .find();
+
+const politicianContents: Ref<Map<string, ParsedContent>> = ref(new Map());
+
+data.forEach((politicianContent) => {
+  if (politicianContent.title === undefined) {
+    return;
+  }
+  politicianContents.value.set(politicianContent.title, politicianContent);
+});
 
 useHead({
   title: "選前大補帖",

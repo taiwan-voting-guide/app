@@ -24,7 +24,6 @@
           <div v-if="!contents.has(tag)">目前沒有資料</div>
           <NuxtLink
             class="rounded p-1 text-xs text-slate-500 hover:bg-slate-200"
-            :to="`${data.contribute}#${tag}`"
           >
             貢獻資料
           </NuxtLink>
@@ -37,15 +36,16 @@
 <script setup lang="ts">
 import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
 
-const { name } = defineProps<{
+const { name, data } = defineProps<{
+  data?: ParsedContent;
   name: string;
 }>();
 
 const { getTags } = useTag();
 
-const data = await queryContent<ParsedContent>()
-  .where({ title: name })
-  .findOne();
+if (data === undefined) {
+  throw new Error("data is undefined");
+}
 
 const contents: Ref<Map<string, ParsedContent>> = ref(createContent(data));
 </script>

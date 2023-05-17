@@ -1,6 +1,6 @@
 import { ref } from "vue";
 
-const tagsClicked = ref<Set<string>>(new Set(["性別"]));
+const tagsClicked = ref<Set<string>>(new Set([]));
 
 export function useTag() {
   function toggleTag(tag: string): void {
