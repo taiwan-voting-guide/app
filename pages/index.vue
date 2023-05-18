@@ -20,7 +20,7 @@
     <table class="table-fixed">
       <thead>
         <tr>
-          <th v-for="politician in politicians" :key="politician">
+          <th class="w-64" v-for="politician in politicians" :key="politician">
             <PoliticianHeader
               v-if="politicianContents.has(politician)"
               :photoURL="politicianContents.get(politician)?.photoURL"
