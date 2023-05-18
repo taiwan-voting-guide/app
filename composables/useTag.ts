@@ -1,34 +1,44 @@
 import { ref } from "vue";
 
-const tagsClicked = ref<Set<string>>(new Set([]));
+const tags = ref<Set<string>>(new Set([]));
+const allTags = ref<Array<string>>([]);
 
 export function useTag() {
+  queryContent("tag")
+    .findOne()
+    .then((tagsContent) => {
+      allTags.value = tagsContent.body.children[1].children.map(
+        (tag: any) => tag.children[0].value
+      );
+    });
+
   function toggleTag(tag: string): void {
-    if (tagsClicked.value.has(tag)) {
-      tagsClicked.value.delete(tag);
+    if (tags.value.has(tag)) {
+      tags.value.delete(tag);
     } else {
-      tagsClicked.value.add(tag);
+      tags.value.add(tag);
     }
   }
 
-  function isTagClicked(tag: string | undefined): boolean {
+  function isTagActive(tag: string | undefined): boolean {
     if (!tag) {
       return false;
     }
-    return tagsClicked.value.has(tag);
+    return tags.value.has(tag);
   }
 
   function getTags(): Array<string> {
     let arr: Array<string> = [];
-    tagsClicked.value.forEach((v) => {
+    tags.value.forEach((v) => {
       arr = [...arr, v];
     });
     return arr;
   }
 
   return {
-    toggleTag,
-    isTagClicked,
+    allTags,
     getTags,
+    toggleTag,
+    isTagActive,
   };
 }

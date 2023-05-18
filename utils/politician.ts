@@ -1,8 +1,6 @@
 import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
 
-function createContent(
-  parsedContent: ParsedContent
-): Map<string, ParsedContent> {
+function createContent(parsedContent: ParsedContent): typeof Contents {
   const contents: Map<string, ParsedContent> = new Map();
   let newContent: ParsedContent | undefined;
 

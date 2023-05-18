@@ -8,23 +8,26 @@
       />
     </header>
     <SidebarItem
-      v-for="tag in tags"
+      v-for="tag in allTags"
       :onClick="() => toggleTag(tag)"
       :key="tag"
-      :activated="isTagClicked(tag)"
+      :activated="isTagActive(tag)"
     >
       {{ tag }}
     </SidebarItem>
   </Sidebar>
-  <main class="flex-1 p-2">
+  <main class="flex-1 bg-slate-100 p-2">
     <table class="table-fixed">
       <thead>
         <tr>
-          <th class="w-64" v-for="politician in politicians" :key="politician">
+          <th
+            class="w-64"
+            v-for="politician in politicians"
+            :key="politician.name"
+          >
             <PoliticianHeader
-              v-if="politicianContents.has(politician)"
-              :photoURL="politicianContents.get(politician)?.photoURL"
-              :name="politician"
+              :photoURL="politician.photoURL"
+              :name="politician.name"
             />
           </th>
         </tr>
@@ -37,27 +40,10 @@
 <script setup lang="ts">
 import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
 
-const tagsContent = await queryContent("tag").findOne();
-const tags = tagsContent.body.children[1].children.map(
-  (tag: any) => tag.children[0].value
-);
+const names = ["侯友宜", "賴清德", "柯文哲"];
 
-const politicians = ["侯友宜", "賴清德", "柯文哲"];
-
-const { toggleTag, isTagClicked } = useTag();
-
-const data = await queryContent<ParsedContent>()
-  .where({ title: { $in: politicians } })
-  .find();
-
-const politicianContents: Ref<Map<string, ParsedContent>> = ref(new Map());
-
-data.forEach((politicianContent) => {
-  if (politicianContent.title === undefined) {
-    return;
-  }
-  politicianContents.value.set(politicianContent.title, politicianContent);
-});
+const { allTags, toggleTag, isTagActive } = useTag();
+const { politicians } = usePolitician(names);
 
 useHead({
   title: "選前大補帖",
