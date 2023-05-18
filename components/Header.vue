@@ -9,8 +9,15 @@
         <NuxtLink to="/data"> <Button>數據</Button></NuxtLink>
       </div>
       <div class="ml-auto mr-4 flex">
-        <NuxtLink to="/"> <Button>聊天室</Button></NuxtLink>
-        <NuxtLink to="/docs/contribute"> <Button>成為貢獻者</Button></NuxtLink>
+        <NuxtLink
+          to="https://join.slack.com/t/taiwanvotingguide/shared_invite/zt-1stmgptpf-~D6X8ETZyaNR7uUHrIk~sA"
+        >
+          <Button
+            ><div class="flex items-center gap-1">
+              <img class="inline h-4 w-4" src="/slack.webp" />Slack
+            </div></Button
+          ></NuxtLink
+        >
         <NuxtLink to="/"> <Button>意見回饋</Button></NuxtLink>
       </div>
     </div>
