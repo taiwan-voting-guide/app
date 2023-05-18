@@ -38,8 +38,6 @@
 </template>
 
 <script setup lang="ts">
-import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
-
 const names = ["侯友宜", "賴清德", "柯文哲"];
 
 const { allTags, toggleTag, isTagActive } = useTag();
