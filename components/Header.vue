@@ -18,7 +18,9 @@
             </div></Button
           ></NuxtLink
         >
-        <NuxtLink to="/"> <Button>意見回饋</Button></NuxtLink>
+        <NuxtLink to="https://forms.gle/nAxdNjAqpAb3GEMz8">
+          <Button>意見回饋</Button></NuxtLink
+        >
       </div>
     </div>
   </header>

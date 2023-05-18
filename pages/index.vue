@@ -32,7 +32,13 @@
           </th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        <tr v-for="tag in getTags()">
+          <th v-for="politician in politicians" :key="politician.name">
+            {{ politician.contents.get(tag) }}
+          </th>
+        </tr>
+      </tbody>
     </table>
   </main>
 </template>
@@ -40,7 +46,7 @@
 <script setup lang="ts">
 const names = ["侯友宜", "賴清德", "柯文哲"];
 
-const { allTags, toggleTag, isTagActive } = useTag();
+const { getTags, allTags, toggleTag, isTagActive } = useTag();
 const { politicians } = usePolitician(names);
 
 useHead({
