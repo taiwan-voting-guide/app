@@ -18,10 +18,15 @@
   </Sidebar>
   <main class="flex-1 bg-slate-100 p-2">
     <table class="table-fixed">
+      <colgroup>
+        <col class="w-48" />
+        <col :span="politicians.length" class="w-80" />
+      </colgroup>
       <thead>
         <tr>
+          <th></th>
           <th
-            class="w-64"
+            scope="col"
             v-for="politician in politicians"
             :key="politician.name"
           >
@@ -34,8 +39,14 @@
       </thead>
       <tbody>
         <tr v-for="tag in getTags()">
-          <th v-for="politician in politicians" :key="politician.name">
+          <th scope="row" class="text-slate-500">{{ tag }}</th>
+          <th
+            class="p-2"
+            v-for="politician in politicians"
+            :key="politician.name"
+          >
             {{ politician.contents.get(tag) }}
+            321 123
           </th>
         </tr>
       </tbody>
