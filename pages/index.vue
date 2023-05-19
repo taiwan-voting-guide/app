@@ -40,14 +40,13 @@
       <tbody>
         <tr v-for="tag in getTags()">
           <th scope="row" class="text-slate-500">{{ tag }}</th>
-          <th
+          <td
             class="p-2"
             v-for="politician in politicians"
             :key="politician.name"
           >
-            {{ politician.contents.get(tag) }}
-            321 123
-          </th>
+            <PoliticianContentBlock :content="politician.contents.get(tag)" />
+          </td>
         </tr>
       </tbody>
     </table>
@@ -55,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-const names = ["假人A", "假人B", "假人C"];
+const names = ["假人_A", "假人_B", "假人_C"];
 
 const { getTags, allTags, toggleTag, isTagActive } = useTag();
 const { politicians } = usePolitician(names);
