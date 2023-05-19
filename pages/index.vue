@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-const names = ["侯友宜", "賴清德", "柯文哲"];
+const names = ["假人A", "假人B", "假人C"];
 
 const { getTags, allTags, toggleTag, isTagActive } = useTag();
 const { politicians } = usePolitician(names);

@@ -1,3 +1,5 @@
+import { resolve } from "path";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
@@ -21,23 +23,27 @@ export default defineNuxtConfig({
   },
   content: {
     sources: {
-      politician: {
-        prefix: "/politician",
-        driver: "github",
-        repo: "taiwan-voting-guide/content",
-        branch: "main",
-        dir: "politician",
-      },
-      tags: {
-        prefix: "/tag",
-        driver: "github",
-        repo: "taiwan-voting-guide/content",
-        branch: "main",
-        dir: "/tag",
+      content:
+        process.env.NODE_ENV === "production"
+          ? {
+              driver: "github",
+              repo: "taiwan-voting-guide/content",
+              branch: "main",
+              dir: "/content",
+            }
+          : {
+              driver: "fs",
+              base: resolve(__dirname, "content/dev"),
+            },
+      docs: {
+        driver: "fs",
+        prefix: "/docs", // All contents inside this source will be prefixed with `/docs`
+        base: resolve(__dirname, "content/docs"),
       },
     },
   },
   routeRules: {
     "/docs": { redirect: { to: "docs/introduction", statusCode: 302 } },
+    "/data": { redirect: { to: "data/tags", statusCode: 302 } },
   },
 });
