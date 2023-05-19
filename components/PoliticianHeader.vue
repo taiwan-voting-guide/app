@@ -1,8 +1,8 @@
 <template>
   <img
     :src="photoURL"
-    :alt="photoURL && name"
-    class="mx-auto h-32 w-32 rounded-full bg-slate-200 object-cover object-top"
+    :alt="name"
+    class="mx-auto h-32 w-32 rounded-full bg-slate-200 object-cover object-top text-slate-200"
   />
 
   <h1 class="mt-2 text-center text-2xl font-bold">{{ name }}</h1>
