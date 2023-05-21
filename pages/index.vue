@@ -17,7 +17,7 @@
     </SidebarItem>
   </Sidebar>
   <main class="flex-1 bg-slate-100 p-2">
-    <table class="table-fixed">
+    <table class="border-separate border-spacing-2">
       <colgroup>
         <col class="w-48" />
         <col :span="politicians.length" class="w-80" />
@@ -41,7 +41,7 @@
         <tr v-for="tag in getTags()">
           <th scope="row" class="text-slate-500">{{ tag }}</th>
           <td
-            class="p-2"
+            class="rounded bg-white p-2 align-top drop-shadow-lg"
             v-for="politician in politicians"
             :key="politician.name"
           >

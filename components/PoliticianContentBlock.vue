@@ -1,10 +1,11 @@
 <template>
-  <ContentRenderer :value="content" tag="div" class="p-4">
+  <ContentRenderer :value="content">
     <template #empty>
-      <h1>404</h1>
+      <p class="my-1 leading-relaxed text-slate-500">目前沒有資料</p>
     </template>
     <ContentRendererMarkdown v-if="content" :value="content" />
   </ContentRenderer>
+  <PoliticianContentFooter />
 </template>
 
 <script setup lang="ts">
