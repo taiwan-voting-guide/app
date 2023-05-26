@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
 import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
 
 const { content } = defineProps<{

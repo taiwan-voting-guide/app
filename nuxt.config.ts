@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/tailwindcss", "@nuxt/content", "nuxt-monaco-editor"],
   runtimeConfig: {
     public: {
-      googleClientId: process.env.NUXT_GOOGLE_CLIENT_ID,
+      mixpanelProjectToken: "",
     },
   },
   typescript: {
