@@ -45,7 +45,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="tag in getTags()">
+        <tr v-for="tag in activeTags">
           <th scope="row" class="text-slate-500">{{ tag }}</th>
           <td
             class="rounded bg-white p-2 align-top drop-shadow-lg"
@@ -70,7 +70,7 @@ mixpanel.init(config.public.mixpanelProjectToken, {
 
 const names = ["假人_A", "假人_B", "假人_C"];
 
-const { getTags, allTags, toggleTag, isTagActive } = await useTag();
+const { activeTags, allTags, toggleTag, isTagActive } = await useTag();
 const { politicians } = await usePolitician(names);
 
 const searchText = ref<string>("");

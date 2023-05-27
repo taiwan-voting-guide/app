@@ -1,11 +1,12 @@
 import { ref } from "vue";
 
 const tags = ref<Set<string>>(new Set([]));
+const activeTags = computed(() => Array.from(tags.value));
 const allTags = ref<Array<string>>([]);
 
 export async function useTag(): Promise<{
   allTags: typeof allTags;
-  getTags: () => Array<string>;
+  activeTags: typeof activeTags;
   toggleTag: (tag: string) => void;
   isTagActive: (tag: string | undefined) => boolean;
 }> {
@@ -30,13 +31,9 @@ export async function useTag(): Promise<{
     return tags.value.has(tag);
   }
 
-  function getTags(): Array<string> {
-    return Array.from(tags.value);
-  }
-
   return {
     allTags,
-    getTags,
+    activeTags,
     toggleTag,
     isTagActive,
   };
