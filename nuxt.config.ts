@@ -10,7 +10,8 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/tailwindcss", "@nuxt/content", "nuxt-monaco-editor"],
   runtimeConfig: {
     public: {
-      mixpanelProjectToken: "",
+      env: process.env.NODE_ENV,
+      mixpanelProjectToken: process.env.NUXT_MIXPANEL_PROJECT_TOKEN,
     },
   },
   typescript: {
@@ -44,6 +45,8 @@ export default defineNuxtConfig({
   },
   routeRules: {
     "/docs": { redirect: { to: "docs/introduction", statusCode: 302 } },
-    "/data": { redirect: { to: "data/tags", statusCode: 302 } },
+    "/data": {
+      redirect: { to: "data/tag_clicks_last_7_days", statusCode: 302 },
+    },
   },
 });

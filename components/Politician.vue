@@ -19,8 +19,6 @@ const { name, data } = defineProps<{
   name: string;
 }>();
 
-const { getTags } = await useTag();
-
 if (data === undefined) {
   throw new Error("data is undefined");
 }

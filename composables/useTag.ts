@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import mixpanel from "mixpanel-browser";
 
 const tags = ref<Set<string>>(new Set([]));
 const activeTags = computed(() => Array.from(tags.value));
@@ -19,9 +20,11 @@ export async function useTag(): Promise<{
   function toggleTag(tag: string): void {
     if (tags.value.has(tag)) {
       tags.value.delete(tag);
-    } else {
-      tags.value.add(tag);
+      return;
     }
+
+    mixpanel.track("Tag", { tag });
+    tags.value.add(tag);
   }
 
   function isTagActive(tag: string | undefined): boolean {

@@ -1,0 +1,12 @@
+name: Last 7 Days Tag Clicks
+
+on:
+  schedule:
+    - cron: "*/30 * * * *" # runs every 30 minutes
+
+jobs:
+  fetch_and_commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      -

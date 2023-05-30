@@ -5,7 +5,7 @@
     </template>
     <ContentRendererMarkdown v-if="content" :value="content" />
   </ContentRenderer>
-  <PoliticianContentFooter />
+  <PoliticianContentBlockFooter />
 </template>
 
 <script setup lang="ts">
@@ -14,6 +14,4 @@ import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
 const { content } = defineProps<{
   content?: ParsedContent;
 }>();
-
-console.log(content);
 </script>

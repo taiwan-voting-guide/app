@@ -6,7 +6,9 @@
       </NuxtLink>
       <div class="mx-4">
         <NuxtLink to="/docs/introduction"> <Button>文件</Button></NuxtLink>
-        <NuxtLink to="/data"> <Button>數據</Button></NuxtLink>
+        <NuxtLink to="/data/tag_clicks_last_7_days">
+          <Button>數據</Button></NuxtLink
+        >
       </div>
       <div class="ml-auto mr-4 flex">
         <NuxtLink

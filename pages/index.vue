@@ -61,13 +61,6 @@
 </template>
 
 <script setup lang="ts">
-import mixpanel from "mixpanel-browser";
-
-const config = useRuntimeConfig();
-mixpanel.init(config.public.mixpanelProjectToken, {
-  debug: process.env.NODE_ENV !== "production",
-});
-
 const names = ["假人_A", "假人_B", "假人_C"];
 
 const { activeTags, allTags, toggleTag, isTagActive } = await useTag();
