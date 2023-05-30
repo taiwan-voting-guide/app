@@ -13,7 +13,9 @@
     </nav>
   </Sidebar>
   <main class="flex-1 bg-slate-100 p-2">
-    <Bar :data="chartData" :options="chartOptions"> </Bar>
+    <section class="max-w-3xl">
+      <Bar :data="chartData" :options="chartOptions"> </Bar>
+    </section>
   </main>
 </template>
 
