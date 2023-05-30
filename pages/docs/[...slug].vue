@@ -2,7 +2,7 @@
   <Sidebar>
     <nav class="py-2">
       <ul>
-        <li v-for="doc in docs" :key="doc.slug">
+        <li v-for="doc in docs" :key="doc.title">
           <NuxtLink :to="doc._path">
             <SidebarItem>
               {{ doc.title }}
@@ -20,5 +20,11 @@
 </template>
 
 <script setup lang="ts">
-const docs = await queryContent("docs").sort({ order: 1 }).find();
+import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
+
+const docs = await queryContent<ParsedContent>("docs")
+  .sort({ order: 1 })
+  .find();
+
+console.log(docs);
 </script>

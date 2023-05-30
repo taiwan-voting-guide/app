@@ -1,0 +1,30 @@
+{
+  "title": "tag_clicks_last_7_days",
+  "name": "過去7天標籤點擊數",
+  "order": 1,
+  "from": 3213211,
+  "to": 3213219,
+  "data": {
+    "total": 65,
+    "tags": [
+      { "key": "迷因", "value": 19 },
+      { "key": "2024政見", "value": 15 },
+      { "key": "出生地", "value": 6 },
+      { "key": "家庭背景", "value": 4 },
+      { "key": "政治爭議", "value": 3 },
+      { "key": "宗教信仰", "value": 2 },
+      { "key": "經歷", "value": 2 },
+      { "key": "性別", "value": 2 },
+      { "key": "生日", "value": 2 },
+      { "key": "子女人數", "value": 2 },
+      { "key": "婚姻狀況", "value": 1 },
+      { "key": "社交媒體", "value": 1 },
+      { "key": "名言佳句", "value": 1 },
+      { "key": "政治風格", "value": 1 },
+      { "key": "過去政績", "value": 1 },
+      { "key": "學歷", "value": 1 },
+      { "key": "軍事服役經歷", "value": 1 },
+      { "key": "競選策略", "value": 1 }
+    ]
+  }
+}
