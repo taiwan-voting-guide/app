@@ -13,9 +13,10 @@
     </nav>
   </Sidebar>
   <main class="flex-1 bg-slate-100 p-2">
-    <section class="max-w-3xl">
+    <section v-if="chartData" class="max-w-3xl">
       <Bar :data="chartData" :options="chartOptions"> </Bar>
     </section>
+    <h1 class="text-slate-500" v-else>目前沒有資料</h1>
   </main>
 </template>
 
@@ -32,19 +33,9 @@ const data = await queryContent<ParsedContent>("data")
 
 const route = useRoute();
 
-const currentData = data.find(
-  (datum) => datum.title === route.params.type
-) as ParsedContent;
+const currentData = data.find((datum) => datum.title === route.params.type);
 
-if (!currentData) {
-  throw createError({ statusMessage: "找不到此頁面" });
-}
-
-const chartData = toChartData(currentData) as ChartData<
-  "bar",
-  number[],
-  string
->;
+const chartData = currentData && toChartData(currentData);
 
 const chartOptions: ChartOptions = {
   indexAxis: "y",
