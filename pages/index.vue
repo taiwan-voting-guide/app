@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-const names = ["假人_A", "假人_B", "假人_C"];
+const names = useNames();
 
 const { activeTags, allTags, toggleTag, isTagActive } = await useTag();
 const { politicians } = await usePolitician(names);
