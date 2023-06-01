@@ -2,12 +2,11 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --dotenv .env.dev",
-    "generate": "nuxt generate --dotenv .env.prod",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "format": "prettier --write .",
-    "deploy": "gh-pages --dotfiles -d .output/public"
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@nuxt/content": "^2.6.0",
