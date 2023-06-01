@@ -7,7 +7,7 @@
 npm install
 
 # Copy env file
-cp example.env .env
+cp example.env .env.dev
 
 # Start the development server on http://localhost:3000
 npm run dev

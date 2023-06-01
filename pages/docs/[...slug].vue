@@ -25,6 +25,4 @@ import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
 const docs = await queryContent<ParsedContent>("docs")
   .sort({ order: 1 })
   .find();
-
-console.log(docs);
 </script>
