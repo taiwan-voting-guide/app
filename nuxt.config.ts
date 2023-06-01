@@ -8,7 +8,6 @@ export default defineNuxtConfig({
     head: {
       link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
     },
-    baseURL: isProd ? "/frontend/" : "/",
   },
   modules: ["@nuxtjs/tailwindcss", "@nuxt/content", "nuxt-monaco-editor"],
   runtimeConfig: {
