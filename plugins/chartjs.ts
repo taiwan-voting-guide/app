@@ -6,6 +6,7 @@ import {
   BarElement,
   CategoryScale,
   LinearScale,
+  Colors,
 } from "chart.js";
 
 export default defineNuxtPlugin(() => {
@@ -15,6 +16,7 @@ export default defineNuxtPlugin(() => {
     Legend,
     BarElement,
     CategoryScale,
-    LinearScale
+    LinearScale,
+    Colors
   );
 });
