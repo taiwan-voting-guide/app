@@ -9,7 +9,7 @@
       />
       <div class="text-right">
         <NuxtLink to="/docs/contribute#標籤" class="text-xs text-primary"
-          >標籤有問題嗎?</NuxtLink
+          >沒有你需要的標籤嗎?</NuxtLink
         >
       </div>
     </header>
@@ -27,7 +27,7 @@
       <div class="text-slate-500">找不到標籤</div>
     </template>
   </Sidebar>
-  <main class="flex-1 bg-slate-100 p-2">
+  <main class="h-fit min-h-screen flex-1 bg-slate-100 p-2">
     <PoliticianSearch />
     <table class="border-separate border-spacing-2">
       <colgroup>
@@ -53,7 +53,7 @@
         <tr v-for="tag in activeTags">
           <th scope="row" class="text-slate-500">{{ tag }}</th>
           <td
-            class="rounded bg-white p-2 align-top drop-shadow-lg"
+            class="h-px rounded bg-white p-2 align-top drop-shadow-lg"
             v-for="politician in politicians"
             :key="politician.name"
           >
