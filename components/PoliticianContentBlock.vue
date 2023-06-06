@@ -4,9 +4,12 @@
       <template #empty>
         <p class="my-1 leading-relaxed text-slate-500">目前沒有資料</p>
       </template>
-      <ContentRendererMarkdown v-if="content" :value="content" />
+      <ContentRendererMarkdown
+        v-if="contentExist"
+        :value="content as ParsedContent"
+      />
     </ContentRenderer>
-    <PoliticianContentBlockFooter v-if="!content" />
+    <PoliticianContentBlockFooter v-if="!contentExist" />
   </div>
 </template>
 
@@ -16,4 +19,9 @@ import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
 const { content } = defineProps<{
   content?: ParsedContent;
 }>();
+
+const contentExist =
+  content &&
+  Array.isArray(content?.body.children) &&
+  content?.body.children.length > 0;
 </script>
