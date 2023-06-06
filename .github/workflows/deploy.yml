@@ -18,7 +18,8 @@ jobs:
       - run: npm install
       - run: npm run generate
         env:
-          NUXT_MIXPANEL_PROJECT_TOKEN: ${{ secrets.MIXPANEL_PROJECT_TOKEN }}
+          MIXPANEL_PROJECT_TOKEN: ${{ secrets.MIXPANEL_PROJECT_TOKEN }}
+          MICROSOFT_CLARITY_ID: ${{ secrets.MICROSOFT_CLARITY_ID }}
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

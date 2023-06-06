@@ -9,11 +9,11 @@ export default defineNuxtConfig({
       link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
     },
   },
-  modules: ["@nuxtjs/tailwindcss", "@nuxt/content", "nuxt-monaco-editor"],
+  modules: ["@nuxtjs/tailwindcss", "@nuxt/content", "nuxt-monaco-editor", "nuxt-clarity-analytics"],
   runtimeConfig: {
     public: {
       env: process.env.NODE_ENV,
-      mixpanelProjectToken: process.env.NUXT_MIXPANEL_PROJECT_TOKEN,
+      mixpanelProjectToken: process.env.MIXPANEL_PROJECT_TOKEN,
     },
   },
   typescript: {
