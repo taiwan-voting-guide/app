@@ -10,5 +10,5 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const searchText = ref("");
+const searchText = ref("2024_新北市_第八選舉區");
 </script>
