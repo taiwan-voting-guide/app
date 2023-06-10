@@ -27,14 +27,16 @@
       <div class="text-slate-500">找不到標籤</div>
     </template>
   </Sidebar>
-  <main class="h-fit min-h-screen flex-1 bg-slate-100 p-2">
-    <PoliticianSearch />
-    <table class="border-separate border-spacing-2">
+  <main class="h-fit min-h-full flex-1 bg-slate-100 p-2">
+    <div class="py-2">
+      <PoliticianSearch />
+    </div>
+    <table class="">
       <colgroup>
         <col class="w-48" />
         <col :span="politicians.length" class="w-80" />
       </colgroup>
-      <thead>
+      <thead class="sticky top-0 z-10 bg-slate-100">
         <tr>
           <th></th>
           <th
@@ -53,7 +55,7 @@
         <tr v-for="tag in activeTags">
           <th scope="row" class="text-slate-500">{{ tag }}</th>
           <td
-            class="h-px rounded bg-white p-2 align-top drop-shadow-lg"
+            class="h-px"
             v-for="politician in politicians"
             :key="politician.name"
           >

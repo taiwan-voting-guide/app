@@ -1,16 +1,24 @@
 <template>
-  <div class="flex h-full flex-col">
-    <ContentRenderer class="flex" :value="content">
-      <template #empty>
-        <p class="my-1 leading-relaxed text-slate-500">目前沒有資料</p>
-      </template>
-      <ContentRendererMarkdown
-        class="flex h-full flex-col"
-        v-if="contentExist"
-        :value="content as ParsedContent"
-      />
-    </ContentRenderer>
-    <PoliticianContentBlockFooter v-if="!contentExist" />
+  <div class="h-full p-1">
+    <div
+      class="flex h-full flex-col rounded bg-white p-2 align-top drop-shadow-lg"
+    >
+      <ContentRenderer class="flex" :value="content">
+        <template #empty>
+          <div class="flex h-full flex-col items-center justify-center">
+            <p class="leading-relaxed text-slate-500">目前沒有資料</p>
+            <NuxtLink class="text-sm text-primary" to="/docs/contribute">
+              點這裡貢獻
+            </NuxtLink>
+          </div>
+        </template>
+        <ContentRendererMarkdown
+          class="flex h-full flex-col"
+          v-if="contentExist"
+          :value="content as ParsedContent"
+        />
+      </ContentRenderer>
+    </div>
   </div>
 </template>
 
