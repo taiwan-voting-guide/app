@@ -27,16 +27,14 @@
       <div class="text-slate-500">找不到標籤</div>
     </template>
   </Sidebar>
-  <main class="h-fit min-h-full flex-1 bg-slate-100 p-2">
-    <div class="py-2">
-      <PoliticianSearch />
-    </div>
-    <table class="">
+  <main class="h-fit min-h-full flex-1 bg-slate-100">
+    <PoliticianSearch />
+    <table>
       <colgroup>
         <col class="w-48" />
         <col :span="politicians.length" class="w-80" />
       </colgroup>
-      <thead class="sticky top-0 z-10 bg-slate-100">
+      <thead class="sticky top-12 z-10 bg-slate-100">
         <tr>
           <th></th>
           <th
