@@ -67,8 +67,13 @@
 
 <script setup lang="ts">
 const names = useNames();
+const url = useRequestURL();
 
-const { activeTags, allTags, toggleTag, isTagActive } = await useTag();
+const tagStr = url.searchParams.get("tags");
+const initialTags = tagStr ? tagStr.split(",") : [];
+const { activeTags, allTags, toggleTag, isTagActive } = await useTag(
+  initialTags
+);
 const { politicians } = await usePolitician(names);
 
 const searchText = ref<string>("");

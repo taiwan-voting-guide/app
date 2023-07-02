@@ -5,13 +5,14 @@ const tags = ref<Set<string>>(new Set([]));
 const activeTags = computed(() => Array.from(tags.value));
 const allTags = ref<Array<string>>([]);
 
-export async function useTag(): Promise<{
+export async function useTag(initialTags: Array<string> = []): Promise<{
   allTags: typeof allTags;
   activeTags: typeof activeTags;
   toggleTag: (tag: string) => void;
   isTagActive: (tag: string | undefined) => boolean;
 }> {
   const tagsContent = await queryContent("tag").findOne();
+  tags.value = new Set(initialTags);
 
   allTags.value = tagsContent.body.children[1].children.map(
     (tag: any) => tag.children[0].value
@@ -20,11 +21,12 @@ export async function useTag(): Promise<{
   function toggleTag(tag: string): void {
     if (tags.value.has(tag)) {
       tags.value.delete(tag);
-      return;
+    } else {
+      mixpanel.track("Tag", { tag });
+      tags.value.add(tag);
     }
 
-    mixpanel.track("Tag", { tag });
-    tags.value.add(tag);
+    navigateTo({ query: { tags: activeTags.value.join(",") } });
   }
 
   function isTagActive(tag: string | undefined): boolean {
