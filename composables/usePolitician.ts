@@ -58,9 +58,20 @@ export async function usePolitician(
     });
   }
 
+  function removeAllPoliticians(): void {
+    politicians.value = [];
+  }
+
+  function setPoliticians(names: Array<string>) {
+    removeAllPoliticians();
+    appendPoliticians(names);
+  }
+
   return {
     politicians,
     removePolitician,
+    removeAllPoliticians,
     appendPoliticians,
+    setPoliticians,
   };
 }
