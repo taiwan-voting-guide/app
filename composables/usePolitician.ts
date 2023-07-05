@@ -8,9 +8,12 @@ export async function usePolitician(
   initialPoliticians: Array<string> = []
 ): Promise<{
   politicians: typeof politicians;
+  removeAllPoliticians: () => void;
   removePolitician: (name: string) => void;
   appendPoliticians: (names: Array<string>) => Promise<void>;
+  setPoliticians: (names: Array<string>) => Promise<void>;
 }> {
+  const { setPoliticianParams, navigate } = useSearchParams();
   await appendPoliticians(initialPoliticians);
 
   async function appendPoliticians(names: Array<string>) {
@@ -62,9 +65,12 @@ export async function usePolitician(
     politicians.value = [];
   }
 
-  function setPoliticians(names: Array<string>) {
+  async function setPoliticians(names: Array<string>) {
     removeAllPoliticians();
-    appendPoliticians(names);
+    await appendPoliticians(names);
+
+    setPoliticianParams(politicians.value.map((p) => p.name).join(","));
+    navigate();
   }
 
   return {

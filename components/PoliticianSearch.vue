@@ -18,7 +18,7 @@
           <li
             v-for="[group, ...politicians] in groups"
             class="my-2 cursor-pointer px-2 hover:bg-slate-100"
-            :onClick="() => setPoliticians(politicians)"
+            :onClick="() => onClick(politicians)"
           >
             <span class="font-bold text-slate-500">
               {{ group }}
@@ -53,4 +53,9 @@ const groups = computed(() => {
 
   return searchGroups(searchText.value.trim().replace(/\s+/g, " ").split(" "));
 });
+
+const onClick = async (politicians: Array<string>) => {
+  await setPoliticians(politicians);
+  searchText.value = "";
+};
 </script>

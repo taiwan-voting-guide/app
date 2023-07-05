@@ -66,18 +66,24 @@
 </template>
 
 <script setup lang="ts">
-const names = useNames();
 const url = useRequestURL();
+const tagsParamStr = url.searchParams.get("tags") || "";
+const politiciansParamStr = url.searchParams.get("politicians") || "";
 
-const tagStr = url.searchParams.get("tags");
-const initialTags = tagStr ? tagStr.split(",") : [];
+const initialTags = tagsParamStr ? tagsParamStr.split(",") : [];
 const { activeTags, allTags, toggleTag, isTagActive } = await useTag(
   initialTags
 );
-const { politicians } = await usePolitician(names);
+
+const initialPoliticians = politiciansParamStr
+  ? politiciansParamStr.split(",")
+  : [];
+const { politicians } = await usePolitician(initialPoliticians);
+
+const { setParams } = useSearchParams();
+setParams(tagsParamStr, politiciansParamStr);
 
 const searchText = ref<string>("");
-
 const filterTags = computed(() => {
   return searchText.value
     ? allTags.value.filter((tag) => {

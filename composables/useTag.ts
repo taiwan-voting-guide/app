@@ -11,6 +11,7 @@ export async function useTag(initialTags: Array<string> = []): Promise<{
   toggleTag: (tag: string) => void;
   isTagActive: (tag: string | undefined) => boolean;
 }> {
+  const { setTagParams, navigate } = useSearchParams();
   const tagsContent = await queryContent("tag").findOne();
   tags.value = new Set(initialTags);
 
@@ -26,7 +27,8 @@ export async function useTag(initialTags: Array<string> = []): Promise<{
       tags.value.add(tag);
     }
 
-    navigateTo({ query: { tags: activeTags.value.join(",") } });
+    setTagParams(activeTags.value.join(","));
+    navigate();
   }
 
   function isTagActive(tag: string | undefined): boolean {
