@@ -50,7 +50,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="tag in activeTags">
+        <tr v-for="tag in tags">
           <th scope="row" class="text-slate-500">{{ tag }}</th>
           <td
             class="h-px"
@@ -66,33 +66,16 @@
 </template>
 
 <script setup lang="ts">
-const url = useRequestURL();
-const tagsParamStr = url.searchParams.get("tags") || "";
-const politiciansParamStr = url.searchParams.get("politicians") || "";
+const { $allTags } = useNuxtApp();
+const allTags = $allTags();
 
-const initialTags = tagsParamStr ? tagsParamStr.split(",") : [];
-const { activeTags, allTags, toggleTag, isTagActive } = await useTag(
-  initialTags
-);
-
-const initialPoliticians = politiciansParamStr
-  ? politiciansParamStr.split(",")
-  : [];
-const { politicians } = await usePolitician(initialPoliticians);
-
-const { setParams } = useSearchParams();
-setParams(tagsParamStr, politiciansParamStr);
+const { tags, toggleTag, isTagActive } = await useTag();
+const { politicians } = await usePolitician();
 
 const searchText = ref<string>("");
 const filterTags = computed(() => {
   return searchText.value
-    ? allTags.value.filter((tag) => {
-        return tag.includes(searchText.value);
-      })
-    : allTags.value;
-});
-
-useHead({
-  title: "選前大補帖",
+    ? allTags.filter((tag) => tag.includes(searchText.value))
+    : allTags;
 });
 </script>

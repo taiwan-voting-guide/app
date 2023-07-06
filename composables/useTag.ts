@@ -1,25 +1,27 @@
 import { ref } from "vue";
 import mixpanel from "mixpanel-browser";
 
-const tags = ref<Set<string>>(new Set([]));
-const activeTags = computed(() => Array.from(tags.value));
-const allTags = ref<Array<string>>([]);
+const tags = ref<Set<string> | null>(null);
+const activeTags = computed<Array<string>>(() =>
+  tags.value !== null ? Array.from(tags.value) : []
+);
 
-export async function useTag(initialTags: Array<string> = []): Promise<{
-  allTags: typeof allTags;
-  activeTags: typeof activeTags;
+export async function useTag(): Promise<{
+  tags: typeof activeTags;
   toggleTag: (tag: string) => void;
-  isTagActive: (tag: string | undefined) => boolean;
+  isTagActive: (tag: string) => boolean;
 }> {
   const { setTagParams, navigate } = useSearchParams();
-  const tagsContent = await queryContent("tag").findOne();
-  tags.value = new Set(initialTags);
-
-  allTags.value = tagsContent.body.children[1].children.map(
-    (tag: any) => tag.children[0].value
-  );
+  if (tags.value === null) {
+    const { $initialTags } = useNuxtApp();
+    tags.value = new Set($initialTags());
+  }
 
   function toggleTag(tag: string): void {
+    if (tags.value === null) {
+      return;
+    }
+
     if (tags.value.has(tag)) {
       tags.value.delete(tag);
     } else {
@@ -31,16 +33,16 @@ export async function useTag(initialTags: Array<string> = []): Promise<{
     navigate();
   }
 
-  function isTagActive(tag: string | undefined): boolean {
-    if (!tag) {
+  function isTagActive(tag: string): boolean {
+    if (tags.value === null) {
       return false;
     }
+
     return tags.value.has(tag);
   }
 
   return {
-    allTags,
-    activeTags,
+    tags: activeTags,
     toggleTag,
     isTagActive,
   };

@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
+      title: "選前大補帖",
     },
   },
   modules: [
@@ -55,4 +56,5 @@ export default defineNuxtConfig({
       redirect: { to: "data/tag_clicks_last_7_days", statusCode: 302 },
     },
   },
+  ssr: false,
 });

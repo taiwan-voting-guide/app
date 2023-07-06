@@ -4,9 +4,7 @@ import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
 const politicians = ref<Array<typeof Politician>>([]);
 const politicianDataMap = ref<Map<string, ParsedContent>>(new Map());
 
-export async function usePolitician(
-  initialPoliticians: Array<string> = []
-): Promise<{
+export async function usePolitician(): Promise<{
   politicians: typeof politicians;
   removeAllPoliticians: () => void;
   removePolitician: (name: string) => void;
@@ -14,7 +12,11 @@ export async function usePolitician(
   setPoliticians: (names: Array<string>) => Promise<void>;
 }> {
   const { setPoliticianParams, navigate } = useSearchParams();
-  await appendPoliticians(initialPoliticians);
+
+  if (politicians.value.length === 0) {
+    const { $initialPoliticians } = useNuxtApp();
+    await appendPoliticians($initialPoliticians());
+  }
 
   async function appendPoliticians(names: Array<string>) {
     politicians.value.forEach((politician) => {
@@ -75,9 +77,9 @@ export async function usePolitician(
 
   return {
     politicians,
-    removePolitician,
-    removeAllPoliticians,
     appendPoliticians,
     setPoliticians,
+    removePolitician,
+    removeAllPoliticians,
   };
 }

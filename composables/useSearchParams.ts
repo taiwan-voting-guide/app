@@ -1,7 +1,7 @@
 import { ref } from "vue";
 
-const tagStr = ref<string>("");
-const politicianStr = ref<string>("");
+const tagStr = ref<string | null>(null);
+const politicianStr = ref<string | null>(null);
 
 export function useSearchParams(): {
   setTagParams: (str: string) => void;
@@ -9,6 +9,12 @@ export function useSearchParams(): {
   setParams: (tagStr: string, politicianStr: string) => void;
   navigate: () => void;
 } {
+  if (tagStr.value === null) {
+    const { $politiciansParamStr, $tagsParamStr } = useNuxtApp();
+    tagStr.value = $tagsParamStr();
+    politicianStr.value = $politiciansParamStr();
+  }
+
   function setParams(tagStr: string, politicianStr: string) {
     setTagParams(tagStr);
     setPoliticianParams(politicianStr);
