@@ -1,5 +1,7 @@
 import { resolve } from "path";
 
+const isProd = process.env.NODE_ENV === "production";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
@@ -15,6 +17,7 @@ export default defineNuxtConfig({
     "nuxt-clarity-analytics",
   ],
   runtimeConfig: {
+    isServer: true,
     public: {
       env: process.env.NODE_ENV,
       mixpanelProjectToken: process.env.MIXPANEL_PROJECT_TOKEN,
@@ -31,9 +34,9 @@ export default defineNuxtConfig({
   content: {
     sources: {
       content: {
-            driver: "fs",
-            base: resolve(__dirname, "content/content"),
-          }
+        driver: "fs",
+        base: resolve(__dirname, "content/content"),
+      },
     },
   },
   routeRules: {
@@ -42,5 +45,5 @@ export default defineNuxtConfig({
       redirect: { to: "data/tag_clicks_last_7_days", statusCode: 302 },
     },
   },
-  ssr: false,
+  ssr: isProd,
 });

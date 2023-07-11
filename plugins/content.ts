@@ -14,12 +14,27 @@ export default defineNuxtPlugin(async () => {
     ? politiciansParamStr.split(",")
     : [];
 
+  const navigation = await fetchContentNavigation({
+    where: [{ _path: "/politician" }],
+  });
+
+  // Preload politician data while prerendering
+  const runtimeConfig = useRuntimeConfig();
+  if (runtimeConfig.isServer) {
+    await Promise.all(
+      navigation.map((nav) =>
+        queryContent("politician").where({ title: nav.title }).findOne()
+      )
+    );
+  }
+
   return {
     provide: {
       allTags: () => allTags,
       tagsParamStr: () => tagsParamStr,
-      politiciansParamStr: () => politiciansParamStr,
       initialTags: () => initialTags,
+
+      politiciansParamStr: () => politiciansParamStr,
       initialPoliticians: () => initialPoliticians,
     },
   };

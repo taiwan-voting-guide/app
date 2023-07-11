@@ -34,9 +34,13 @@ export async function usePolitician(): Promise<{
     });
 
     if (updateNames.length > 0) {
-      const dataList = await queryContent<ParsedContent>()
-        .where({ title: { $in: updateNames } })
-        .find();
+      const dataList = await Promise.all(
+        updateNames.map((name) =>
+          queryContent<ParsedContent>("politician")
+            .where({ title: name })
+            .findOne()
+        )
+      );
 
       dataList.forEach((data) => {
         if (!data.title) {
