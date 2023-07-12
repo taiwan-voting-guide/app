@@ -1,8 +1,8 @@
 <template>
   <header class="w-full flex-none border-b-2 border-primary bg-white py-1">
     <div class="mx-auto flex items-center">
-      <NuxtLink to="/">
-        <img class="h-12 hover:rounded hover:bg-slate-100" src="/logo.svg" />
+      <NuxtLink class="mx-2 px-4 py-2 hover:rounded hover:bg-slate-100" to="/">
+        <img class="h-6" src="/logo.svg" />
       </NuxtLink>
       <div class="mx-4">
         <NuxtLink to="/docs/introduction"> <Button>文件</Button></NuxtLink>
