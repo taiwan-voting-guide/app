@@ -53,7 +53,7 @@
           <tr v-for="tag in tags">
             <th
               scope="row"
-              class="sticky left-0 z-10 bg-slate-100 text-slate-500"
+              class="min-h-20 sticky left-0 z-10 h-24 bg-slate-100 text-slate-500"
             >
               {{ tag }}
             </th>
