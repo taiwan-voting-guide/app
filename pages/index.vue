@@ -78,10 +78,19 @@ const allTags = $allTags();
 const { tags, toggleTag, isTagActive } = await useTag();
 const { politicians } = await usePolitician();
 
+const mounted = ref<boolean>(false);
 const searchText = ref<string>("");
 const filterTags = computed(() => {
+  if (!mounted.value) {
+    return [];
+  }
+
   return searchText.value
     ? allTags.filter((tag) => tag.includes(searchText.value))
     : allTags;
+});
+
+onMounted(() => {
+  mounted.value = true;
 });
 </script>
