@@ -1,4 +1,5 @@
 # Taiwan Voting Guide Frontend
+
 [![Deploy to GitHub Pages](https://github.com/taiwan-voting-guide/frontend/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/taiwan-voting-guide/frontend/actions/workflows/deploy.yml)
 
 ## Setup
