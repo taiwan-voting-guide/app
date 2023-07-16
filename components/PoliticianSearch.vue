@@ -1,5 +1,5 @@
 <template>
-  <div class="sticky top-0 z-20 bg-slate-100 p-2">
+  <div class="z-30 bg-slate-100 p-2">
     <div class="relative">
       <input
         v-model="searchText"
@@ -9,7 +9,7 @@
       />
       <ul
         v-if="searchText"
-        class="absolute mt-2 w-full rounded bg-white shadow-lg"
+        class="absolute mt-2 w-full rounded bg-white shadow-md"
       >
         <template v-if="groups.length === 0">
           <li class="p-2">沒有結果</li>

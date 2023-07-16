@@ -1,8 +1,6 @@
 <template>
   <div class="h-full p-1">
-    <div
-      class="flex h-full flex-col rounded bg-white p-2 align-top drop-shadow-lg"
-    >
+    <div class="flex h-full flex-col rounded bg-white p-2 align-top shadow">
       <ContentRenderer class="flex" :value="content">
         <template #empty>
           <div class="flex h-full flex-col items-center justify-center">

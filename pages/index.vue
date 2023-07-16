@@ -27,41 +27,47 @@
       <div class="text-slate-500">找不到標籤</div>
     </template>
   </Sidebar>
-  <main class="h-fit min-h-full flex-1 bg-slate-100">
+  <main class="flex flex-1 flex-col overflow-hidden bg-slate-100">
     <PoliticianSearch />
-    <table>
-      <colgroup>
-        <col class="w-48" />
-        <col :span="politicians.length" class="w-80" />
-      </colgroup>
-      <thead class="sticky top-12 z-10 bg-slate-100">
-        <tr>
-          <th></th>
-          <th
-            scope="col"
-            v-for="politician in politicians"
-            :key="politician.name"
-          >
-            <PoliticianHeader
-              :photoURL="politician.photoURL"
-              :name="politician.name"
-            />
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="tag in tags">
-          <th scope="row" class="text-slate-500">{{ tag }}</th>
-          <td
-            class="h-px"
-            v-for="politician in politicians"
-            :key="politician.name"
-          >
-            <PoliticianContentBlock :content="politician.contents.get(tag)" />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="w-full flex-1 overflow-scroll pb-8 pr-8">
+      <table>
+        <thead class="sticky top-0 z-20 bg-slate-100">
+          <tr>
+            <th
+              class="sticky left-0 top-0 w-48 min-w-[12rem] bg-slate-100"
+            ></th>
+            <th
+              class="w-80 min-w-[20rem]"
+              scope="col"
+              v-for="politician in politicians"
+              :key="politician.name"
+            >
+              <PoliticianHeader
+                :photoURL="politician.photoURL"
+                :name="politician.name"
+              />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="tag in tags">
+            <th
+              scope="row"
+              class="sticky left-0 z-10 bg-slate-100 text-slate-500"
+            >
+              {{ tag }}
+            </th>
+            <td
+              class="h-px"
+              v-for="politician in politicians"
+              :key="politician.name"
+            >
+              <PoliticianContentBlock :content="politician.contents.get(tag)" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </main>
 </template>
 
