@@ -33,9 +33,7 @@
       <table>
         <thead class="sticky top-0 z-20 bg-slate-100">
           <tr>
-            <th
-              class="sticky left-0 top-0 w-48 min-w-[12rem] bg-slate-100"
-            ></th>
+            <th class="sticky left-0 top-0 min-w-[14rem] bg-slate-100"></th>
             <th
               class="w-80 min-w-[20rem]"
               scope="col"
@@ -51,12 +49,7 @@
         </thead>
         <tbody>
           <tr v-for="tag in tags">
-            <th
-              scope="row"
-              class="min-h-20 sticky left-0 z-10 h-24 bg-slate-100 text-slate-500"
-            >
-              {{ tag }}
-            </th>
+            <TagBlock :tag="tag" />
             <td
               class="h-px"
               v-for="politician in politicians"
