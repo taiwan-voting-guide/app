@@ -28,7 +28,10 @@
     </template>
   </Sidebar>
   <main class="flex flex-1 flex-col overflow-hidden bg-slate-100">
-    <PoliticianSearch />
+    <div class="flex w-full items-center">
+      <MenuButton />
+      <PoliticianSearch />
+    </div>
     <div class="w-full flex-1 overflow-scroll pb-8 pr-8">
       <table>
         <thead class="sticky top-0 z-20 bg-slate-100">

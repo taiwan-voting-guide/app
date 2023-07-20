@@ -30,5 +30,8 @@
   },
   "engines": {
     "node": "^18.16.0"
+  },
+  "dependencies": {
+    "@heroicons/vue": "^2.0.18"
   }
 }

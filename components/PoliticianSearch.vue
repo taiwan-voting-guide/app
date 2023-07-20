@@ -1,5 +1,5 @@
 <template>
-  <div class="z-30 bg-slate-100 p-2">
+  <div class="z-30 w-full bg-slate-100 p-2">
     <div class="relative">
       <input
         v-model="searchText"
