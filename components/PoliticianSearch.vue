@@ -18,7 +18,7 @@
           <li
             v-for="[group, ...politicians] in results"
             class="my-2 cursor-pointer px-2 hover:bg-slate-100"
-            :onClick="() => onClick(politicians)"
+            @click="() => onClick(politicians)"
           >
             <span class="font-bold text-slate-500">
               {{ group }}
@@ -39,23 +39,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-
-const results = useSearchPoliticianResults();
-const { setPoliticians } = useActivePoliticians();
-
-const searchText = ref("");
-
-watch(searchText, () => {
-  const searchPoliticianKeywords = useSearchPoliticianKeywords();
-  searchPoliticianKeywords.value = searchText.value
-    .trim()
-    .replace(/\s+/g, " ")
-    .split(" ");
-});
+const { searchText, results } = useSearchPolitician();
+const { set } = useSelectPolitician();
 
 const onClick = async (politicians: Array<string>) => {
-  setPoliticians(politicians);
+  set(politicians);
   searchText.value = "";
 };
 </script>

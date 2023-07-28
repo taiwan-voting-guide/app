@@ -5,7 +5,7 @@
       'font-bold text-primary': props.activated,
       'text-slate-500': !props.activated,
     }"
-    :onClick="onClick"
+    @click="onClick"
   >
     <slot></slot>
   </button>

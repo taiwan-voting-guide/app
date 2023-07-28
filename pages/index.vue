@@ -16,9 +16,9 @@
     <template v-if="filterTags && filterTags.length > 0">
       <SidebarItem
         v-for="tag in filterTags"
-        :onClick="() => toggleTag(tag)"
+        @click="() => toggle(tag)"
         :key="tag"
-        :activated="isTagActive(tag)"
+        :activated="isSelected(tag)"
       >
         {{ tag }}
       </SidebarItem>
@@ -40,7 +40,7 @@
             <th
               class="w-80 min-w-[20rem]"
               scope="col"
-              v-for="politician in activePoliticians"
+              v-for="politician in politicians"
               :key="politician.name"
             >
               <PoliticianHeader
@@ -51,11 +51,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="tag in activeTags">
+          <tr v-for="tag in tags">
             <TagBlock :tag="tag" />
             <td
               class="h-px"
-              v-for="politician in activePoliticians"
+              v-for="politician in politicians"
               :key="politician.name + tag"
             >
               <PoliticianContentBlock :content="politician.contents.get(tag)" />
@@ -69,20 +69,21 @@
 
 <script setup lang="ts">
 const { $allTags } = useNuxtApp();
-const allTags = $allTags();
 
-const { activeTags, toggleTag, isTagActive } = useActiveTags();
-const { activePoliticians } = useActivePoliticians();
+const { tags, toggle, isSelected } = useSelectTag();
+const { politicians, politicianNames } = useSelectPolitician();
 
-const searchParamsTags = computed(() => {
-  return activeTags.value.join(",");
-});
-
-watch([activeTags], () => {
-  // TODO: add validation here and error handling if needed
+watch([tags, politicianNames], () => {
   const query: { tags?: string; politicians?: string } = {};
-  if (searchParamsTags.value) {
-    query.tags = searchParamsTags.value;
+
+  const tagParam = tags.value.join(",");
+  if (tagParam) {
+    query.tags = tagParam;
+  }
+
+  const politicianParam = politicianNames.value.join(",");
+  if (politicianParam) {
+    query.politicians = politicianParam;
   }
   navigateTo({ query });
 });
@@ -90,7 +91,7 @@ watch([activeTags], () => {
 const searchText = ref<string>("");
 const filterTags = computed(() =>
   searchText.value
-    ? allTags.filter((tag) => tag.includes(searchText.value))
-    : allTags
+    ? $allTags.filter((tag) => tag.includes(searchText.value))
+    : $allTags
 );
 </script>

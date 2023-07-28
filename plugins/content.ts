@@ -5,18 +5,15 @@ export default defineNuxtPlugin(async () => {
   );
 
   const url = useRequestURL();
-  const tagsParamStr = url.searchParams.get("tags") || "";
-  const politiciansParamStr = url.searchParams.get("politicians") || "";
+  const tagParam = url.searchParams.get("tags") || "";
+  const initialTags = (tagParam ? tagParam.split(",") : []).filter((tag) =>
+    allTags.includes(tag)
+  );
 
-  const initialTags = tagsParamStr ? tagsParamStr.split(",") : [];
-
-  const initialPoliticians = politiciansParamStr
-    ? politiciansParamStr.split(",")
+  const politiciansParam = url.searchParams.get("politicians") || "";
+  const initialPoliticians = politiciansParam
+    ? politiciansParam.split(",")
     : [];
-
-  const navigation = await fetchContentNavigation({
-    where: [{ _path: "/politician" }],
-  });
 
   const allSearchPoliticianResults: Map<string, Array<string>> = new Map();
   await queryContent("group", "groups")
@@ -34,6 +31,16 @@ export default defineNuxtPlugin(async () => {
       }
     });
 
+  const navigation = await fetchContentNavigation({
+    where: [{ _path: "/politician" }],
+  });
+
+  // all politician names
+  const allPoliticianNames = new Set<string>();
+  navigation.forEach((nav) => {
+    allPoliticianNames.add(nav.title);
+  });
+
   // Preload politician data while prerendering
   const runtimeConfig = useRuntimeConfig();
   if (runtimeConfig.isServer) {
@@ -46,14 +53,11 @@ export default defineNuxtPlugin(async () => {
 
   return {
     provide: {
-      allTags: () => allTags,
-      tagsParamStr: () => tagsParamStr,
-      initialTags: () => initialTags,
-
-      politiciansParamStr: () => politiciansParamStr,
-      initialPoliticians: () => initialPoliticians,
-
-      allSearchPoliticianResults: () => allSearchPoliticianResults,
+      allTags,
+      initialTags,
+      allPoliticianNames,
+      initialPoliticians,
+      allSearchPoliticianResults,
     },
   };
 });

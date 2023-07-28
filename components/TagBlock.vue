@@ -9,7 +9,7 @@
       <span class="relative">
         {{ tag }}
         <span
-          :onClick="() => toggleTag(tag)"
+          @click="() => toggle(tag)"
           class="absolute top-0 ml-1 cursor-pointer rounded px-1 opacity-0 hover:bg-slate-300 group-hover:opacity-100"
         >
           🗑️
@@ -24,5 +24,5 @@ const { tag } = defineProps<{
   tag: string;
 }>();
 
-const { toggleTag } = useActiveTags();
+const { toggle } = useSelectTag();
 </script>
