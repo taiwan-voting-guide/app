@@ -1,31 +1,13 @@
-import { ParsedContent } from "@nuxt/content/dist/runtime/types";
+export const useSearchPoliticianKeywords = () => useState<string[]>(() => []);
 
-const groups = ref<Map<string, Array<string>>>(new Map());
+export const useSearchPoliticianResults = () =>
+  computed(() => {
+    const keywords = useSearchPoliticianKeywords();
+    const { $allSearchPoliticianResults } = useNuxtApp();
 
-export async function useGroups() {
-  if (groups.value.size === 0) {
-    const content = await queryContent<ParsedContent>(
-      "group",
-      "groups"
-    ).findOne();
-
-    for (const [group, politicians] of Object.entries(content)) {
-      if (group === "title" || group.startsWith("_")) {
-        continue;
-      }
-
-      const key = `${group}_${politicians.join("_")}`;
-      const value = [group, ...politicians];
-
-      groups.value.set(key, value);
-    }
-  }
-
-  function searchGroups(keywords: Array<string>): Array<Array<string>> {
     const results: Array<Array<string>> = [];
-
-    groups.value.forEach((value, key) => {
-      for (const keyword of keywords) {
+    $allSearchPoliticianResults().forEach((value, key) => {
+      for (const keyword of keywords.value) {
         if (key.includes(keyword)) {
           results.push(value);
           break;
@@ -34,9 +16,4 @@ export async function useGroups() {
     });
 
     return results;
-  }
-
-  return {
-    searchGroups,
-  };
-}
+  });

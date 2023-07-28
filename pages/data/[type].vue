@@ -27,9 +27,7 @@ import { ChartOptions } from "chart.js";
 
 const url = useRequestURL();
 
-const data = await queryContent<ParsedContent>("data")
-  .sort({ order: 1 })
-  .find();
+const data = await queryContent("data").sort({ order: 1 }).find();
 
 const route = useRoute();
 

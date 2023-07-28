@@ -40,7 +40,7 @@
             <th
               class="w-80 min-w-[20rem]"
               scope="col"
-              v-for="politician in politicians"
+              v-for="politician in activePoliticians"
               :key="politician.name"
             >
               <PoliticianHeader
@@ -51,12 +51,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="tag in tags">
+          <tr v-for="tag in activeTags">
             <TagBlock :tag="tag" />
             <td
               class="h-px"
-              v-for="politician in politicians"
-              :key="politician.name"
+              v-for="politician in activePoliticians"
+              :key="politician.name + tag"
             >
               <PoliticianContentBlock :content="politician.contents.get(tag)" />
             </td>
@@ -71,22 +71,26 @@
 const { $allTags } = useNuxtApp();
 const allTags = $allTags();
 
-const { tags, toggleTag, isTagActive } = await useTag();
-const { politicians } = await usePolitician();
+const { activeTags, toggleTag, isTagActive } = useActiveTags();
+const { activePoliticians } = useActivePoliticians();
 
-const mounted = ref<boolean>(false);
-const searchText = ref<string>("");
-const filterTags = computed(() => {
-  if (!mounted.value) {
-    return [];
+const searchParamsTags = computed(() => {
+  return activeTags.value.join(",");
+});
+
+watch([activeTags], () => {
+  // TODO: add validation here and error handling if needed
+  const query: { tags?: string; politicians?: string } = {};
+  if (searchParamsTags.value) {
+    query.tags = searchParamsTags.value;
   }
+  navigateTo({ query });
+});
 
-  return searchText.value
+const searchText = ref<string>("");
+const filterTags = computed(() =>
+  searchText.value
     ? allTags.filter((tag) => tag.includes(searchText.value))
-    : allTags;
-});
-
-onMounted(() => {
-  mounted.value = true;
-});
+    : allTags
+);
 </script>

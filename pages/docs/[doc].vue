@@ -20,9 +20,5 @@
 </template>
 
 <script setup lang="ts">
-import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
-
-const docs = await queryContent<ParsedContent>("docs")
-  .sort({ order: 1 })
-  .find();
+const docs = await queryContent("docs").sort({ order: 1 }).find();
 </script>

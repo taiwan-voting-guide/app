@@ -11,12 +11,12 @@
         v-if="searchText"
         class="absolute mt-2 w-full rounded bg-white shadow-md"
       >
-        <template v-if="groups.length === 0">
+        <template v-if="results.length === 0">
           <li class="p-2">沒有結果</li>
         </template>
         <template v-else>
           <li
-            v-for="[group, ...politicians] in groups"
+            v-for="[group, ...politicians] in results"
             class="my-2 cursor-pointer px-2 hover:bg-slate-100"
             :onClick="() => onClick(politicians)"
           >
@@ -41,21 +41,21 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const { searchGroups } = await useGroups();
-const { setPoliticians } = await usePolitician();
+const results = useSearchPoliticianResults();
+const { setPoliticians } = useActivePoliticians();
 
-const searchText = ref();
+const searchText = ref("");
 
-const groups = computed(() => {
-  if (!searchText.value) {
-    return [];
-  }
-
-  return searchGroups(searchText.value.trim().replace(/\s+/g, " ").split(" "));
+watch(searchText, () => {
+  const searchPoliticianKeywords = useSearchPoliticianKeywords();
+  searchPoliticianKeywords.value = searchText.value
+    .trim()
+    .replace(/\s+/g, " ")
+    .split(" ");
 });
 
 const onClick = async (politicians: Array<string>) => {
-  await setPoliticians(politicians);
+  setPoliticians(politicians);
   searchText.value = "";
 };
 </script>

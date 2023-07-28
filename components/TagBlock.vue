@@ -24,5 +24,5 @@ const { tag } = defineProps<{
   tag: string;
 }>();
 
-const { toggleTag } = await useTag();
+const { toggleTag } = useActiveTags();
 </script>

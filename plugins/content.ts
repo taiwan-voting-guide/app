@@ -18,6 +18,22 @@ export default defineNuxtPlugin(async () => {
     where: [{ _path: "/politician" }],
   });
 
+  const allSearchPoliticianResults: Map<string, Array<string>> = new Map();
+  await queryContent("group", "groups")
+    .findOne()
+    .then((content) => {
+      for (const [group, politicians] of Object.entries(content)) {
+        if (group === "title" || group.startsWith("_")) {
+          continue;
+        }
+
+        const key = `${group}_${politicians.join("_")}`;
+        const value = [group, ...politicians];
+
+        allSearchPoliticianResults.set(key, value);
+      }
+    });
+
   // Preload politician data while prerendering
   const runtimeConfig = useRuntimeConfig();
   if (runtimeConfig.isServer) {
@@ -36,6 +52,8 @@ export default defineNuxtPlugin(async () => {
 
       politiciansParamStr: () => politiciansParamStr,
       initialPoliticians: () => initialPoliticians,
+
+      allSearchPoliticianResults: () => allSearchPoliticianResults,
     },
   };
 });
