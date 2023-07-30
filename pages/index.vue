@@ -1,5 +1,5 @@
 <template>
-  <Sidebar>
+  <Sidebar :hidden="tagSideBarHidden">
     <header class="sticky top-0 w-full bg-white pb-1 pt-4">
       <input
         v-model="searchText"
@@ -30,7 +30,7 @@
   </Sidebar>
   <main class="flex flex-1 flex-col overflow-hidden bg-slate-100">
     <div class="flex w-full items-center">
-      <MenuButton />
+      <MenuButton :onClick="onMenuButtonClick" />
       <PoliticianSearch />
     </div>
     <div class="w-full flex-1 overflow-scroll pb-8 pr-8">
@@ -97,4 +97,9 @@ const filterTags = computed(() =>
     ? $allTags.filter((tag) => tag.includes(searchText.value))
     : $allTags
 );
+const tagSideBarHidden = useTagSideBarHidden();
+
+const onMenuButtonClick = () => {
+  tagSideBarHidden.value = !tagSideBarHidden.value;
+};
 </script>
