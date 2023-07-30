@@ -18,7 +18,7 @@
         v-for="tag in filterTags"
         @click="() => toggle(tag)"
         :key="tag"
-        :activated="isSelected(tag)"
+        :activated="tagSet.has(tag)"
       >
         {{ tag }}
       </SidebarItem>
@@ -70,7 +70,7 @@
 <script setup lang="ts">
 const { $allTags } = useNuxtApp();
 
-const { tags, toggle, isSelected } = useSelectTag();
+const { tags, toggle, tagSet } = useSelectTag();
 const { politicians, politicianNames } = useSelectPolitician();
 
 watch([tags, politicianNames], () => {
@@ -85,6 +85,7 @@ watch([tags, politicianNames], () => {
   if (politicianParam) {
     query.politicians = politicianParam;
   }
+
   navigateTo({ query });
 });
 

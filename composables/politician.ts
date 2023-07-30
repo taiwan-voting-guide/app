@@ -7,9 +7,20 @@ type Politician = {
 };
 
 export function useSelectPolitician() {
-  const { $initialPoliticians, $allPoliticianNames } = useNuxtApp();
-  const politicians = useState<Politician[]>("selected_politicians", () => []);
-
+  const politicianNames = useState<Array<string>>(
+    "selected_politician_names",
+    () => []
+  );
+  const politicians = computed<Array<Politician>>(() => {
+    return politicianNames.value.map((name) => {
+      const data = contentMap.value.get(name);
+      return {
+        name,
+        photoURL: data?.photoURL || "",
+        contents: data ? createContent(data) : new Map(),
+      };
+    });
+  });
   const contentMap = useState<Map<string, ParsedContent>>(
     "politician_content_map",
     () => new Map<string, ParsedContent>()
@@ -35,71 +46,26 @@ export function useSelectPolitician() {
     });
   };
 
-  const append = (names: Array<string>) => {
-    names = names.filter((name) => $allPoliticianNames.has(name));
-
-    politicians.value.forEach((politician) => {
-      if (names.includes(politician.name)) {
-        names.splice(names.indexOf(politician.name), 1);
-      }
-    });
-
-    const updateNames: Array<string> = [];
-    names.forEach((name) => {
-      if (!contentMap.value.has(name)) {
-        updateNames.push(name);
-      }
-    });
-
-    if (updateNames.length === 0) {
-      return;
-    }
-
-    const uncachedNames = getUncachedNames(names);
-    let promise = Promise.resolve();
-    if (uncachedNames.length !== 0) {
-      loading.value = true;
-      promise = updateContent(updateNames);
-    }
-
-    promise.then(() => {
-      names.forEach((name) => {
-        const data = contentMap.value.get(name);
-        politicians.value.push({
-          name,
-          photoURL: data?.photoURL || "",
-          contents: data ? createContent(data) : new Map(),
-        });
-      });
-      loading.value = false;
-    });
-  };
-
   const remove = (name: string) => {
-    politicians.value = politicians.value.filter((politician) => {
-      return politician.name !== name;
+    politicianNames.value = politicianNames.value.filter((selected) => {
+      return selected !== name;
     });
   };
 
   const removeAll = (): void => {
-    politicians.value = [];
+    politicianNames.value = [];
   };
 
   async function set(names: Array<string>) {
-    names = names.filter((name) => $allPoliticianNames.has(name));
-
-    const selectedNames = politicians.value.map(
-      (politician) => politician.name
-    );
     if (
-      names.length === selectedNames.length &&
-      names.every((name, i) => name === selectedNames[i])
+      names.length === politicianNames.value.length &&
+      names.every((name, i) => name === politicianNames.value[i])
     ) {
       return;
     }
 
     if (names.length === 0) {
-      politicians.value = [];
+      politicianNames.value = [];
     }
 
     const uncachedNames = getUncachedNames(names);
@@ -110,30 +76,16 @@ export function useSelectPolitician() {
     }
 
     promise.then(() => {
-      politicians.value = names.map((name) => {
-        const data = contentMap.value.get(name);
-        return {
-          name,
-          photoURL: data?.photoURL || "",
-          contents: data ? createContent(data) : new Map(),
-        };
-      });
+      politicianNames.value = names;
       loading.value = false;
     });
   }
-
-  const politicianNames = computed(() => {
-    return politicians.value.map((politician) => politician.name);
-  });
-
-  set($initialPoliticians);
 
   return {
     politicians,
     politicianNames,
     loading,
     set,
-    append,
     remove,
     removeAll,
   };

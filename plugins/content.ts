@@ -1,4 +1,5 @@
 export default defineNuxtPlugin(async () => {
+  // populate allTags
   const tagsContent = await queryContent("tag").findOne();
   const allTags = tagsContent.body.children[1].children.map(
     (tag: any) => tag.children[0].value
@@ -10,11 +11,11 @@ export default defineNuxtPlugin(async () => {
     allTags.includes(tag)
   );
 
-  const politiciansParam = url.searchParams.get("politicians") || "";
-  const initialPoliticians = politiciansParam
-    ? politiciansParam.split(",")
-    : [];
+  // set initial tags
+  const { set: setTags } = useSelectTag();
+  setTags(initialTags);
 
+  // populate allSearchPoliticianResults
   const allSearchPoliticianResults: Map<string, Array<string>> = new Map();
   await queryContent("group", "groups")
     .findOne()
@@ -35,7 +36,7 @@ export default defineNuxtPlugin(async () => {
     where: [{ _path: "/politician" }],
   });
 
-  // all politician names
+  // populate allPoliticianNames
   const allPoliticianNames = new Set<string>();
   navigation.forEach((nav) => {
     allPoliticianNames.add(nav.title);
@@ -51,12 +52,19 @@ export default defineNuxtPlugin(async () => {
     );
   }
 
+  // set initial politicians
+  const politiciansParam = url.searchParams.get("politicians") || "";
+  const initialPoliticianNames = (
+    politiciansParam ? politiciansParam.split(",") : []
+  ).filter((name) => allPoliticianNames.has(name));
+
+  const { set: setPoliticianNames } = useSelectPolitician();
+  setPoliticianNames(initialPoliticianNames);
+
   return {
     provide: {
       allTags,
-      initialTags,
       allPoliticianNames,
-      initialPoliticians,
       allSearchPoliticianResults,
     },
   };
