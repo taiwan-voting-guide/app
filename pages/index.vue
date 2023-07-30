@@ -13,7 +13,8 @@
         >
       </div>
     </header>
-    <template v-if="filterTags && filterTags.length > 0">
+    <template v-if="!mounted" />
+    <template v-else-if="filterTags && filterTags.length > 0">
       <SidebarItem
         v-for="tag in filterTags"
         @click="() => toggle(tag)"
@@ -70,6 +71,7 @@
 <script setup lang="ts">
 const { $allTags } = useNuxtApp();
 
+const mounted = useMounted();
 const { tags, toggle, tagSet } = useSelectTag();
 const { politicians, politicianNames } = useSelectPolitician();
 
