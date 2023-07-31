@@ -3,7 +3,7 @@
     <div class="relative">
       <input
         v-model="searchText"
-        placeholder="搜尋"
+        placeholder="搜尋政治人物, e.g. '2024_總統', '第八選區', '侯友宜'"
         type="search"
         class="box-border h-8 w-full rounded border-primary bg-white px-2 text-sm placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
       />
