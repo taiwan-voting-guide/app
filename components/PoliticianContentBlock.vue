@@ -11,7 +11,6 @@
           </div>
         </template>
         <ContentRendererMarkdown
-          class="flex h-full flex-col"
           v-if="contentExist"
           :value="content as ParsedContent"
         />
