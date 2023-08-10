@@ -1,6 +1,6 @@
-# Taiwan Voting Guide Frontend
+# 選前大補帖 App
 
-[![Deploy to GitHub Pages](https://github.com/taiwan-voting-guide/frontend/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/taiwan-voting-guide/frontend/actions/workflows/deploy.yml)
+[![Deploy to GitHub Pages](https://github.com/taiwan-voting-guide/app/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/taiwan-voting-guide/app/actions/workflows/deploy.yml)
 
 ## Setup
 

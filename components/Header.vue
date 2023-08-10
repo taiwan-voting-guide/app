@@ -11,7 +11,7 @@
         >
       </div>
       <div class="ml-auto mr-4 flex">
-        <NuxtLink to="https://github.com/taiwan-voting-guide/frontend">
+        <NuxtLink to="https://github.com/taiwan-voting-guide/app">
           <Button
             ><div class="flex items-center gap-1">
               <img class="inline h-4 w-4" src="/github-mark.svg" />GitHub
