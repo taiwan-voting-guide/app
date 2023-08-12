@@ -1,7 +1,5 @@
 import { resolve } from "path";
 
-const isProd = process.env.NODE_ENV === "production";
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
@@ -13,8 +11,9 @@ export default defineNuxtConfig({
   modules: [
     "@nuxtjs/tailwindcss",
     "@nuxt/content",
-    "nuxt-monaco-editor",
     "nuxt-clarity-analytics",
+    "nuxt-headlessui",
+    "nuxt-monaco-editor",
   ],
   runtimeConfig: {
     isServer: true,
@@ -45,5 +44,4 @@ export default defineNuxtConfig({
       redirect: { to: "data/tag_clicks_last_7_days", statusCode: 302 },
     },
   },
-  ssr: isProd,
 });

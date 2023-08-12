@@ -1,77 +1,89 @@
 <template>
-  <Sidebar :hidden="tagSideBarHidden">
-    <header class="sticky top-0 w-full bg-white pb-1 pt-4">
-      <input
-        v-model="searchText"
-        placeholder="搜尋標籤, e.g. '目前政黨'"
-        type="search"
-        class="box-border h-8 w-full rounded border-primary bg-slate-100 px-2 text-sm placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
-      />
-      <div class="text-right">
-        <NuxtLink to="/docs/contribute#標籤" class="text-xs text-primary"
-          >沒有你需要的標籤嗎?</NuxtLink
+  <Sidebar :show="showTagSideBar">
+    <ClientOnly>
+      <header class="sticky top-0 w-full bg-white pb-1 pt-4">
+        <input
+          v-model="searchText"
+          placeholder="搜尋標籤, e.g. '目前政黨'"
+          type="search"
+          class="box-border h-8 w-full rounded border-primary bg-slate-100 px-2 text-sm placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+        <div class="text-right">
+          <NuxtLink to="/docs/contribute#標籤" class="text-xs text-primary"
+            >沒有你需要的標籤嗎?</NuxtLink
+          >
+        </div>
+      </header>
+      <template v-if="filterTags && filterTags.length > 0">
+        <SidebarItem
+          v-for="tag in filterTags"
+          @click="() => toggle(tag)"
+          :key="tag"
+          :activated="tagSet.has(tag)"
         >
-      </div>
-    </header>
-    <template v-if="!mounted" />
-    <template v-else-if="filterTags && filterTags.length > 0">
-      <SidebarItem
-        v-for="tag in filterTags"
-        @click="() => toggle(tag)"
-        :key="tag"
-        :activated="tagSet.has(tag)"
-      >
-        {{ tag }}
-      </SidebarItem>
-    </template>
-    <template v-else>
-      <div class="text-slate-500">找不到標籤</div>
-    </template>
+          {{ tag }}
+        </SidebarItem>
+      </template>
+      <template v-else>
+        <div class="text-slate-500">找不到標籤</div>
+      </template>
+    </ClientOnly>
   </Sidebar>
   <main class="flex flex-1 flex-col overflow-hidden bg-slate-100">
-    <div class="flex w-full items-center">
-      <MenuButton :onClick="onMenuButtonClick" />
-      <PoliticianSearch />
-    </div>
-    <div class="w-full flex-1 overflow-scroll pb-8 pr-8">
-      <table>
-        <thead class="sticky top-0 z-20 bg-slate-100">
-          <tr>
-            <th class="sticky left-0 top-0 min-w-[14rem] bg-slate-100"></th>
-            <th
-              class="w-80 min-w-[20rem]"
-              scope="col"
-              v-for="politician in politicians"
-              :key="politician.name"
-            >
-              <PoliticianHeader
-                :photoURL="politician.photoURL"
-                :name="politician.name"
-              />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="tag in tags">
-            <TagBlock :tag="tag" />
-            <td
-              class="h-px"
-              v-for="politician in politicians"
-              :key="politician.name + tag"
-            >
-              <PoliticianContentBlock :content="politician.contents.get(tag)" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <ClientOnly>
+      <div class="flex w-full items-center">
+        <MenuButton :onClick="onMenuButtonClick" />
+        <template v-if="politicians.length !== 0">
+          <PoliticianSearchButton />
+        </template>
+      </div>
+      <div class="h-full" v-if="politicians.length === 0">
+        <PoliticianCTA />
+      </div>
+      <div class="w-full flex-1 overflow-scroll pb-8 pr-8">
+        <table>
+          <thead class="sticky top-0 z-20 bg-slate-100">
+            <tr>
+              <th class="sticky left-0 top-0 min-w-[14rem] bg-slate-100"></th>
+              <th
+                class="w-80 min-w-[20rem]"
+                scope="col"
+                v-for="politician in politicians"
+                :key="politician.name"
+              >
+                <PoliticianHeader
+                  :photoURL="politician.photoURL"
+                  :name="politician.name"
+                />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="tag in tags">
+              <TagBlock :tag="tag" />
+              <td
+                class="h-px"
+                v-for="politician in politicians"
+                :key="politician.name + tag"
+              >
+                <PoliticianContentBlock
+                  :content="politician.contents.get(tag)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ClientOnly>
   </main>
+  <HeadlessListbox>
+    <PoliticianSearch />
+  </HeadlessListbox>
 </template>
 
 <script setup lang="ts">
 const { $allTags } = useNuxtApp();
 
-const mounted = useMounted();
 const { tags, toggle, tagSet } = useSelectTag();
 const { politicians, politicianNames } = useSelectPolitician();
 
@@ -97,9 +109,9 @@ const filterTags = computed(() =>
     ? $allTags.filter((tag) => tag.includes(searchText.value))
     : $allTags
 );
-const tagSideBarHidden = useTagSideBarHidden();
+const showTagSideBar = useShowTagSideBar();
 
 const onMenuButtonClick = () => {
-  tagSideBarHidden.value = !tagSideBarHidden.value;
+  showTagSideBar.value = !showTagSideBar.value;
 };
 </script>
