@@ -1,6 +1,6 @@
 <template>
   <button
-    class="ease rounded px-2 py-1 text-slate-600 hover:bg-slate-100"
+    class="flex rounded bg-primary px-3 py-2 text-white drop-shadow drop-shadow hover:bg-primary/80"
     @click="onClick"
   >
     <slot></slot>

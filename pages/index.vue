@@ -1,12 +1,12 @@
 <template>
   <Sidebar :show="showTagSideBar">
     <ClientOnly>
-      <header class="sticky top-0 w-full bg-white pb-1 pt-4">
+      <header class="sticky top-0 w-full bg-white p-3">
         <input
           v-model="searchText"
-          placeholder="搜尋標籤, e.g. '目前政黨'"
+          placeholder="搜尋標籤 e.g. 目前政黨"
           type="search"
-          class="box-border h-8 w-full rounded border-primary bg-slate-100 px-2 text-sm placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
+          class="h-8 w-full rounded border-primary bg-slate-100 px-2 shadow-inner placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary"
         />
         <div class="text-right">
           <NuxtLink to="/docs/contribute#標籤" class="text-xs text-primary"
@@ -21,26 +21,33 @@
           :key="tag"
           :activated="tagSet.has(tag)"
         >
-          {{ tag }}
+          <div class="flex items-center">
+            <div class="mr-1 inline-block h-4 w-4">
+              <CheckIcon class="h-4 w-4" v-if="tagSet.has(tag)" />
+            </div>
+            {{ tag }}
+          </div>
         </SidebarItem>
       </template>
       <template v-else>
-        <div class="text-slate-500">找不到標籤</div>
+        <p>找不到標籤</p>
       </template>
     </ClientOnly>
   </Sidebar>
-  <main class="flex flex-1 flex-col overflow-hidden bg-slate-100">
+  <main class="flex flex-1 flex-col overflow-hidden bg-slate-50">
     <ClientOnly>
-      <div class="flex w-full items-center">
-        <MenuButton :onClick="onMenuButtonClick" />
-        <template v-if="politicians.length !== 0">
-          <PoliticianSearchButton />
-        </template>
+      <div class="flex w-full items-center p-3">
+        <Button :onClick="toggleSidebar">
+          <Bars3Icon class="h-6 w-6 text-slate-600" />
+        </Button>
+        <Button :onClick="openPoliticianSearchDialog">
+          <MagnifyingGlassIcon class="h-6 w-6 text-slate-600" />
+        </Button>
       </div>
       <div class="h-full" v-if="politicians.length === 0">
         <PoliticianCTA />
       </div>
-      <div class="w-full flex-1 overflow-scroll pb-8 pr-8">
+      <div v-else class="w-full flex-1 overflow-scroll pb-8 pr-8">
         <table>
           <thead class="sticky top-0 z-20 bg-slate-100">
             <tr>
@@ -82,6 +89,12 @@
 </template>
 
 <script setup lang="ts">
+import {
+  CheckIcon,
+  Bars3Icon,
+  MagnifyingGlassIcon,
+} from "@heroicons/vue/24/outline";
+
 const { $allTags } = useNuxtApp();
 
 const { tags, toggle, tagSet } = useSelectTag();
@@ -109,9 +122,14 @@ const filterTags = computed(() =>
     ? $allTags.filter((tag) => tag.includes(searchText.value))
     : $allTags
 );
-const showTagSideBar = useShowTagSideBar();
 
-const onMenuButtonClick = () => {
+const showTagSideBar = useShowTagSideBar();
+const toggleSidebar = () => {
   showTagSideBar.value = !showTagSideBar.value;
+};
+
+const showPoliticianSearchDialog = useShowPoliticianSearchDialog();
+const openPoliticianSearchDialog = () => {
+  showPoliticianSearchDialog.value = true;
 };
 </script>
