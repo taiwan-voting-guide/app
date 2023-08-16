@@ -6,7 +6,7 @@
           v-model="searchText"
           placeholder="搜尋標籤 e.g. 目前政黨"
           type="search"
-          class="h-8 w-full rounded border-primary bg-slate-100 px-2 shadow-inner placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary"
+          class="h-8 w-full rounded border-primary bg-slate-50 px-2 shadow-inner placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary"
         />
         <div class="text-right">
           <NuxtLink to="/docs/contribute#標籤" class="text-xs text-primary"
@@ -49,9 +49,9 @@
       </div>
       <div v-else class="w-full flex-1 overflow-scroll pb-8 pr-8">
         <table>
-          <thead class="sticky top-0 z-20 bg-slate-100">
+          <thead class="sticky top-0 z-20 bg-slate-50">
             <tr>
-              <th class="sticky left-0 top-0 min-w-[14rem] bg-slate-100"></th>
+              <th class="sticky left-0 top-0 min-w-[14rem] bg-slate-50"></th>
               <th
                 class="w-80 min-w-[20rem]"
                 scope="col"

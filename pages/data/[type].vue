@@ -1,5 +1,5 @@
 <template>
-  <Sidebar>
+  <Sidebar :show="true">
     <nav class="py-2">
       <ul>
         <li v-for="datum in data" :key="datum.title">

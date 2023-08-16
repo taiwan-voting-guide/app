@@ -3,14 +3,14 @@
     <HeadlessDialog :open="isOpen" @close="onClose">
       <div class="fixed inset-0 z-40 bg-black/50" aria-hidden="true" />
       <div class="fixed inset-0 z-50 flex items-center justify-center">
-        <HeadlessDialogPanel class="m-4 w-full max-w-md rounded bg-white p-2">
+        <HeadlessDialogPanel class="m-4 w-full max-w-md rounded bg-white p-3">
           <div class="flex items-center">
-            <MagnifyingGlassIcon class="ml-2 h-6 w-6 text-slate-500" />
+            <MagnifyingGlassIcon class="mr-2 h-6 w-6 text-slate-500" />
             <input
               v-model="searchText"
-              placeholder="e.g. '2024_總統', '第八選區', '侯友宜'"
+              placeholder="e.g. 2024_總統, 第八選區, 侯友宜"
               type="search"
-              class="ml-2 box-border h-10 w-full rounded border-primary bg-white px-2 placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
+              class="h-8 w-full rounded border-primary bg-slate-100 px-2 shadow-inner placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
           <ul class="mt-4 w-full rounded">
