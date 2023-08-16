@@ -2,8 +2,8 @@
   <button
     class="ease w-full rounded px-2 py-2 text-left text-sm hover:bg-slate-100"
     :class="{
-      'font-medium text-primary': props.activated,
-      'text-slate-500': !props.activated,
+      'text-primary': props.activated,
+      'text-slate-600': !props.activated,
     }"
     @click="onClick"
   >
