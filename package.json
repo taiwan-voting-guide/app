@@ -20,7 +20,7 @@
     "gh-pages": "^5.0.0",
     "mixpanel-browser": "^2.47.0",
     "monaco-editor": "^0.37.1",
-    "nuxt": "^3.6.2",
+    "nuxt": "^3.6.5",
     "nuxt-clarity-analytics": "^0.0.2",
     "nuxt-headlessui": "^1.1.4",
     "nuxt-monaco-editor": "^1.2.2",

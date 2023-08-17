@@ -15,19 +15,23 @@
         </div>
       </header>
       <template v-if="filterTags && filterTags.length > 0">
-        <SidebarItem
-          v-for="tag in filterTags"
-          @click="() => toggle(tag)"
-          :key="tag"
-          :activated="tagSet.has(tag)"
-        >
-          <div class="flex items-center">
-            <div class="mr-1 inline-block h-4 w-4">
-              <CheckIcon class="h-4 w-4" v-if="tagSet.has(tag)" />
-            </div>
-            {{ tag }}
-          </div>
-        </SidebarItem>
+        <ul class="px-3">
+          <li>
+            <SidebarItem
+              v-for="tag in filterTags"
+              @click="() => toggle(tag)"
+              :key="tag"
+              :activated="tagSet.has(tag)"
+            >
+              <div class="flex items-center">
+                <div class="mr-1 inline-block h-4 w-4">
+                  <CheckIcon class="h-4 w-4" v-if="tagSet.has(tag)" />
+                </div>
+                {{ tag }}
+              </div>
+            </SidebarItem>
+          </li>
+        </ul>
       </template>
       <template v-else>
         <p>找不到標籤</p>
