@@ -4,8 +4,8 @@
       <ContentRenderer class="flex" :value="content">
         <template #empty>
           <div class="flex h-full flex-col items-center justify-center">
-            <p class="leading-relaxed text-slate-500">目前沒有資料</p>
-            <NuxtLink class="text-sm text-primary" to="/docs/contribute">
+            <p class="leading-relaxed">目前沒有資料</p>
+            <NuxtLink class="text-primary" to="/docs/contribute">
               點這裡貢獻
             </NuxtLink>
           </div>

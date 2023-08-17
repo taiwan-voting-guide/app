@@ -3,10 +3,10 @@
     <img
       :src="photoURL"
       :alt="name"
-      class="mx-auto h-32 w-32 rounded-full bg-slate-200 object-cover object-top text-slate-200"
+      class="mx-auto h-32 w-32 rounded-full object-cover object-top"
     />
 
-    <h1 class="mt-2 text-center text-2xl font-bold text-slate-500">
+    <h1 class="mt-2 text-center text-2xl font-bold">
       {{ name }}
     </h1>
   </div>
