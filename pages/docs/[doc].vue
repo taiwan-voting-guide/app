@@ -1,5 +1,5 @@
 <template>
-  <Sidebar :show="true">
+  <Sidebar>
     <nav class="py-2">
       <ul>
         <li v-for="doc in docs" :key="doc.title">

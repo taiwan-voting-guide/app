@@ -1,5 +1,5 @@
 <template>
-  <Sidebar :show="showTagSideBar">
+  <Sidebar :hidden="!showTagSideBar">
     <ClientOnly>
       <header class="sticky top-0 w-full bg-white p-3">
         <input
