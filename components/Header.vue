@@ -6,105 +6,107 @@
       <img class="mx-4 my-2 h-6" src="/logo.svg" />
     </NuxtLink>
 
-    <template v-if="isMobile">
-      <div class="ml-auto mr-3 h-6">
-        <HeadlessMenu v-slot="{ close }">
-          <HeadlessMenuButton>
-            <Bars3Icon class="h-6 w-6 text-slate-600" />
-          </HeadlessMenuButton>
-          <HeadlessMenuItems
-            @click="close"
-            class="absolute right-0 mr-2 w-fit rounded bg-white drop-shadow"
-          >
-            <HeadlessMenuItem>
-              <NuxtLink
-                class="flex items-center gap-1 px-3 py-2"
-                to="/docs/introduction"
-              >
-                <DocumentIcon class="inline-block h-4 w-4 text-slate-600" />
-                文件
-              </NuxtLink>
-            </HeadlessMenuItem>
+    <ClientOnly>
+      <template v-if="isMobile">
+        <div class="ml-auto mr-3 h-6">
+          <HeadlessMenu v-slot="{ close }">
+            <HeadlessMenuButton>
+              <Bars3Icon class="h-6 w-6 text-slate-600" />
+            </HeadlessMenuButton>
+            <HeadlessMenuItems
+              @click="close"
+              class="absolute right-0 mr-2 w-fit rounded bg-white drop-shadow"
+            >
+              <HeadlessMenuItem>
+                <NuxtLink
+                  class="flex items-center gap-1 px-3 py-2"
+                  to="/docs/introduction"
+                >
+                  <DocumentIcon class="inline-block h-4 w-4 text-slate-600" />
+                  文件
+                </NuxtLink>
+              </HeadlessMenuItem>
 
-            <HeadlessMenuItem>
-              <NuxtLink
-                class="flex items-center gap-1 px-3 py-2"
-                to="/data/tag_clicks_last_7_days"
-              >
-                <ChartBarIcon class="inline-block h-4 w-4 text-slate-600" />
-                數據
-              </NuxtLink>
-            </HeadlessMenuItem>
+              <HeadlessMenuItem>
+                <NuxtLink
+                  class="flex items-center gap-1 px-3 py-2"
+                  to="/data/tag_clicks_last_7_days"
+                >
+                  <ChartBarIcon class="inline-block h-4 w-4 text-slate-600" />
+                  數據
+                </NuxtLink>
+              </HeadlessMenuItem>
 
-            <HeadlessMenuItem>
-              <NuxtLink
-                class="flex items-center gap-1 px-3 py-2"
-                to="https://github.com/taiwan-voting-guide/app"
-              >
-                <img class="inline h-4 w-4" src="/github-mark.svg" />GitHub
-              </NuxtLink>
-            </HeadlessMenuItem>
-            <HeadlessMenuItem>
-              <NuxtLink
-                class="flex items-center gap-1 px-3 py-2"
-                to="https://join.slack.com/t/taiwanvotingguide/shared_invite/zt-1stmgptpf-~D6X8ETZyaNR7uUHrIk~sA"
-              >
-                <img class="inline h-4 w-4" src="/slack.webp" />Slack
-              </NuxtLink>
-            </HeadlessMenuItem>
-            <HeadlessMenuItem>
-              <NuxtLink
-                class="flex items-center gap-1 px-3 py-2"
-                to="https://forms.gle/nAxdNjAqpAb3GEMz8"
-              >
-                <EnvelopeIcon class="inline-block h-4 w-4 text-slate-600" />
-                意見回饋</NuxtLink
-              >
-            </HeadlessMenuItem>
-          </HeadlessMenuItems>
-        </HeadlessMenu>
-      </div>
-    </template>
+              <HeadlessMenuItem>
+                <NuxtLink
+                  class="flex items-center gap-1 px-3 py-2"
+                  to="https://github.com/taiwan-voting-guide/app"
+                >
+                  <img class="inline h-4 w-4" src="/github-mark.svg" />GitHub
+                </NuxtLink>
+              </HeadlessMenuItem>
+              <HeadlessMenuItem>
+                <NuxtLink
+                  class="flex items-center gap-1 px-3 py-2"
+                  to="https://join.slack.com/t/taiwanvotingguide/shared_invite/zt-1stmgptpf-~D6X8ETZyaNR7uUHrIk~sA"
+                >
+                  <img class="inline h-4 w-4" src="/slack.webp" />Slack
+                </NuxtLink>
+              </HeadlessMenuItem>
+              <HeadlessMenuItem>
+                <NuxtLink
+                  class="flex items-center gap-1 px-3 py-2"
+                  to="https://forms.gle/nAxdNjAqpAb3GEMz8"
+                >
+                  <EnvelopeIcon class="inline-block h-4 w-4 text-slate-600" />
+                  意見回饋</NuxtLink
+                >
+              </HeadlessMenuItem>
+            </HeadlessMenuItems>
+          </HeadlessMenu>
+        </div>
+      </template>
 
-    <template v-else>
-      <NuxtLink to="/docs/introduction">
-        <Button>
-          <DocumentIcon class="inline-block h-4 w-4 text-slate-600" />
-
-          文件</Button
-        ></NuxtLink
-      >
-      <NuxtLink to="/data/tag_clicks_last_7_days">
-        <Button>
-          <ChartBarIcon class="inline-block h-4 w-4 text-slate-600" />
-          數據</Button
-        ></NuxtLink
-      >
-      <div class="ml-auto mr-4 flex">
-        <NuxtLink to="https://github.com/taiwan-voting-guide/app">
-          <Button
-            ><div class="flex items-center gap-1">
-              <img class="inline h-4 w-4" src="/github-mark.svg" />GitHub
-            </div></Button
-          ></NuxtLink
-        >
-        <NuxtLink
-          to="https://join.slack.com/t/taiwanvotingguide/shared_invite/zt-1stmgptpf-~D6X8ETZyaNR7uUHrIk~sA"
-        >
-          <Button
-            ><div class="flex items-center gap-1">
-              <img class="inline h-4 w-4" src="/slack.webp" />Slack
-            </div></Button
-          ></NuxtLink
-        >
-        <NuxtLink to="https://forms.gle/nAxdNjAqpAb3GEMz8">
+      <template v-else>
+        <NuxtLink to="/docs/introduction">
           <Button>
-            <EnvelopeIcon class="inline-block h-4 w-4 text-slate-600" />
-            意見回饋</Button
+            <DocumentIcon class="inline-block h-4 w-4 text-slate-600" />
+
+            文件</Button
           ></NuxtLink
         >
-      </div>
-    </template>
+        <NuxtLink to="/data/tag_clicks_last_7_days">
+          <Button>
+            <ChartBarIcon class="inline-block h-4 w-4 text-slate-600" />
+            數據</Button
+          ></NuxtLink
+        >
+        <div class="ml-auto mr-4 flex">
+          <NuxtLink to="https://github.com/taiwan-voting-guide/app">
+            <Button
+              ><div class="flex items-center gap-1">
+                <img class="inline h-4 w-4" src="/github-mark.svg" />GitHub
+              </div></Button
+            ></NuxtLink
+          >
+          <NuxtLink
+            to="https://join.slack.com/t/taiwanvotingguide/shared_invite/zt-1stmgptpf-~D6X8ETZyaNR7uUHrIk~sA"
+          >
+            <Button
+              ><div class="flex items-center gap-1">
+                <img class="inline h-4 w-4" src="/slack.webp" />Slack
+              </div></Button
+            ></NuxtLink
+          >
+          <NuxtLink to="https://forms.gle/nAxdNjAqpAb3GEMz8">
+            <Button>
+              <EnvelopeIcon class="inline-block h-4 w-4 text-slate-600" />
+              意見回饋</Button
+            ></NuxtLink
+          >
+        </div>
+      </template>
+    </ClientOnly>
   </header>
 </template>
 
