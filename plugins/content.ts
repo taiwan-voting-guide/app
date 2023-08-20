@@ -42,14 +42,21 @@ export default defineNuxtPlugin(async () => {
     allPoliticianNames.add(nav.title);
   });
 
+  const docs = await queryContent("docs").sort({ order: 1 }).find();
+  const data = await queryContent("data").sort({ order: 1 }).find();
+
   // Preload politician data while prerendering
   const runtimeConfig = useRuntimeConfig();
   if (runtimeConfig.isServer) {
-    await Promise.all(
-      navigation.map((nav) =>
+    await Promise.all([
+      ...navigation.map((nav) =>
         queryContent("politician").where({ title: nav.title }).findOne()
-      )
-    );
+      ),
+      queryContent("docs/introduction").findOne(),
+      queryContent("docs/feature").findOne(),
+      queryContent("docs/contribute").findOne(),
+      queryContent("data/tag_clicks_last_7_days").findOne(),
+    ]);
   }
 
   // set initial politicians
@@ -63,6 +70,8 @@ export default defineNuxtPlugin(async () => {
 
   return {
     provide: {
+      docs,
+      data,
       allTags,
       allPoliticianNames,
       allSearchPoliticianResults,

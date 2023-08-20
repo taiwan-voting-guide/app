@@ -2,7 +2,7 @@
   <Sidebar>
     <nav class="py-2">
       <ul>
-        <li v-for="datum in data" :key="datum.title">
+        <li v-for="datum in $data" :key="datum.title">
           <NuxtLink :to="datum._path">
             <SidebarItem :activated="url.pathname === datum._path">
               {{ datum.name }}
@@ -27,11 +27,11 @@ import { ChartOptions } from "chart.js";
 
 const url = useRequestURL();
 
-const data = await queryContent("data").sort({ order: 1 }).find();
+const { $data } = useNuxtApp();
 
 const route = useRoute();
 
-const currentData = data.find((datum) => datum.title === route.params.type);
+const currentData = $data.find((datum) => datum.title === route.params.type);
 
 const chartData = currentData && toChartData(currentData);
 
