@@ -42,7 +42,7 @@
     <ClientOnly>
       <div class="flex w-full items-center p-3">
         <Button :onClick="toggleSidebar">
-          <Bars3Icon class="h-6 w-6 text-slate-600" />
+          <TagIcon class="h-6 w-6 text-slate-600" />
         </Button>
         <Button :onClick="openPoliticianSearchDialog">
           <MagnifyingGlassIcon class="h-6 w-6 text-slate-600" />
@@ -95,7 +95,7 @@
 <script setup lang="ts">
 import {
   CheckIcon,
-  Bars3Icon,
+  TagIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/vue/24/outline";
 

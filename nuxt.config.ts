@@ -11,6 +11,7 @@ export default defineNuxtConfig({
   modules: [
     "@nuxtjs/tailwindcss",
     "@nuxt/content",
+    "@nuxtjs/device",
     "nuxt-clarity-analytics",
     "nuxt-headlessui",
     "nuxt-monaco-editor",
