@@ -17,7 +17,6 @@ export default defineNuxtConfig({
     "nuxt-monaco-editor",
   ],
   runtimeConfig: {
-    isServer: true,
     public: {
       env: process.env.NODE_ENV,
       mixpanelProjectToken: process.env.MIXPANEL_PROJECT_TOKEN,
