@@ -13,28 +13,30 @@
         >
       </div>
     </header>
-    <template v-if="filterTags && filterTags.length > 0">
-      <ul class="px-3">
-        <li>
-          <SidebarItem
-            v-for="tag in filterTags"
-            @click="() => toggle(tag)"
-            :key="tag"
-            :activated="tagSet.has(tag)"
-          >
-            <div class="flex items-center">
-              <div class="mr-1 inline-block h-4 w-4">
-                <CheckIcon class="h-4 w-4" v-if="tagSet.has(tag)" />
+    <ClientOnly>
+      <template v-if="filterTags && filterTags.length > 0">
+        <ul class="px-3">
+          <li>
+            <SidebarItem
+              v-for="tag in filterTags"
+              @click="() => toggle(tag)"
+              :key="tag"
+              :activated="tagSet.has(tag)"
+            >
+              <div class="flex items-center">
+                <div class="mr-1 inline-block h-4 w-4">
+                  <CheckIcon class="h-4 w-4" v-if="tagSet.has(tag)" />
+                </div>
+                {{ tag }}
               </div>
-              {{ tag }}
-            </div>
-          </SidebarItem>
-        </li>
-      </ul>
-    </template>
-    <template v-else>
-      <p>找不到標籤</p>
-    </template>
+            </SidebarItem>
+          </li>
+        </ul>
+      </template>
+      <template v-else>
+        <p>找不到標籤</p>
+      </template>
+    </ClientOnly>
   </Sidebar>
   <main class="flex flex-1 flex-col overflow-hidden bg-slate-50">
     <div class="flex w-full items-center p-3">
@@ -45,41 +47,45 @@
         <MagnifyingGlassIcon class="h-6 w-6 text-slate-600" />
       </Button>
     </div>
-    <div class="h-full" v-if="politicians.length === 0">
-      <PoliticianCTA />
-    </div>
-    <div v-else class="w-full flex-1 overflow-scroll pb-8 pr-8">
-      <table>
-        <thead class="sticky top-0 z-20 bg-slate-50">
-          <tr>
-            <th class="sticky left-0 top-0 min-w-[14rem] bg-slate-50"></th>
-            <th
-              class="w-80 min-w-[20rem]"
-              scope="col"
-              v-for="politician in politicians"
-              :key="politician.name"
-            >
-              <PoliticianHeader
-                :photoURL="politician.photoURL"
-                :name="politician.name"
-              />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="tag in tags">
-            <TagBlock :tag="tag" />
-            <td
-              class="h-px"
-              v-for="politician in politicians"
-              :key="politician.name + tag"
-            >
-              <PoliticianContentBlock :content="politician.contents.get(tag)" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <ClientOnly>
+      <div class="h-full" v-if="politicians.length === 0">
+        <PoliticianCTA />
+      </div>
+      <div v-else class="w-full flex-1 overflow-scroll pb-8 pr-8">
+        <table>
+          <thead class="sticky top-0 z-20 bg-slate-50">
+            <tr>
+              <th class="sticky left-0 top-0 min-w-[14rem] bg-slate-50"></th>
+              <th
+                class="w-80 min-w-[20rem]"
+                scope="col"
+                v-for="politician in politicians"
+                :key="politician.name"
+              >
+                <PoliticianHeader
+                  :photoURL="politician.photoURL"
+                  :name="politician.name"
+                />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="tag in tags">
+              <TagBlock :tag="tag" />
+              <td
+                class="h-px"
+                v-for="politician in politicians"
+                :key="politician.name + tag"
+              >
+                <PoliticianContentBlock
+                  :content="politician.contents.get(tag)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ClientOnly>
   </main>
   <HeadlessListbox>
     <PoliticianSearch />
