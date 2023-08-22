@@ -1,6 +1,6 @@
 name = "playground"
 main = "./.output/server/index.mjs"
-compatibility_date = "2023-08-23"
+compatibility_date = "2023-08-21"
 
 [site]
 bucket = ".output/public"
