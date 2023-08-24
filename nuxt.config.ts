@@ -48,6 +48,15 @@ export default defineNuxtConfig({
           },
     },
   },
+  nitro: {
+    publicAssets: [
+      {
+        baseURL: "api/_content",
+        dir: "public/api/_content",
+        maxAge: 3600,
+      },
+    ],
+  },
   routeRules: {
     "/": { prerender: true },
     "/docs/**": { prerender: true },
