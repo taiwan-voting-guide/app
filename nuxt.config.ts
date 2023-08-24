@@ -39,7 +39,7 @@ export default defineNuxtConfig({
             driver: "github",
             repo: "taiwan-voting-guide/content",
             branch: "main",
-            token: "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",
+            token: process.env.GITHUB_TOKEN,
             dir: "content",
           }
         : {
