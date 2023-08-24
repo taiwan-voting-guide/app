@@ -1,5 +1,7 @@
 import { resolve } from "path";
 
+const isProd = process.env.NODE_ENV === "production";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
@@ -32,10 +34,18 @@ export default defineNuxtConfig({
   },
   content: {
     sources: {
-      content: {
-        driver: "fs",
-        base: resolve(__dirname, "content/content"),
-      },
+      content: isProd
+        ? {
+            driver: "github",
+            repo: "taiwan-voting-guide/content",
+            branch: "main",
+            token: "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",
+            dir: "content",
+          }
+        : {
+            driver: "fs",
+            base: resolve(__dirname, "content/content"),
+          },
     },
   },
   routeRules: {
