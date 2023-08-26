@@ -1,4 +1,4 @@
-import mixpanel from "mixpanel-browser";
+import mixpanel from 'mixpanel-browser';
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();

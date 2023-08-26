@@ -16,8 +16,8 @@ const { type } = defineProps<{
 }>();
 
 const bgColorObj = {
-  "bg-yellow-50": type === "contributed",
-  "bg-blue-50": type === "self",
-  "bg-green-50": type === "verified",
+  'bg-yellow-50': type === 'contributed',
+  'bg-blue-50': type === 'self',
+  'bg-green-50': type === 'verified',
 };
 </script>

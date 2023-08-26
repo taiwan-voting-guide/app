@@ -1,5 +1,8 @@
 <template>
-  <Sidebar :hidden="!showTagSideBar">
+  <aside
+    class="sticky left-0 top-0 z-40 h-full flex-none overflow-y-scroll bg-white transition-all"
+    :class="{ 'w-0': !showTagSideBar, 'w-60': showTagSideBar }"
+  >
     <header class="sticky top-0 w-full bg-white p-3">
       <input
         v-model="searchText"
@@ -17,11 +20,15 @@
       <template v-if="filterTags && filterTags.length > 0">
         <ul class="px-3">
           <li>
-            <SidebarItem
+            <button
               v-for="tag in filterTags"
               @click="() => toggle(tag)"
+              class="ease w-full rounded px-4 py-2 text-left hover:bg-slate-100"
+              :class="{
+                'text-primary': tagSet.has(tag),
+                'text-slate-600': !tagSet.has(tag),
+              }"
               :key="tag"
-              :activated="tagSet.has(tag)"
             >
               <div class="flex items-center">
                 <div class="mr-1 inline-block h-4 w-4">
@@ -29,7 +36,7 @@
                 </div>
                 {{ tag }}
               </div>
-            </SidebarItem>
+            </button>
           </li>
         </ul>
       </template>
@@ -37,7 +44,7 @@
         <p>找不到標籤</p>
       </template>
     </ClientOnly>
-  </Sidebar>
+  </aside>
   <main class="flex flex-1 flex-col overflow-hidden bg-slate-50">
     <div class="flex w-full items-center p-3">
       <Button :onClick="toggleSidebar">
@@ -49,7 +56,7 @@
     </div>
     <ClientOnly>
       <div class="h-full" v-if="politicians.length === 0">
-        <PoliticianCTA />
+        <AppPoliticianCTA />
       </div>
       <div v-else class="w-full flex-1 overflow-scroll pb-8 pr-8">
         <table>
@@ -62,7 +69,7 @@
                 v-for="politician in politicians"
                 :key="politician.name"
               >
-                <PoliticianHeader
+                <AppPoliticianHeader
                   :photoURL="politician.photoURL"
                   :name="politician.name"
                 />
@@ -71,13 +78,13 @@
           </thead>
           <tbody>
             <tr v-for="tag in tags">
-              <TagBlock :tag="tag" />
+              <AppTagBlock :tag="tag" />
               <td
                 class="h-px"
                 v-for="politician in politicians"
                 :key="politician.name + tag"
               >
-                <PoliticianContentBlock
+                <AppPoliticianContentBlock
                   :content="politician.contents.get(tag)"
                 />
               </td>
@@ -88,7 +95,7 @@
     </ClientOnly>
   </main>
   <HeadlessListbox>
-    <PoliticianSearch />
+    <AppPoliticianSearch />
   </HeadlessListbox>
 </template>
 
@@ -97,9 +104,43 @@ import {
   CheckIcon,
   TagIcon,
   MagnifyingGlassIcon,
-} from "@heroicons/vue/24/outline";
+} from '@heroicons/vue/24/outline';
 
-const { $allTags } = useNuxtApp();
+// fetch app data
+const { data, error } = await queryAppContent();
+if (error.value) {
+  throw createError({ statusCode: 500, statusMessage: 'App data not found' });
+}
+const allTags = data.value?.tags || [];
+
+// set initial tags
+const url = useRequestURL();
+const tagParam = url.searchParams.get('tags') || '';
+const initialTags = (tagParam ? tagParam.split(',') : []).filter((tag) =>
+  allTags.includes(tag)
+);
+const { set: setTags } = useSelectTag();
+setTags(initialTags);
+
+// set all politician names
+const { data: politicianNav, error: navErr } = queryPoliticianNav();
+if (navErr.value) {
+  throw createError({ statusCode: 500, statusMessage: 'politician not found' });
+}
+
+const allPoliticianNames = new Set<string>();
+politicianNav.value?.forEach((nav) => {
+  allPoliticianNames.add(nav.title);
+});
+
+// set initial politicians
+const politiciansParam = url.searchParams.get('politicians') || '';
+const initialPoliticianNames = (
+  politiciansParam ? politiciansParam.split(',') : []
+).filter((name) => allPoliticianNames.has(name));
+
+const { set: setPoliticianNames } = useSelectPolitician();
+setPoliticianNames(initialPoliticianNames);
 
 const { tags, toggle, tagSet } = useSelectTag();
 const { politicians, politicianNames } = useSelectPolitician();
@@ -107,12 +148,12 @@ const { politicians, politicianNames } = useSelectPolitician();
 watch([tags, politicianNames], () => {
   const query: { tags?: string; politicians?: string } = {};
 
-  const tagParam = tags.value.join(",");
+  const tagParam = tags.value.join(',');
   if (tagParam) {
     query.tags = tagParam;
   }
 
-  const politicianParam = politicianNames.value.join(",");
+  const politicianParam = politicianNames.value.join(',');
   if (politicianParam) {
     query.politicians = politicianParam;
   }
@@ -120,11 +161,11 @@ watch([tags, politicianNames], () => {
   navigateTo({ query });
 });
 
-const searchText = ref<string>("");
+const searchText = ref<string>('');
 const filterTags = computed(() =>
   searchText.value
-    ? $allTags.filter((tag) => tag.includes(searchText.value))
-    : $allTags
+    ? allTags.filter((tag) => tag.includes(searchText.value))
+    : allTags
 );
 
 const showTagSideBar = useShowTagSideBar();

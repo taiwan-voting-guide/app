@@ -2,7 +2,7 @@
   <Sidebar>
     <nav class="py-2">
       <ul>
-        <li v-for="datum in $data" :key="datum.title">
+        <li v-for="datum in data" :key="datum.title">
           <NuxtLink :to="datum._path">
             <SidebarItem :activated="url.pathname === datum._path">
               {{ datum.name }}
@@ -21,27 +21,29 @@
 </template>
 
 <script lang="ts" setup>
-import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
-import { Bar } from "vue-chartjs";
-import { ChartOptions } from "chart.js";
+import type { ParsedContent } from '@nuxt/content/dist/runtime/types';
+import { Bar } from 'vue-chartjs';
+import { ChartOptions } from 'chart.js';
 
 const url = useRequestURL();
 
-const { $data } = useNuxtApp();
+const { data, error } = await queryDataContent();
+if (error.value) {
+  throw createError({ statusCode: 500, statusMessage: error.value.message });
+}
 
 const route = useRoute();
-
-const currentData = $data.find((datum) => datum.title === route.params.type);
-
+const currentData = data.value?.find(
+  (datum: ParsedContent) => datum.title === route.params.type
+);
 const chartData = currentData && toChartData(currentData);
-
 const chartOptions: ChartOptions = {
-  indexAxis: "y",
+  indexAxis: 'y',
 };
 
 function toChartData(data: ParsedContent) {
   switch (route.params.type) {
-    case "tag_clicks_last_7_days":
+    case 'tag_clicks_last_7_days':
       return {
         labels: data.data.tags.map((t: { key: string }) => t.key),
         datasets: [

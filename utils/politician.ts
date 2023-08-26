@@ -1,4 +1,4 @@
-import type { ParsedContent } from "@nuxt/content/dist/runtime/types";
+import type { ParsedContent } from '@nuxt/content/dist/runtime/types';
 
 function createContent(
   parsedContent: ParsedContent
@@ -8,16 +8,16 @@ function createContent(
 
   parsedContent.body.children.forEach(
     (child: any, i: number, arr: Array<any>) => {
-      if (child.tag === "h2") {
+      if (child.tag === 'h2') {
         if (newContent && newContent.title) {
           contents.set(newContent.title, newContent);
         }
 
         newContent = {
-          _id: "",
+          _id: '',
           title: child.children[0].value,
           body: {
-            type: "root",
+            type: 'root',
             children: [],
           },
         };

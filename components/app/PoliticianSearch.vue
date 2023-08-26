@@ -50,10 +50,49 @@
 </template>
 
 <script setup lang="ts">
-const { searchText, results } = useSearchPolitician();
+const { data } = await queryAppContent();
+
+const searchPoliticianResults = computed(() => {
+  const results = new Map<string, Array<string>>();
+
+  if (!data.value) {
+    return results;
+  }
+
+  for (const [groupName, politicians] of Object.entries(data.value.group)) {
+    if (groupName === 'title' || groupName.startsWith('_')) {
+      continue;
+    }
+
+    const key = `${groupName}_${politicians.join('_')}`;
+    const value = [groupName, ...politicians];
+
+    results.set(key, value);
+  }
+
+  return results;
+});
+
+const searchText = useState<string>('search_politician_text', () => '');
+const results = computed(() => {
+  const keywords = searchText.value.trim().replace(/\s+/g, ' ').split(' ');
+
+  const results: Array<Array<string>> = [];
+  searchPoliticianResults.value.forEach((value, key) => {
+    for (const keyword of keywords) {
+      if (key.includes(keyword)) {
+        results.push(value);
+        break;
+      }
+    }
+  });
+
+  return results;
+});
+
 const { set } = useSelectPolitician();
 const isOpen = useShowPoliticianSearchDialog();
-import { MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/solid';
 
 const onClose = () => {
   isOpen.value = false;
@@ -61,7 +100,7 @@ const onClose = () => {
 
 const onClick = async (politicians: Array<string>) => {
   set(politicians);
-  searchText.value = "";
+  searchText.value = '';
   isOpen.value = false;
 };
 </script>

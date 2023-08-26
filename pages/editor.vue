@@ -6,5 +6,5 @@
 
 <script setup lang="ts">
 // const tagsContent = await queryContent().where({ title: "標籤" }).findOne();
-const value = ref("asdf");
+const value = ref('asdf');
 </script>

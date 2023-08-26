@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/solid';
 
 const open = useShowPoliticianSearchDialog();
 

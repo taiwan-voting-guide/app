@@ -1,4 +1,4 @@
-const useTags = () => useState<Array<string>>("selected_tags", () => []);
+const useTags = () => useState<Array<string>>('selected_tags', () => []);
 const useTagSet = () => computed(() => new Set(useTags().value));
 
 export function useSelectTag() {

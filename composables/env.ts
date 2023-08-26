@@ -6,7 +6,7 @@ export function useEnv(): {
   const config = useRuntimeConfig();
   return {
     env: config.public.env,
-    isDev: config.public.env === "development",
-    isProd: config.public.env === "production",
+    isDev: config.public.env === 'development',
+    isProd: config.public.env === 'production',
   };
 }

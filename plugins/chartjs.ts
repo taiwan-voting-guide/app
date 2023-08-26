@@ -7,7 +7,7 @@ import {
   CategoryScale,
   LinearScale,
   Colors,
-} from "chart.js";
+} from 'chart.js';
 
 export default defineNuxtPlugin(() => {
   ChartJS.register(
