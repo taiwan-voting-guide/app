@@ -57,5 +57,8 @@ export default defineNuxtConfig({
     '/api/_content/**': {
       swr: 3600,
     },
+    '/_nuxt/**': {
+      headers: { 'Cache-Control': 'public, s-max-age=3600, max-age=3600' },
+    },
   },
 });
