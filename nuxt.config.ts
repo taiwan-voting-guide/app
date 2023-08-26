@@ -16,7 +16,6 @@ export default defineNuxtConfig({
     '@nuxtjs/device',
     'nuxt-clarity-analytics',
     'nuxt-headlessui',
-    'nuxt-monaco-editor',
   ],
   runtimeConfig: {
     public: {
@@ -49,6 +48,7 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
+    '/': { prerender: true },
     '/docs/**': { prerender: true },
     '/docs': { redirect: { to: 'docs/introduction', statusCode: 302 } },
     '/data/**': { prerender: true },
