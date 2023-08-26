@@ -48,6 +48,7 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
+    '/': { prerender: true },
     '/docs/**': { prerender: true },
     '/docs': { redirect: { to: 'docs/introduction', statusCode: 302 } },
     '/data/**': { prerender: true },
