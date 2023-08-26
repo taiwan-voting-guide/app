@@ -13,9 +13,9 @@ export const queryPoliticianNav = () =>
     fetchContentNavigation({ where: [{ _path: '/politician' }] })
   );
 
-export const queryDocsContent = () =>
-  useAsyncData('content-/docs', () =>
-    queryContent('docs').sort({ order: 1 }).find()
+export const queryDocsNav = () =>
+  useAsyncData('nav-/docs', () =>
+    fetchContentNavigation({ where: [{ _path: { $contains: '/docs' } }] })
   );
 
 export const queryDataContent = () =>
