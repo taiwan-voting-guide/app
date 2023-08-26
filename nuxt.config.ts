@@ -49,7 +49,7 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    '/': { prerender: true },
+    '/': { swr: 3600 },
     '/docs/**': { prerender: true },
     '/docs': { redirect: { to: 'docs/introduction', statusCode: 302 } },
     '/data/**': { prerender: true },
