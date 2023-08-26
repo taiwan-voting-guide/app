@@ -21,5 +21,9 @@
 
 <script setup lang="ts">
 const { data } = await queryDocsNav();
+if (!data.value) {
+  throw createError({ statusCode: 500, statusMessage: 'No docs found' });
+}
+
 const docs = data.value[0].children || [];
 </script>
