@@ -55,7 +55,10 @@
       </Button>
     </div>
     <ClientOnly>
-      <div class="h-full" v-if="politicians.length === 0">
+      <div v-if="loading" class="flex flex-1 items-center justify-center">
+        <ArrowPathIcon class="h-8 w-8 animate-spin text-primary" />
+      </div>
+      <div class="h-full" v-else-if="politicians.length === 0">
         <AppPoliticianCTA />
       </div>
       <div v-else class="w-full flex-1 overflow-scroll pb-8 pr-8">
@@ -104,6 +107,7 @@ import {
   CheckIcon,
   TagIcon,
   MagnifyingGlassIcon,
+  ArrowPathIcon,
 } from '@heroicons/vue/24/outline';
 
 // fetch app data
@@ -143,7 +147,7 @@ const { set: setPoliticianNames } = useSelectPolitician();
 setPoliticianNames(initialPoliticianNames);
 
 const { tags, toggle, tagSet } = useSelectTag();
-const { politicians, politicianNames } = useSelectPolitician();
+const { politicians, politicianNames, loading } = useSelectPolitician();
 
 watch([tags, politicianNames], () => {
   const query: { tags?: string; politicians?: string } = {};

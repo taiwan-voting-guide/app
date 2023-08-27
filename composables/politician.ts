@@ -25,7 +25,7 @@ export function useSelectPolitician() {
     'politician_content_map',
     () => new Map<string, ParsedContent>()
   );
-  const loading = useState<boolean>('loading_politician_content', () => true);
+  const loading = useState<boolean>('loading_politician_content', () => false);
 
   const getUncachedNames = (names: Array<string>) =>
     names.filter((name) => !contentMap.value.has(name));
