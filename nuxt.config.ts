@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 
 const isProd = process.env.NODE_ENV === 'production';
+const contentCacheTime = 60 * 60;
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -40,11 +41,17 @@ export default defineNuxtConfig({
             branch: 'main',
             token: process.env.GITHUB_TOKEN,
             dir: 'content',
+            ttl: contentCacheTime,
           }
         : {
             driver: 'fs',
             base: resolve(__dirname, 'content/content'),
           },
+    },
+  },
+  routeRules: {
+    '/api/_content': {
+      swr: contentCacheTime,
     },
   },
 });
