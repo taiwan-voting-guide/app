@@ -50,7 +50,7 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    '/api/_content': {
+    '/api/_content/**': {
       swr: contentCacheTime,
     },
   },
