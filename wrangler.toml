@@ -1,6 +1,0 @@
-name = "app"
-main = "./.output/server/index.mjs"
-compatibility_date = "2023-08-21"
-
-[site]
-bucket = ".output/public"
