@@ -51,7 +51,9 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/api/_content/**': {
-      swr: contentCacheTime,
+      headers: {
+        'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
+      },
     },
   },
 });
