@@ -47,15 +47,4 @@ export default defineNuxtConfig({
           },
     },
   },
-  nitro: {
-    prerender: {
-      crawlLinks: true,
-      routes: ['/', '/docs/**', '/data/**'],
-    },
-  },
-  routeRules: {
-    '/api/_content/**': {
-      swr: 3600,
-    },
-  },
 });
