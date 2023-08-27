@@ -1,17 +1,15 @@
 <template>
-  <Sidebar>
-    <nav class="py-2">
-      <ul>
-        <li v-for="datum in data" :key="datum.title">
-          <NuxtLink :to="datum._path">
-            <SidebarItem :activated="url.pathname === datum._path">
-              {{ datum.name }}
-            </SidebarItem>
-          </NuxtLink>
-        </li>
-      </ul>
-    </nav>
-  </Sidebar>
+  <nav class="py-2">
+    <ul>
+      <li v-for="datum in data" :key="datum.title">
+        <NuxtLink :to="datum._path">
+          <div :activated="url.pathname === datum._path">
+            {{ datum.name }}
+          </div>
+        </NuxtLink>
+      </li>
+    </ul>
+  </nav>
   <main class="flex-1 bg-slate-100 p-2">
     <section v-if="chartData" class="max-w-3xl">
       <Bar :data="chartData" :options="chartOptions"> </Bar>

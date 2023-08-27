@@ -61,11 +61,10 @@
       <div class="h-full" v-else-if="politicians.length === 0">
         <AppPoliticianCTA />
       </div>
-      <div v-else class="w-full flex-1 overflow-scroll pb-8 pr-8">
+      <div v-else class="w-full flex-1 overflow-scroll px-8 pb-8">
         <table>
           <thead class="sticky top-0 z-20 bg-slate-50">
             <tr>
-              <th class="sticky left-0 top-0 min-w-[14rem] bg-slate-50"></th>
               <th
                 class="w-80 min-w-[20rem]"
                 scope="col"
@@ -80,18 +79,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="tag in tags">
-              <AppTagBlock :tag="tag" />
-              <td
-                class="h-px"
-                v-for="politician in politicians"
-                :key="politician.name + tag"
-              >
-                <AppPoliticianContentBlock
-                  :content="politician.contents.get(tag)"
-                />
-              </td>
-            </tr>
+            <template v-for="tag in tags">
+              <tr>
+                <td
+                  class="h-px"
+                  v-for="politician in politicians"
+                  :key="politician.name + tag"
+                >
+                  <AppPoliticianContentBlock
+                    :content="politician.contents.get(tag)"
+                  />
+                </td>
+              </tr>
+            </template>
           </tbody>
         </table>
       </div>
