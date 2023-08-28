@@ -8,7 +8,7 @@
         v-model="searchText"
         placeholder="搜尋標籤 e.g. 目前政黨"
         type="search"
-        class="h-8 w-full rounded border-primary bg-slate-50 px-2 shadow-inner placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary"
+        class="h-8 w-full rounded-md border-primary bg-slate-50 px-2 shadow-inner placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary"
       />
       <div class="text-right">
         <NuxtLink to="/docs/contribute#標籤" class="text-xs text-primary"
@@ -23,7 +23,7 @@
             <button
               v-for="tag in filterTags"
               @click="() => toggle(tag)"
-              class="ease w-full rounded px-4 py-2 text-left hover:bg-slate-100"
+              class="ease w-full rounded-md px-4 py-2 text-left hover:bg-slate-100"
               :class="{
                 'text-primary': tagSet.has(tag),
                 'text-slate-600': !tagSet.has(tag),
@@ -80,9 +80,11 @@
           </thead>
           <tbody>
             <tr v-for="tag in tags">
-              <AppPoliticianContentBlock
+              <AppPoliticianContent
                 v-for="politician in politicians"
                 :key="`${politician.name}-${tag}`"
+                :politicianName="politician.name"
+                :tag="tag"
                 :content="politician.contents.get(tag)"
               />
             </tr>

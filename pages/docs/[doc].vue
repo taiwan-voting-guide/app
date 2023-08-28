@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto h-fit w-full max-w-3xl p-4">
-    <ul class="mb-8 flex w-fit gap-2 rounded bg-primary/20 p-2">
+    <ul class="mb-8 flex w-fit gap-2 rounded-md bg-primary/20 p-2">
       <li v-for="doc in docs" :key="doc.title">
         <NuxtLink :to="doc._path">
           <Button>

@@ -14,7 +14,7 @@
           </HeadlessMenuButton>
           <HeadlessMenuItems
             @click="close"
-            class="absolute right-0 z-40 mr-2 w-fit rounded bg-white drop-shadow"
+            class="absolute right-0 z-40 mr-2 w-fit rounded-md bg-white drop-shadow"
           >
             <HeadlessMenuItem>
               <NuxtLink

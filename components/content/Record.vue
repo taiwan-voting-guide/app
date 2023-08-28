@@ -1,5 +1,5 @@
 <template>
-  <div :title="type" class="rounded px-2" :class="bgColorObj">
+  <div :title="type" class="rounded-md px-2" :class="bgColorObj">
     <slot />
   </div>
   <details class="mt-auto text-xs text-slate-500">
