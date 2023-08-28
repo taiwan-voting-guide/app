@@ -79,19 +79,13 @@
             </tr>
           </thead>
           <tbody>
-            <template v-for="tag in tags">
-              <tr>
-                <td
-                  class="h-px"
-                  v-for="politician in politicians"
-                  :key="politician.name + tag"
-                >
-                  <AppPoliticianContentBlock
-                    :content="politician.contents.get(tag)"
-                  />
-                </td>
-              </tr>
-            </template>
+            <tr v-for="tag in tags">
+              <AppPoliticianContentBlock
+                v-for="politician in politicians"
+                :key="`${politician.name}-${tag}`"
+                :content="politician.contents.get(tag)"
+              />
+            </tr>
           </tbody>
         </table>
       </div>

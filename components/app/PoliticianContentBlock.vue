@@ -1,22 +1,24 @@
 <template>
-  <div class="h-full p-1">
-    <div class="flex h-full flex-col rounded bg-white p-2 align-top shadow">
-      <ContentRenderer class="flex" :value="content">
-        <template #empty>
-          <div class="flex h-full flex-col items-center justify-center">
-            <p class="leading-relaxed">目前沒有資料</p>
-            <NuxtLink class="text-primary" to="/docs/contribute">
-              點這裡貢獻
-            </NuxtLink>
-          </div>
-        </template>
-        <ContentRendererMarkdown
-          v-if="contentExist"
-          :value="content as ParsedContent"
-        />
-      </ContentRenderer>
+  <td class="h-px">
+    <div class="h-full p-1">
+      <div class="h-full rounded bg-white p-2 shadow">
+        <ContentRenderer class="flex" :value="content">
+          <ContentRendererMarkdown
+            v-if="contentExist"
+            :value="content as ParsedContent"
+          />
+          <template #empty>
+            <div class="flex h-full flex-col items-center justify-center">
+              <p class="leading-relaxed">目前沒有資料</p>
+              <NuxtLink class="text-primary" to="/docs/contribute">
+                點這裡貢獻
+              </NuxtLink>
+            </div>
+          </template>
+        </ContentRenderer>
+      </div>
     </div>
-  </div>
+  </td>
 </template>
 
 <script setup lang="ts">
