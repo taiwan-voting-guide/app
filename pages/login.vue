@@ -38,9 +38,8 @@ async function sendVerificationCode() {
       body: JSON.stringify({ email: email.value }),
     });
   } catch (error) {
-    isError.value = !!error;
     loading.value = false;
-  } finally {
+    isError.value = !!error;
   }
 }
 </script>

@@ -1,12 +1,13 @@
 import twilio from 'twilio';
 import isEmail from 'validator/lib/isEmail';
+
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const sendgridToken = process.env.SENDGRID_TOKEN || '';
 
-const client = twilio(accountSid, authToken);
-
 export default defineEventHandler(async (event) => {
+  const client = twilio(accountSid, authToken);
+
   const { email } = await readBody<{ email: string }>(event);
   if (!email) {
     throw createError({ statusCode: 400, message: 'email is required' });
@@ -17,12 +18,19 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    await client.verify.v2
-      .services(sendgridToken)
-      .verifications.create({ to: email, channel: 'email' });
+    await client.verify.v2.services(sendgridToken).verifications.create({
+      to: email,
+      channel: 'email',
+      channelConfiguration: {
+        substitutions: {
+          email,
+        },
+      },
+    });
 
     return 'success';
   } catch (err) {
+    console.error((err as Error).message);
     throw createError({ statusCode: 500 });
   }
 });
