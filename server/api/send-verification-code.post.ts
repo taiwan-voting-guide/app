@@ -1,5 +1,5 @@
 import twilio from 'twilio';
-import isEmail from 'validator/lib/isEmail';
+import validator from 'validator';
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'email is required' });
   }
 
-  if (!isEmail(email)) {
+  if (!validator.isEmail(email)) {
     throw createError({ statusCode: 400, message: 'email format is wrong' });
   }
 
