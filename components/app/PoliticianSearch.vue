@@ -7,10 +7,9 @@
           class="w-full max-w-md rounded-md bg-white p-3 drop-shadow"
         >
           <div class="mb-3 flex items-center">
-            <MagnifyingGlassIcon class="mr-2 h-6 w-6 text-slate-600" />
             <input
               v-model="searchText"
-              placeholder="e.g. 2024_總統, 第八選區, 侯友宜"
+              placeholder="🔍 e.g. 2024_總統, 第八選區, 侯友宜"
               type="search"
               class="h-8 w-full rounded-md border-primary bg-slate-100 px-2 shadow-inner placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary"
             />

@@ -21,7 +21,7 @@
                 class="flex items-center gap-1 px-3 py-2"
                 to="/docs/introduction"
               >
-                📄 文件
+                📓 文件
               </NuxtLink>
             </HeadlessMenuItem>
 
@@ -55,7 +55,7 @@
                 class="flex items-center gap-1 px-3 py-2"
                 to="https://forms.gle/nAxdNjAqpAb3GEMz8"
               >
-                💬 意見回饋</NuxtLink
+                📬 意見回饋</NuxtLink
               >
             </HeadlessMenuItem>
           </HeadlessMenuItems>
@@ -64,7 +64,7 @@
     </template>
 
     <template v-else>
-      <NuxtLink to="/docs/introduction"> <Button> 📄 文件</Button></NuxtLink>
+      <NuxtLink to="/docs/introduction"> <Button> 📓 文件</Button></NuxtLink>
       <NuxtLink to="/data/tag_clicks_last_7_days">
         <Button> 📊 數據</Button></NuxtLink
       >
@@ -86,7 +86,7 @@
           ></NuxtLink
         >
         <NuxtLink to="https://forms.gle/nAxdNjAqpAb3GEMz8">
-          <Button> 💬 意見回饋</Button></NuxtLink
+          <Button> 📬 意見回饋</Button></NuxtLink
         >
       </div>
     </template>
@@ -95,9 +95,4 @@
 
 <script setup lang="ts">
 const { isMobile } = useDevice();
-import {
-  Bars3Icon,
-  DocumentIcon,
-  ChartBarIcon,
-} from '@heroicons/vue/24/outline';
 </script>

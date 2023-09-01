@@ -48,10 +48,10 @@
   <main class="flex flex-1 flex-col overflow-hidden bg-slate-50">
     <div class="flex w-full items-center p-3">
       <Button :onClick="toggleSidebar">
-        <TagIcon class="h-6 w-6 text-slate-600" />
+        <span class="text-lg"> 🏷️ </span>
       </Button>
       <Button :onClick="openPoliticianSearchDialog">
-        <MagnifyingGlassIcon class="h-6 w-6 text-slate-600" />
+        <span class="text-lg"> 🔍 </span>
       </Button>
     </div>
     <ClientOnly>
