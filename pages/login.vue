@@ -13,14 +13,13 @@
     </label>
     <ButtonPrimary :disabled="loading" :onClick="sendVerificationCode">
       <ArrowPathIcon v-if="loading" class="h-4 w-4 animate-spin" />
-      <EnvelopeIcon v-else class="h-4 w-4" />
-      寄送驗證碼
+      ✉️ 寄送驗證碼
     </ButtonPrimary>
   </main>
 </template>
 
 <script setup lang="ts">
-import { EnvelopeIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
+import { ArrowPathIcon } from '@heroicons/vue/24/outline';
 
 const email = ref<string>('');
 const loading = ref<boolean>(false);

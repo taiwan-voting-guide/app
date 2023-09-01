@@ -10,7 +10,7 @@
       </li>
     </ul>
     <ClientOnly>
-      <ContentDoc tag="main">
+      <ContentDoc :head="false" tag="main">
         <template #not-found>
           <h1>404</h1>
         </template>

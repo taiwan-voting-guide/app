@@ -57,8 +57,7 @@
                 class="flex items-center gap-1 px-3 py-2"
                 to="https://forms.gle/nAxdNjAqpAb3GEMz8"
               >
-                <EnvelopeIcon class="inline-block h-4 w-4 text-slate-600" />
-                意見回饋</NuxtLink
+                💬 意見回饋</NuxtLink
               >
             </HeadlessMenuItem>
           </HeadlessMenuItems>
@@ -98,10 +97,7 @@
           ></NuxtLink
         >
         <NuxtLink to="https://forms.gle/nAxdNjAqpAb3GEMz8">
-          <Button>
-            <EnvelopeIcon class="inline-block h-4 w-4 text-slate-600" />
-            意見回饋</Button
-          ></NuxtLink
+          <Button> 💬 意見回饋</Button></NuxtLink
         >
       </div>
     </template>
@@ -114,6 +110,5 @@ import {
   Bars3Icon,
   DocumentIcon,
   ChartBarIcon,
-  EnvelopeIcon,
 } from '@heroicons/vue/24/outline';
 </script>
