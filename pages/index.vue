@@ -99,12 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  CheckIcon,
-  TagIcon,
-  MagnifyingGlassIcon,
-  ArrowPathIcon,
-} from '@heroicons/vue/24/outline';
+import { CheckIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
 
 // fetch app data
 const { data, error } = await queryAppContent();

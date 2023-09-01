@@ -49,6 +49,8 @@
 </template>
 
 <script setup lang="ts">
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/solid';
+
 const { data } = await queryAppContent();
 
 const searchPoliticianResults = computed(() => {
@@ -91,7 +93,6 @@ const results = computed(() => {
 
 const { set } = useSelectPolitician();
 const isOpen = useShowPoliticianSearchDialog();
-import { MagnifyingGlassIcon } from '@heroicons/vue/24/solid';
 
 const onClose = () => {
   isOpen.value = false;

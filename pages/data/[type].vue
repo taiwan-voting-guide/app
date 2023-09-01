@@ -20,8 +20,8 @@
 
 <script lang="ts" setup>
 import type { ParsedContent } from '@nuxt/content/dist/runtime/types';
-import { Bar } from 'vue-chartjs';
 import { ChartOptions } from 'chart.js';
+import { Bar } from 'vue-chartjs';
 
 const url = useRequestURL();
 
