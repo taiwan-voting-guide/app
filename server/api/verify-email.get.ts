@@ -19,14 +19,11 @@ export default defineEventHandler(async (event) => {
 
   const client = twilio(accountSid, authToken);
   try {
-    const res = await client.verify.v2
-      .services(sendgridToken)
-      .verificationChecks.create({
-        to: query.email,
-        code: query.token,
-      });
+    await client.verify.v2.services(sendgridToken).verificationChecks.create({
+      to: query.email,
+      code: query.token,
+    });
   } catch (err) {
-    console.log(err);
     throw createError({ statusCode: 500 });
   }
 

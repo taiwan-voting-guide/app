@@ -25,6 +25,12 @@ const email = ref<string>('');
 const loading = ref<boolean>(false);
 const isError = ref<boolean>(false);
 
+const sessionkey = useCookie('user_session');
+const router = useRouter();
+if (sessionkey.value) {
+  // router.push('/');
+}
+
 async function sendVerificationCode() {
   loading.value = true;
   isError.value = false;
