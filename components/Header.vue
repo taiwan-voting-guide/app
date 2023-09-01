@@ -21,8 +21,7 @@
                 class="flex items-center gap-1 px-3 py-2"
                 to="/docs/introduction"
               >
-                <DocumentIcon class="inline-block h-4 w-4 text-slate-600" />
-                文件
+                📄 文件
               </NuxtLink>
             </HeadlessMenuItem>
 
@@ -31,8 +30,7 @@
                 class="flex items-center gap-1 px-3 py-2"
                 to="/data/tag_clicks_last_7_days"
               >
-                <ChartBarIcon class="inline-block h-4 w-4 text-slate-600" />
-                數據
+                📊 數據
               </NuxtLink>
             </HeadlessMenuItem>
 
@@ -66,18 +64,9 @@
     </template>
 
     <template v-else>
-      <NuxtLink to="/docs/introduction">
-        <Button>
-          <DocumentIcon class="inline-block h-4 w-4 text-slate-600" />
-
-          文件</Button
-        ></NuxtLink
-      >
+      <NuxtLink to="/docs/introduction"> <Button> 📄 文件</Button></NuxtLink>
       <NuxtLink to="/data/tag_clicks_last_7_days">
-        <Button>
-          <ChartBarIcon class="inline-block h-4 w-4 text-slate-600" />
-          數據</Button
-        ></NuxtLink
+        <Button> 📊 數據</Button></NuxtLink
       >
       <div class="ml-auto mr-4 flex">
         <NuxtLink to="https://github.com/taiwan-voting-guide/app">
