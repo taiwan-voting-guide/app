@@ -19,6 +19,15 @@
             <HeadlessMenuItem>
               <NuxtLink
                 class="flex items-center gap-1 px-3 py-2"
+                to="/docs/contribute?politician=侯友宜&tag=生日"
+              >
+                📝 貢獻
+              </NuxtLink>
+            </HeadlessMenuItem>
+
+            <HeadlessMenuItem>
+              <NuxtLink
+                class="flex items-center gap-1 px-3 py-2"
                 to="/docs/introduction"
               >
                 📓 文件
@@ -64,6 +73,9 @@
     </template>
 
     <template v-else>
+      <NuxtLink to="/contribute?politician=侯友宜&tag=生日">
+        <Button> 📝 貢獻 </Button>
+      </NuxtLink>
       <NuxtLink to="/docs/introduction"> <Button> 📓 文件</Button></NuxtLink>
       <NuxtLink to="/data/tag_clicks_last_7_days">
         <Button> 📊 數據</Button></NuxtLink

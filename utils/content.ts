@@ -1,5 +1,3 @@
-import type { ParsedContent } from '@nuxt/content/dist/runtime/types';
-
 type ContentApp = {
   group: Array<Array<string>>;
   tags: Array<string>;

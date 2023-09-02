@@ -28,7 +28,7 @@ const isError = ref<boolean>(false);
 const sessionkey = useCookie('user_session');
 const router = useRouter();
 if (sessionkey.value) {
-  // router.push('/');
+  router.push('/');
 }
 
 async function sendVerificationCode() {
