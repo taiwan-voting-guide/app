@@ -28,7 +28,7 @@
     "nuxt": "^3.7.0",
     "nuxt-clarity-analytics": "^0.0.2",
     "nuxt-headlessui": "^1.1.4",
-    "nuxt-monaco-editor": "^1.2.2",
+    "nuxt-monaco-editor": "^1.2.3",
     "prettier": "^2.8.3",
     "prettier-plugin-tailwindcss": "^0.2.2",
     "twilio": "^4.16.0",
