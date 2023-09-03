@@ -1,10 +1,10 @@
 <template>
   <td class="h-px">
     <div class="h-full p-1">
-      <div class="h-full rounded-md bg-white p-3 shadow">
-        <h1 class="mb-2 text-primary underline underline-offset-4">
+      <Card>
+        <h2 class="mb-2 text-primary underline underline-offset-4">
           {{ tag }}
-        </h1>
+        </h2>
         <ContentRenderer :value="content">
           <ContentRendererMarkdown
             v-if="contentExist"
@@ -30,7 +30,7 @@
             </div>
           </template>
         </ContentRenderer>
-      </div>
+      </Card>
     </div>
   </td>
 </template>

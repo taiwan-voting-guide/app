@@ -8,12 +8,14 @@
         <div class="h-8">123</div>
         <div ref="editorRef" class="h-full"></div>
       </div>
-      <div class="flex flex-1 w-1/2 h-full overflow-scroll">
-        <ContentRenderer :value="preview">
-          <template #empty>
-            <p>No content found.</p>
-          </template>
-        </ContentRenderer>
+      <div class="flex flex-1 w-1/2 h-full overflow-scroll p-2">
+        <Card>
+          <ContentRenderer :value="preview">
+            <template #empty>
+              <p>No content found.</p>
+            </template>
+          </ContentRenderer>
+        </Card>
       </div>
     </main>
   </div>
