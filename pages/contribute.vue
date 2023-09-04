@@ -10,10 +10,9 @@
       </div>
       <div class="flex flex-1 w-1/2 h-full overflow-scroll p-2">
         <Card>
-          <ContentRenderer :value="preview">
-            <template #empty>
-              <p>No content found.</p>
-            </template>
+          <div v-if="loading">loading...</div>
+          <ContentRenderer v-else :value="preview">
+            <template #empty> </template>
           </ContentRenderer>
         </Card>
       </div>
@@ -37,6 +36,7 @@ const preview = useState<ParsedContent>('contribute_preview', () => ({
   body: [],
   _id: '',
 }));
+const loading = ref<boolean>(false);
 
 const route = useRoute();
 
@@ -45,6 +45,7 @@ watchEffect(async () => {
     return;
   }
 
+  loading.value = true;
   const { data } = await useFetch<{ content: string }>(
     `/api/get-content?politician=${politician.value}`
   );
@@ -55,6 +56,7 @@ watchEffect(async () => {
 
   editor.value = getTagSection(data.value.content, tag.value);
   monaco.editor.getEditors()[0].setValue(editor.value);
+  loading.value = false;
 });
 
 watchEffect(async () => {
@@ -85,6 +87,11 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  editor.value = '';
+  preview.value = {
+    body: [],
+    _id: '',
+  };
   monaco.editor.getEditors().forEach((e) => e.dispose());
 });
 </script>
