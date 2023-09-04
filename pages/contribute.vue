@@ -32,14 +32,13 @@ const editorElRef = ref();
 
 const politician = useState<string>('contribute_politician', () => '');
 const tag = useState<string>('contribute_tag', () => '');
-
-const route = useRoute();
-
 const editor = useState<string>('contribute_editor', () => '');
 const preview = useState<ParsedContent>('contribute_preview', () => ({
   body: [],
   _id: '',
 }));
+
+const route = useRoute();
 
 watchEffect(async () => {
   if (!politician.value || !tag.value) {
