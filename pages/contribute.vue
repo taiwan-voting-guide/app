@@ -6,7 +6,7 @@
         class="border-primary border flex flex-col flex-1 w-1/2 overflow-auto"
       >
         <div class="h-8">123</div>
-        <div ref="editorRef" class="h-full"></div>
+        <div ref="editorElRef" class="h-full"></div>
       </div>
       <div class="flex flex-1 w-1/2 h-full overflow-scroll p-2">
         <Card>
@@ -28,18 +28,12 @@ import type { ParsedContent } from '@nuxt/content/dist/runtime/types';
 import markdown from '@nuxt/content/transformers/markdown';
 
 const monaco = useMonaco()!;
-const editorRef = ref();
+const editorElRef = ref();
 
 const politician = useState<string>('contribute_politician', () => '');
 const tag = useState<string>('contribute_tag', () => '');
 
 const route = useRoute();
-if (route.query.politician) {
-  politician.value = route.query.politician as string;
-}
-if (route.query.tag) {
-  tag.value = route.query.tag as string;
-}
 
 const editor = useState<string>('contribute_editor', () => '');
 const preview = useState<ParsedContent>('contribute_preview', () => ({
@@ -47,8 +41,34 @@ const preview = useState<ParsedContent>('contribute_preview', () => ({
   _id: '',
 }));
 
+watchEffect(async () => {
+  if (!politician.value || !tag.value) {
+    return;
+  }
+
+  const { data } = await useFetch<{ content: string }>(
+    `/api/get-content?politician=${politician.value}`
+  );
+
+  if (!data.value) {
+    return;
+  }
+
+  editor.value = getTagSection(data.value.content, tag.value);
+  monaco.editor.getEditors()[0].setValue(editor.value);
+});
+
+watchEffect(async () => {
+  preview.value = await markdown.parse(politician.value, editor.value, {});
+});
+
+onUpdated(() => {
+  politician.value = route.query.politician as string;
+  tag.value = route.query.tag as string;
+});
+
 onMounted(() => {
-  const a = monaco.editor.create(editorRef.value, {
+  const e = monaco.editor.create(editorElRef.value, {
     language: 'markdown',
     theme: 'vs-dark',
     automaticLayout: true,
@@ -57,24 +77,15 @@ onMounted(() => {
     },
   });
 
-  a.onDidChangeModelContent(() => {
-    editor.value = a.getValue();
+  e.onDidChangeModelContent(() => {
+    editor.value = e.getValue();
   });
-  a.setValue(editor.value);
+
+  politician.value = route.query.politician as string;
+  tag.value = route.query.tag as string;
 });
 
-watchEffect(async () => {
-  const { data } = await useFetch<{ content: string }>(
-    `/api/get-content?politician=${politician.value}`
-  );
-  if (!data.value) {
-    return;
-  }
-
-  editor.value = getTagSection(data.value.content, tag.value);
-});
-
-watchEffect(async () => {
-  preview.value = await markdown.parse(politician.value, editor.value, {});
+onUnmounted(() => {
+  monaco.editor.getEditors().forEach((e) => e.dispose());
 });
 </script>

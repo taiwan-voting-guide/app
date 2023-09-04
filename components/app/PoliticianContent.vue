@@ -16,7 +16,10 @@
                 <FaceFrownIcon class="inline-block h-4 w-4 text-start" />
                 目前沒有資料
               </p>
-              <NuxtLink class="mb-2" to="/docs/contribute">
+              <NuxtLink
+                class="mb-2"
+                :to="`/contribute?politician=${politicianName}&tag=${tag}`"
+              >
                 <ButtonPrimary>
                   <PencilSquareIcon class="inline-block h-4 w-4 text-start" />
                   貢獻
