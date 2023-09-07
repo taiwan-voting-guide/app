@@ -1,6 +1,7 @@
 <template>
   <button
-    class="flex items-center gap-1 rounded-md bg-primary px-3 py-2 text-white drop-shadow hover:bg-primary/80"
+    :type="submit ? 'submit' : 'button'"
+    class="flex justify-center items-center gap-1 rounded-md bg-primary px-3 py-2 text-white drop-shadow hover:bg-primary/80"
     @click="onClickHandler"
     :disabled="disabled"
     :class="{
@@ -16,6 +17,7 @@
 const { onClick, disabled } = defineProps<{
   onClick?: () => void;
   disabled?: boolean;
+  submit?: boolean;
 }>();
 
 function onClickHandler() {
