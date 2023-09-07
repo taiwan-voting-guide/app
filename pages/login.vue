@@ -13,7 +13,6 @@
         />
       </label>
       <ButtonPrimary :submit="true" :disabled="loading">
-        <ArrowPathIcon v-if="loading" class="h-4 w-4 animate-spin" />
         ✉️ 寄送驗證碼
       </ButtonPrimary>
     </form>
@@ -21,8 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowPathIcon } from '@heroicons/vue/24/outline';
-
 const email = ref<string>('');
 const loading = ref<boolean>(false);
 const isError = ref<boolean>(false);

@@ -32,7 +32,9 @@ export default defineEventHandler(async (event) => {
   const sessionKey = generateSessionKey(query.email, token);
   try {
     await kv.setex(sessionKey, sessionExpireTime, ts);
-    setCookie(event, 'session', sessionKey);
+    setCookie(event, 'user_session', sessionKey, {
+      maxAge: sessionExpireTime,
+    });
   } catch (err) {
     throw createError({ statusCode: 500 });
   }

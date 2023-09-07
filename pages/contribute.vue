@@ -26,6 +26,11 @@ import type { ParsedContent } from '@nuxt/content/dist/runtime/types';
 /* @ts-ignore */
 import markdown from '@nuxt/content/transformers/markdown';
 
+const userSession = useCookie('user_session');
+if (!userSession.value) {
+  navigateTo('/login');
+}
+
 const monaco = useMonaco()!;
 const editorElRef = ref();
 
@@ -41,6 +46,10 @@ const loading = ref<boolean>(false);
 const route = useRoute();
 
 watchEffect(async () => {
+  if (!userSession.value) {
+    return;
+  }
+
   if (!politician.value || !tag.value) {
     return;
   }
@@ -60,6 +69,10 @@ watchEffect(async () => {
 });
 
 watchEffect(async () => {
+  if (!userSession.value) {
+    return;
+  }
+
   preview.value = await markdown.parse(politician.value, editor.value, {});
 });
 
