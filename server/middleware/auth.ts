@@ -1,13 +1,12 @@
 import { kv } from '@vercel/kv';
 
 export default defineEventHandler(async (event) => {
-  console.log(getRequestURL(event).pathname);
   switch (getRequestURL(event).pathname) {
     case '/login':
       const userSession = getCookie(event, 'user_session');
       if (userSession) {
-        const exist = await kv.exists(userSession);
-        if (exist === 1) {
+        const exist = await kvExist(userSession);
+        if (exist) {
           return sendRedirect(event, '/', 302);
         }
       }
@@ -28,11 +27,20 @@ export default defineEventHandler(async (event) => {
         return sendRedirect(event, '/login', 302);
       }
 
-      const exist = await kv.exists(userSession);
-      if (exist !== 1) {
+      const exist = await kvExist(userSession);
+      if (!exist) {
         deleteCookie(event, 'user_session');
         return sendRedirect(event, '/login', 302);
       }
     }
   }
 });
+
+async function kvExist(userSession: string): Promise<boolean> {
+  if (process.env.NODE_ENV === 'development') {
+    return true;
+  }
+
+  const exist = await kv.exists(userSession);
+  return exist === 1;
+}
