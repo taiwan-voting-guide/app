@@ -1,6 +1,5 @@
 <template>
   <div class="flex w-full h-full flex-col bg-slate-100 p-4">
-    <header class="flex-none w-full h-36">123</header>
     <main class="flex-1 flex justify-stretch w-full gap-4 overflow-auto">
       <div
         class="border-primary border flex flex-col flex-1 w-1/2 overflow-auto"
@@ -8,13 +7,21 @@
         <div class="h-8">123</div>
         <div ref="editorElRef" class="h-full"></div>
       </div>
-      <div class="flex flex-1 w-1/2 h-full overflow-scroll p-2">
-        <Card>
-          <div v-if="loading">loading...</div>
-          <ContentRenderer v-else :value="preview">
-            <template #empty> </template>
-          </ContentRenderer>
-        </Card>
+      <div class="flex flex-col flex-1 w-1/2 h-full overflow-scroll">
+        <header
+          class="flex-none w-full px-2 justify-end flex items-end flex-col gap-2"
+        >
+          <p class="font-semibold">已登入: {{ email }}</p>
+          <ButtonPrimary>完成編輯</ButtonPrimary>
+        </header>
+        <div class="h-full p-2">
+          <Card>
+            <div v-if="loading">loading...</div>
+            <ContentRenderer v-else :value="preview">
+              <template #empty> </template>
+            </ContentRenderer>
+          </Card>
+        </div>
       </div>
     </main>
   </div>
@@ -31,6 +38,7 @@ if (!userSession.value) {
   navigateTo('/login');
 }
 
+const email = ref<string>(getEmailFromSessionKey(userSession.value));
 const monaco = useMonaco()!;
 const editorElRef = ref();
 
