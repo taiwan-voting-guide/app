@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
   const content = Buffer.from(contentBase64, 'base64').toString('utf-8');
   const newContent = replaceTagSection(content, body.tag, body.content);
   const newContentBase64 = Buffer.from(newContent, 'utf-8').toString('base64');
-  const branch = `${Math.floor(Date.now() / 1000)}`;
+  const branch = `${event.context.email}-${Math.floor(Date.now() / 1000)}`;
 
   // create a new branch
   await octokit.rest.git.createRef({
@@ -63,6 +63,15 @@ export default defineEventHandler(async (event) => {
       name: body.name,
       email: event.context.email,
     },
+  });
+
+  // create a new pull request
+  await octokit.rest.pulls.create({
+    owner,
+    repo,
+    title: `[${event.context.email}][${body.politician}][${body.tag}]`,
+    head: branch,
+    base: 'main',
   });
 
   return;
