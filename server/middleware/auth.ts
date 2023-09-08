@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
       return sendRedirect(event, '/', 302);
     }
     case '/api/get-content':
+    case '/api/submit-content':
     case '/contribute': {
       const userSession = getCookie(event, 'user_session');
       if (!userSession) {
@@ -32,6 +33,8 @@ export default defineEventHandler(async (event) => {
         deleteCookie(event, 'user_session');
         return sendRedirect(event, '/login', 302);
       }
+
+      event.context.email = getEmailFromSessionKey(userSession);
     }
   }
 });

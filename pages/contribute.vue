@@ -12,7 +12,7 @@
           class="flex-none w-full px-2 justify-end flex items-end flex-col gap-2"
         >
           <p class="font-semibold">已登入: {{ email }}</p>
-          <ButtonPrimary>完成編輯</ButtonPrimary>
+          <ButtonPrimary :onClick="submit">完成編輯</ButtonPrimary>
         </header>
         <div class="h-full p-2">
           <Card>
@@ -115,4 +115,16 @@ onUnmounted(() => {
   };
   monaco.editor.getEditors().forEach((e) => e.dispose());
 });
+
+async function submit() {
+  return $fetch('/api/submit-content', {
+    method: 'POST',
+    body: {
+      politician: politician.value,
+      tag: tag.value,
+      name: 'test',
+      content: editor.value,
+    },
+  });
+}
 </script>
