@@ -3,18 +3,14 @@
     class="sticky left-0 top-0 z-40 h-full flex-none overflow-y-scroll bg-white transition-all"
     :class="{ 'w-0': !showTagSideBar, 'w-60': showTagSideBar }"
   >
-    <header class="sticky top-0 w-full bg-white p-3">
+    <header class="sticky flex flex-col gap-3 top-0 bg-white p-3">
+      <ButtonPrimary to="/docs/contribute"> 🏷️ 新增標籤 </ButtonPrimary>
       <input
         v-model="searchText"
-        placeholder="🔍 搜尋標籤 e.g. 目前政黨"
+        placeholder="🔍 搜尋標籤"
         type="search"
         class="h-8 w-full rounded-md border-primary bg-slate-50 px-2 shadow-inner placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary"
       />
-      <div class="text-right">
-        <NuxtLink to="/docs/contribute#標籤" class="text-xs text-primary"
-          >沒有你需要的標籤嗎?</NuxtLink
-        >
-      </div>
     </header>
     <ClientOnly>
       <template v-if="filterTags && filterTags.length > 0">
@@ -47,7 +43,7 @@
   </aside>
   <main class="flex-1 relative overflow-scroll bg-slate-50">
     <div
-      class="sticky top-0 inline-flex flex-col p-2 z-20 rounded-md bg-slate-100 drop-shadow"
+      class="sticky top-0 left-0 inline-flex flex-col p-2 z-20 rounded-md bg-slate-100 drop-shadow"
     >
       <Button :onClick="toggleSidebar">
         <span class="text-lg"> 🏷️ </span>
@@ -64,9 +60,9 @@
         <AppPoliticianCTA />
       </div>
       <div class="flex absolute w-full top-0" v-else>
-        <div class="mx-auto p-8">
+        <div class="mx-auto px-16 pb-16 pt-1">
           <table>
-            <thead class="sticky top-0 z-10">
+            <thead class="sticky top-1 z-10">
               <tr>
                 <th
                   class="w-80 min-w-[20rem]"
