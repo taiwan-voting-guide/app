@@ -41,3 +41,7 @@ export default defineEventHandler(async (event) => {
 
   return sendRedirect(event, '/', 302);
 });
+
+function generateSessionKey(email: string, token: string): string {
+  return `user_session_${email}_${token}`;
+}
