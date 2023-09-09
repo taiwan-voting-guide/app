@@ -69,7 +69,7 @@
             <thead class="sticky top-0 z-10">
               <tr>
                 <th
-                  class="w-80"
+                  class="w-80 min-w-[20rem]"
                   scope="col"
                   v-for="politician in politicians"
                   :key="politician.name"
