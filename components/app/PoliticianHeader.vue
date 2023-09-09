@@ -1,7 +1,9 @@
 <template>
-  <div class="my-2">
-    <img
+  <Card>
+    <NuxtImg
       :src="photoURL"
+      width="48"
+      height="48"
       :alt="name"
       class="mx-auto h-32 w-32 rounded-full object-cover object-top"
     />
@@ -9,7 +11,7 @@
     <h1 class="mt-2 text-center text-2xl font-bold">
       {{ name }}
     </h1>
-  </div>
+  </Card>
 </template>
 
 <script setup lang="ts">

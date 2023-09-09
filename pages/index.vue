@@ -45,8 +45,10 @@
       </template>
     </ClientOnly>
   </aside>
-  <main class="flex flex-1 flex-col overflow-hidden bg-slate-50">
-    <div class="flex w-full items-center p-3">
+  <main class="flex-1 relative overflow-scroll bg-slate-50">
+    <div
+      class="sticky top-0 inline-flex flex-col p-2 z-20 rounded-md bg-slate-100 drop-shadow"
+    >
       <Button :onClick="toggleSidebar">
         <span class="text-lg"> 🏷️ </span>
       </Button>
@@ -58,38 +60,40 @@
       <div v-if="loading" class="flex flex-1 items-center justify-center">
         <ArrowPathIcon class="h-8 w-8 animate-spin text-primary" />
       </div>
-      <div class="h-full" v-else-if="politicians.length === 0">
+      <div v-else-if="politicians.length === 0" class="h-full">
         <AppPoliticianCTA />
       </div>
-      <div v-else class="w-full flex-1 overflow-scroll px-8 pb-8">
-        <table>
-          <thead class="sticky top-0 z-20 bg-slate-50">
-            <tr>
-              <th
-                class="w-80 min-w-[20rem]"
-                scope="col"
-                v-for="politician in politicians"
-                :key="politician.name"
-              >
-                <AppPoliticianHeader
-                  :photoURL="politician.photoURL"
-                  :name="politician.name"
+      <div class="flex absolute w-full top-0" v-else>
+        <div class="mx-auto p-8">
+          <table>
+            <thead class="sticky top-0 z-10">
+              <tr>
+                <th
+                  class="w-80 min-w-[20rem]"
+                  scope="col"
+                  v-for="politician in politicians"
+                  :key="politician.name"
+                >
+                  <AppPoliticianHeader
+                    :photoURL="politician.photoURL"
+                    :name="politician.name"
+                  />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="tag in tags">
+                <AppPoliticianContent
+                  v-for="politician in politicians"
+                  :key="`${politician.name}-${tag}`"
+                  :politicianName="politician.name"
+                  :tag="tag"
+                  :content="politician.contents.get(tag)"
                 />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="tag in tags">
-              <AppPoliticianContent
-                v-for="politician in politicians"
-                :key="`${politician.name}-${tag}`"
-                :politicianName="politician.name"
-                :tag="tag"
-                :content="politician.contents.get(tag)"
-              />
-            </tr>
-          </tbody>
-        </table>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </ClientOnly>
   </main>

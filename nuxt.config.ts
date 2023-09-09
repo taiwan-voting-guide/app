@@ -13,7 +13,9 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/html-validator',
     '@nuxt/content',
+    '@nuxt/image',
     '@nuxtjs/device',
     'nuxt-clarity-analytics',
     'nuxt-headlessui',

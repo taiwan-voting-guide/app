@@ -14,14 +14,12 @@
           <p class="font-semibold">已登入: {{ email }}</p>
           <ButtonPrimary :onClick="submit">完成編輯</ButtonPrimary>
         </header>
-        <div class="h-full p-2">
-          <Card>
-            <div v-if="loading">loading...</div>
-            <ContentRenderer v-else :value="preview">
-              <template #empty> </template>
-            </ContentRenderer>
-          </Card>
-        </div>
+        <Card>
+          <div v-if="loading">loading...</div>
+          <ContentRenderer v-else :value="preview">
+            <template #empty> </template>
+          </ContentRenderer>
+        </Card>
       </div>
     </main>
   </div>
