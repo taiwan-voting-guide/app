@@ -1,16 +1,18 @@
 <template>
   <Card>
-    <NuxtImg
-      :src="photoURL"
-      width="48"
-      height="48"
-      :alt="name"
-      class="mx-auto h-32 w-32 rounded-full object-cover object-top"
-    />
+    <div class="flex items-center gap-4">
+      <NuxtImg
+        :src="photoURL"
+        :alt="name"
+        width="48"
+        height="48"
+        class="h-12 w-12 rounded-full object-cover object-top"
+      />
 
-    <h1 class="mt-2 text-center text-2xl font-bold">
-      {{ name }}
-    </h1>
+      <h1 class="text-2xl font-bold">
+        {{ name }}
+      </h1>
+    </div>
   </Card>
 </template>
 
