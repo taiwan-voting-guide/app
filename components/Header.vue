@@ -3,7 +3,7 @@
     class="flex h-12 w-full flex-none items-center border-b border-primary bg-white"
   >
     <NuxtLink class="flex h-full flex-none items-center" to="/">
-      <img class="mx-4 my-2 h-6" src="/logo.svg" />
+      <NuxtImg width="144" height="24" class="m-3 h-6" src="/logo.svg" />
     </NuxtLink>
 
     <template v-if="isMobile">
