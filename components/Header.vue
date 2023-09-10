@@ -21,7 +21,8 @@
                 class="flex items-center gap-1 px-3 py-2"
                 to="/docs/contribute?politician=侯友宜&tag=生日"
               >
-                📝 貢獻
+                <PencilSquareIcon class="w-4 h-4" />
+                貢獻
               </NuxtLink>
             </HeadlessMenuItem>
 
@@ -30,7 +31,8 @@
                 class="flex items-center gap-1 px-3 py-2"
                 to="/docs/introduction"
               >
-                📓 文件
+                <DocumentTextIcon class="w-4 h-4" />
+                文件
               </NuxtLink>
             </HeadlessMenuItem>
 
@@ -39,7 +41,8 @@
                 class="flex items-center gap-1 px-3 py-2"
                 to="/data/tag_clicks_last_7_days"
               >
-                📊 數據
+                <ChartBarIcon class="w-4 h-4" />
+                數據
               </NuxtLink>
             </HeadlessMenuItem>
 
@@ -64,7 +67,8 @@
                 class="flex items-center gap-1 px-3 py-2"
                 to="https://forms.gle/nAxdNjAqpAb3GEMz8"
               >
-                📬 意見回饋</NuxtLink
+                <ChatBubbleLeftEllipsisIcon class="w-4 h-4" />
+                意見回饋</NuxtLink
               >
             </HeadlessMenuItem>
           </HeadlessMenuItems>
@@ -73,32 +77,30 @@
     </template>
 
     <template v-else>
-      <NuxtLink to="/contribute?politician=侯友宜&tag=生日">
-        <Button> 📝 貢獻 </Button>
-      </NuxtLink>
-      <NuxtLink to="/docs/introduction"> <Button> 📓 文件</Button></NuxtLink>
-      <NuxtLink to="/data/tag_clicks_last_7_days">
-        <Button> 📊 數據</Button></NuxtLink
+      <Button to="/contribute?politician=侯友宜&tag=生日">
+        <PencilSquareIcon class="w-4 h-4" />
+        <span class="flex-none">貢獻</span>
+      </Button>
+      <Button to="/docs/introduction">
+        <DocumentTextIcon class="w-4 h-4" /> 文件</Button
+      >
+      <Button to="/data/tag_clicks_last_7_days">
+        <ChartBarIcon class="w-4 h-4" /> 數據</Button
       >
       <div class="ml-auto mr-4 flex">
-        <NuxtLink to="https://github.com/taiwan-voting-guide/app">
-          <Button
-            ><div class="flex items-center gap-1">
-              <img class="inline h-4 w-4" src="/github-mark.svg" />GitHub
-            </div></Button
-          ></NuxtLink
+        <Button to="https://github.com/taiwan-voting-guide/app"
+          ><div class="flex items-center gap-1">
+            <img class="h-4 w-4" src="/github-mark.svg" />GitHub
+          </div></Button
         >
-        <NuxtLink
+        <Button
           to="https://join.slack.com/t/taiwanvotingguide/shared_invite/zt-1stmgptpf-~D6X8ETZyaNR7uUHrIk~sA"
+          ><div class="flex items-center gap-1">
+            <img class="h-4 w-4" src="/slack.webp" />Slack
+          </div></Button
         >
-          <Button
-            ><div class="flex items-center gap-1">
-              <img class="inline h-4 w-4" src="/slack.webp" />Slack
-            </div></Button
-          ></NuxtLink
-        >
-        <NuxtLink to="https://forms.gle/nAxdNjAqpAb3GEMz8">
-          <Button> 📬 意見回饋</Button></NuxtLink
+        <Button to="https://forms.gle/nAxdNjAqpAb3GEMz8">
+          <ChatBubbleLeftEllipsisIcon class="w-4 h-4" /> 意見回饋</Button
         >
       </div>
     </template>
@@ -106,7 +108,13 @@
 </template>
 
 <script setup lang="ts">
-import { Bars3Icon } from '@heroicons/vue/24/outline';
+import {
+  Bars3Icon,
+  DocumentTextIcon,
+  PencilSquareIcon,
+  ChartBarIcon,
+  ChatBubbleLeftEllipsisIcon,
+} from '@heroicons/vue/24/outline';
 
 const { isMobile } = useDevice();
 </script>

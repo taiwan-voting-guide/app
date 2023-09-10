@@ -7,6 +7,9 @@ const contentCacheTime = 60 * 60;
 export default defineNuxtConfig({
   app: {
     head: {
+      htmlAttrs: {
+        lang: 'zh-Hant-TW',
+      },
       link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
       title: '選前大補帖',
     },
