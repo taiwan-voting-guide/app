@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-screen w-screen flex-col text-slate-600">
     <Header />
-    <div class="flex flex-1 overflow-scroll">
+    <div class="relative flex flex-1 overflow-scroll">
       <slot />
     </div>
   </div>
