@@ -61,7 +61,12 @@
   >
     <header class="sticky flex flex-col gap-3 top-0 bg-white p-3">
       <ButtonPrimary to="/docs/contribute"> 🏷️ 新增標籤 </ButtonPrimary>
-      <InputSearch v-model="searchText" placeholder="🔍 搜尋標籤" />
+      <input
+        v-model="searchText"
+        placeholder="🔍 搜尋標籤"
+        type="search"
+        class="h-10 w-full rounded-md border-primary bg-slate-50 px-2 shadow-inner placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary"
+      />
     </header>
     <ClientOnly>
       <template v-if="filterTags && filterTags.length > 0">
@@ -133,11 +138,15 @@ const initialPoliticianNames = (
   politiciansParam ? politiciansParam.split(',') : []
 ).filter((name) => allPoliticianNames.has(name));
 
-const { set: setPoliticianNames } = useSelectPolitician();
+const {
+  set: setPoliticianNames,
+  politicians,
+  politicianNames,
+  loading,
+} = useSelectPolitician();
 setPoliticianNames(initialPoliticianNames);
 
 const { tags, toggle, tagSet } = useSelectTag();
-const { politicians, politicianNames, loading } = useSelectPolitician();
 
 watch([tags, politicianNames], () => {
   const query: { tags?: string; politicians?: string } = {};
