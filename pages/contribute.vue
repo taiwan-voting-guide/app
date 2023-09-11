@@ -7,12 +7,11 @@
         <div class="h-8">123</div>
         <div ref="editorElRef" class="h-full"></div>
       </div>
-      <div class="flex flex-col flex-1 w-1/2 h-full overflow-scroll">
+      <div class="flex gap-2 flex-col flex-1 w-1/2 h-full overflow-scroll">
         <header
           class="flex-none w-full px-2 justify-end flex items-end flex-col gap-2"
         >
-          <p class="font-semibold">已登入: {{ email }}</p>
-          <ButtonPrimary :onClick="submit">完成編輯</ButtonPrimary>
+          <ButtonPrimary :onClick="openSubmitDialog">完成編輯</ButtonPrimary>
         </header>
         <Card>
           <div v-if="loading">loading...</div>
@@ -23,6 +22,7 @@
       </div>
     </main>
   </div>
+  <ContributeSubmitDialog />
 </template>
 
 <script setup lang="ts">
@@ -40,13 +40,10 @@ const email = ref<string>(getEmailFromSessionKey(userSession.value));
 const monaco = useMonaco()!;
 const editorElRef = ref();
 
-const politician = useState<string>('contribute_politician', () => '');
-const tag = useState<string>('contribute_tag', () => '');
-const editor = useState<string>('contribute_editor', () => '');
-const preview = useState<ParsedContent>('contribute_preview', () => ({
-  body: [],
-  _id: '',
-}));
+const politician = useContributePolitician();
+const tag = useContributeTag();
+const editor = useContributeEditor();
+const preview = useContributePreview();
 const loading = ref<boolean>(false);
 
 const route = useRoute();
@@ -114,15 +111,9 @@ onUnmounted(() => {
   monaco.editor.getEditors().forEach((e) => e.dispose());
 });
 
-async function submit() {
-  return $fetch('/api/submit-content', {
-    method: 'POST',
-    body: {
-      politician: politician.value,
-      tag: tag.value,
-      name: 'test',
-      content: editor.value,
-    },
-  });
+const isSubmitDialogOpen = useShowEditorSubmitDialog();
+
+function openSubmitDialog() {
+  isSubmitDialogOpen.value = true;
 }
 </script>
