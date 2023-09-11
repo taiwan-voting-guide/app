@@ -66,13 +66,11 @@ export default defineEventHandler(async (event) => {
   });
 
   // create a new pull request
-  await octokit.rest.pulls.create({
+  return await octokit.rest.pulls.create({
     owner,
     repo,
     title: `[${event.context.email}][${body.politician}][${body.tag}]`,
     head: branch,
     base: 'main',
   });
-
-  return;
 });

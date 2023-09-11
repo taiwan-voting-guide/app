@@ -54,7 +54,7 @@ const email = useUserEmail();
 const name = useUserName();
 
 async function submit() {
-  return $fetch('/api/submit-content', {
+  const res = await $fetch('/api/submit-content', {
     method: 'POST',
     body: {
       politician: politician.value,
@@ -63,5 +63,6 @@ async function submit() {
       content: editor.value,
     },
   });
+  console.log(res);
 }
 </script>

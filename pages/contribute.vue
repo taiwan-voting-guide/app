@@ -26,8 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import type { ParsedContent } from '@nuxt/content/dist/runtime/types';
-
 /* @ts-ignore */
 import markdown from '@nuxt/content/transformers/markdown';
 
@@ -36,7 +34,6 @@ if (!userSession.value) {
   navigateTo('/login');
 }
 
-const email = ref<string>(getEmailFromSessionKey(userSession.value));
 const monaco = useMonaco()!;
 const editorElRef = ref();
 
