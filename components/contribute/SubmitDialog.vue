@@ -30,8 +30,15 @@
             </label>
 
             <div class="flex justify-end gap-4">
-              <Button :onClick="closeDialog"> 取消 </Button>
-              <ButtonPrimary :onClick="submit"> 確認送出 </ButtonPrimary>
+              <Button :onClick="closeDialog">
+                <XCircleIcon class="w-4 h-4" />
+                取消
+              </Button>
+              <ButtonPrimary :disabled="loading" :onClick="submit">
+                <ArrowPathIcon class="w-4 h-4 animate-spin" v-if="loading" />
+                <PencilSquareIcon class="w-4 h-4" v-else />
+                確認送出
+              </ButtonPrimary>
             </div>
           </form>
         </HeadlessDialogPanel>
@@ -41,10 +48,17 @@
 </template>
 
 <script setup lang="ts">
+import {
+  ArrowPathIcon,
+  PencilSquareIcon,
+  XCircleIcon,
+} from '@heroicons/vue/24/outline';
+
 const isOpen = useShowEditorSubmitDialog();
 const politician = useContributePolitician();
 const tag = useContributeTag();
 const editor = useContributeEditor();
+const loading = ref(false);
 
 function closeDialog() {
   isOpen.value = false;
@@ -54,7 +68,8 @@ const email = useUserEmail();
 const name = useUserName();
 
 async function submit() {
-  const res = await $fetch('/api/submit-content', {
+  loading.value = true;
+  const { url } = await $fetch<{ url: string }>('/api/submit-content', {
     method: 'POST',
     body: {
       politician: politician.value,
@@ -63,6 +78,7 @@ async function submit() {
       content: editor.value,
     },
   });
-  console.log(res);
+
+  navigateTo(url);
 }
 </script>

@@ -11,7 +11,10 @@
         <header
           class="flex-none w-full px-2 justify-end flex items-end flex-col gap-2"
         >
-          <ButtonPrimary :onClick="openSubmitDialog">完成編輯</ButtonPrimary>
+          <ButtonPrimary :onClick="openSubmitDialog">
+            <PencilSquareIcon class="w-4 h-4" />
+            完成編輯</ButtonPrimary
+          >
         </header>
         <Card>
           <div v-if="loading">loading...</div>
@@ -26,6 +29,8 @@
 </template>
 
 <script setup lang="ts">
+import { PencilSquareIcon } from '@heroicons/vue/24/outline';
+
 /* @ts-ignore */
 import markdown from '@nuxt/content/transformers/markdown';
 
