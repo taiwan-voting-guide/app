@@ -79,6 +79,6 @@ async function submit() {
     },
   });
 
-  navigateTo(url);
+  navigateTo(url, { external: true });
 }
 </script>
