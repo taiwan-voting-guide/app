@@ -6,7 +6,7 @@ export const replaceTagSection = (
   const substr = `\n## ${tag}\n`;
   const i = content.indexOf(substr);
   if (i === -1) {
-    return `${content}\n\n## ${tag}\n${section}`;
+    return `${content}\n\n## ${tag}\n\n${section}`;
   }
 
   const sectionStart = i + substr.length;
