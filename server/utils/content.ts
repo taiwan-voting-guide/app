@@ -12,10 +12,11 @@ export const replaceTagSection = (
   const sectionStart = i + substr.length;
   const sectionEnd = content.indexOf('\n## ', sectionStart);
   if (sectionEnd === -1) {
-    return content.substring(0, sectionStart) + section;
+    return `${content.substring(0, sectionStart)}\n${section}`;
   }
 
-  return (
-    content.substring(0, sectionStart) + section + content.substring(sectionEnd)
-  );
+  return `${content.substring(
+    0,
+    sectionStart
+  )}\n${section}\n${content.substring(sectionEnd)}`;
 };
