@@ -31,8 +31,8 @@ export const getTagSection = (content: string, tag: string): string => {
   const sectionStart = i + substr.length;
   const sectionEnd = content.indexOf('\n## ', sectionStart);
   if (sectionEnd === -1) {
-    return content.substring(sectionStart);
+    return content.substring(sectionStart).trim();
   }
 
-  return content.substring(sectionStart, sectionEnd);
+  return content.substring(sectionStart, sectionEnd).trim();
 };
