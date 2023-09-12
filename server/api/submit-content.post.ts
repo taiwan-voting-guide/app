@@ -75,6 +75,6 @@ export default defineEventHandler(async (event) => {
   });
 
   return {
-    url: res.url,
+    url: res.data.html_url,
   };
 });
