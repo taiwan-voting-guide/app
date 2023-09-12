@@ -8,7 +8,7 @@
         >
           <form class="flex flex-col gap-4">
             <label>
-              <span class="m-1 text-sm after:text-red-500 after:content-['*']"
+              <span class="pl-2 text-sm after:text-red-500 after:content-['*']"
                 >Email</span
               >
               <input
@@ -19,19 +19,24 @@
               />
             </label>
             <label>
-              <span class="m-1 text-sm after:text-red-500 after:content-['*']"
+              <span class="pl-2 text-sm after:text-red-500 after:content-['*']"
                 >貢獻者</span
               >
+
               <input
                 class="w-full border-0 bg-slate-200 rounded-md focus:bg-white"
+                :class="{ 'border border-red-500': error }"
                 type="text"
                 v-model="name"
               />
+              <span class="pl-2 text-sm text-red-500" v-if="error">{{
+                error
+              }}</span>
             </label>
 
             <div class="flex justify-end gap-4">
               <Button :onClick="closeDialog">
-                <XCircleIcon class="w-4 h-4" />
+                <XMarkIcon class="w-4 h-4" />
                 取消
               </Button>
               <ButtonPrimary :disabled="loading" :onClick="submit">
@@ -51,7 +56,7 @@
 import {
   ArrowPathIcon,
   PencilSquareIcon,
-  XCircleIcon,
+  XMarkIcon,
 } from '@heroicons/vue/24/outline';
 
 const isOpen = useShowEditorSubmitDialog();
@@ -64,18 +69,28 @@ function closeDialog() {
   isOpen.value = false;
 }
 
+const error = ref('');
+
 const email = useUserEmail();
 const name = useUserName();
 
 async function submit() {
+  const editorRrimed = editor.value.trim();
+  const nameTrimed = name.value.trim();
+
   loading.value = true;
+  if (!nameTrimed) {
+    error.value = '請輸入貢獻者名稱';
+    return;
+  }
+
   const { url } = await $fetch<{ url: string }>('/api/submit-content', {
     method: 'POST',
     body: {
       politician: politician.value,
       tag: tag.value,
-      name: name.value,
-      content: editor.value,
+      name: nameTrimed,
+      content: editorRrimed,
     },
   });
 
