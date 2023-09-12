@@ -1,27 +1,31 @@
 <template>
-  <div class="flex w-full h-full flex-col bg-slate-100 p-4">
-    <main class="flex-1 flex justify-stretch w-full gap-4 overflow-auto">
-      <div
-        class="border-primary border flex flex-col flex-1 w-1/2 overflow-auto"
-      >
-        <div class="h-8">123</div>
-        <div ref="editorElRef" class="h-full"></div>
+  <div class="flex w-full h-full flex-col bg-slate-50">
+    <main class="flex-1 flex justify-stretch w-full overflow-auto">
+      <div class="flex gap-2 flex-col flex-1 w-1/2 overflow-hidden">
+        <div class="h-12">tool bar</div>
+        <div ref="editorElRef" class="flex-1 overflow-hidden"></div>
       </div>
-      <div class="flex gap-2 flex-col flex-1 w-1/2 h-full overflow-scroll">
+
+      <div class="flex flex-col gap-2 p-2 flex-1 w-1/2">
         <header
-          class="flex-none w-full px-2 justify-end flex items-end flex-col gap-2"
+          class="flex-none w-full justify-end flex items-end pt-1 pr-1 gap-2"
         >
           <ButtonPrimary :onClick="openSubmitDialog">
             <PencilSquareIcon class="w-4 h-4" />
             完成編輯</ButtonPrimary
           >
         </header>
-        <Card>
-          <div v-if="loading">loading...</div>
-          <ContentRenderer v-else :value="preview">
-            <template #empty> </template>
-          </ContentRenderer>
-        </Card>
+        <div class="flex-1 flex flex-col gap-[2px]">
+          <div class="flex-none">
+            <AppPoliticianHeader photoURL="/asdf.png" :name="politician" />
+          </div>
+          <Card>
+            <div v-if="loading">loading...</div>
+            <ContentRenderer v-else :value="preview">
+              <template #empty> </template>
+            </ContentRenderer>
+          </Card>
+        </div>
       </div>
     </main>
   </div>
