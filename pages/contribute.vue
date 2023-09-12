@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full h-full flex-col bg-slate-50">
+  <div class="flex w-full h-full flex-col bg-slate-200">
     <main class="flex-1 flex justify-stretch w-full overflow-auto">
       <div class="flex gap-2 flex-col flex-1 w-1/2 overflow-hidden">
         <div class="h-12">tool bar</div>

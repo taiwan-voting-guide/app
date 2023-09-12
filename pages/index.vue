@@ -1,5 +1,5 @@
 <template>
-  <main class="flex-1 relative overflow-auto bg-slate-50">
+  <main class="flex-1 relative overflow-auto bg-slate-200">
     <ClientOnly>
       <div v-if="loading" class="flex flex-1 items-center justify-center">
         <ArrowPathIcon class="h-8 w-8 animate-spin text-primary" />
