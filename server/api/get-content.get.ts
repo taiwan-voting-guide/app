@@ -1,4 +1,6 @@
+import path from 'path';
 import { createStorage } from 'unstorage';
+import fsDriver from 'unstorage/drivers/fs';
 import githubDriver from 'unstorage/drivers/github';
 
 export default defineEventHandler(async (event) => {
@@ -11,17 +13,24 @@ export default defineEventHandler(async (event) => {
   }
 
   const contentStorage = createStorage({
-    driver: githubDriver({
-      repo: 'taiwan-voting-guide/content',
-      branch: 'main',
-      token: process.env.GITHUB_TOKEN,
-      dir: 'content',
-    }),
+    driver:
+      process.env.NODE_ENV === 'production'
+        ? githubDriver({
+            repo: 'taiwan-voting-guide/content',
+            branch: 'main',
+            token: process.env.GITHUB_TOKEN,
+            dir: 'content',
+          })
+        : fsDriver({
+            base: './content/content',
+          }),
   });
 
   let content: string | null = null;
   try {
-    content = await contentStorage.getItem(`politician/${query.politician}.md`);
+    content = await contentStorage.getItem(
+      `politician/${query.politician}/info.md`
+    );
   } catch (error) {
     throw createError({
       statusCode: 500,

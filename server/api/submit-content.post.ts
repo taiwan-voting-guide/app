@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
   const { data } = await octokit.rest.repos.getContent({
     owner,
     repo,
-    path: `content/politician/${body.politician}.md`,
+    path: `content/politician/${body.politician}/info.md`,
   });
 
   const { sha: contentSHA, content: contentBase64 } = data as {
@@ -53,7 +53,7 @@ export default defineEventHandler(async (event) => {
   await octokit.rest.repos.createOrUpdateFileContents({
     owner,
     repo,
-    path: `content/politician/${body.politician}.md`,
+    path: `content/politician/${body.politician}/info.md`,
     message: `[${event.context.email}][${body.politician}][${body.tag}]`,
     content: newContentBase64,
     sha: contentSHA,
