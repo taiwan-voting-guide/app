@@ -50,7 +50,7 @@ export const parseMarkdown = async (id: string = '', md: string) => {
       rehype: {
         options: {
           clobberPrefix,
-          footnoteLabel: '參考資料',
+          footnoteLabel: '資料來源',
           footnoteLabelTagName: 'h2',
           footnoteBackLabel: '返回',
         },
@@ -66,6 +66,7 @@ export const parseMarkdown = async (id: string = '', md: string) => {
     })),
   };
 };
+
 export const footnoteTooltip = ({
   clobberPrefix,
 }: {

@@ -30,9 +30,8 @@
                 <AppPoliticianContent
                   v-for="politician in politicians"
                   :key="`${politician.name}-${tag}`"
-                  :politicianName="politician.name"
+                  :politician="politician.name"
                   :tag="tag"
-                  :content="politician.contents.get(tag)"
                 />
               </tr>
             </tbody>

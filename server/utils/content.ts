@@ -1,3 +1,23 @@
+import { createStorage } from 'unstorage';
+import fsDriver from 'unstorage/drivers/fs';
+import githubDriver from 'unstorage/drivers/github';
+
+const contentStorage = createStorage({
+  driver:
+    process.env.NODE_ENV === 'production'
+      ? githubDriver({
+          repo: 'taiwan-voting-guide/content',
+          branch: 'main',
+          token: process.env.GITHUB_TOKEN,
+          dir: 'content',
+        })
+      : fsDriver({
+          base: './content/content',
+        }),
+});
+
+export const getContentStorage = () => contentStorage;
+
 export const replaceTagSection = (
   content: string,
   tag: string,

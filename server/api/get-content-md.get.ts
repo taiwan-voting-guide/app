@@ -1,7 +1,3 @@
-import { createStorage } from 'unstorage';
-import fsDriver from 'unstorage/drivers/fs';
-import githubDriver from 'unstorage/drivers/github';
-
 export default defineEventHandler(async (event) => {
   const query = getQuery<{ politician: string; tag: string }>(event);
   if (!query.politician) {
@@ -11,19 +7,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const contentStorage = createStorage({
-    driver:
-      process.env.NODE_ENV === 'production'
-        ? githubDriver({
-            repo: 'taiwan-voting-guide/content',
-            branch: 'main',
-            token: process.env.GITHUB_TOKEN,
-            dir: 'content',
-          })
-        : fsDriver({
-            base: './content/content',
-          }),
-  });
+  const contentStorage = getContentStorage();
 
   let content: string | null = null;
   try {

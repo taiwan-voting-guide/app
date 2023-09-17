@@ -40,6 +40,7 @@ export default defineNuxtConfig({
   },
   content: {
     sources: {
+      // TODO; deprecated content API
       content: isProd
         ? {
             driver: 'github',
