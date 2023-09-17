@@ -1,11 +1,9 @@
-import { parseMarkdown } from '@nuxtjs/mdc/dist/runtime';
 import { createStorage } from 'unstorage';
 import fsDriver from 'unstorage/drivers/fs';
 import githubDriver from 'unstorage/drivers/github';
-import { footnoteTooltip } from '@/utils/contribute';
 
 export default defineEventHandler(async (event) => {
-  const query = getQuery<{ politician: string, tag: string }>(event);
+  const query = getQuery<{ politician: string; tag: string }>(event);
   if (!query.politician) {
     throw createError({
       statusCode: 400,
@@ -27,7 +25,6 @@ export default defineEventHandler(async (event) => {
           }),
   });
 
-
   let content: string | null = null;
   try {
     content = await contentStorage.getItem(`politician/${query.politician}.md`);
@@ -42,16 +39,6 @@ export default defineEventHandler(async (event) => {
       statusCode: 404,
     });
   }
-
-  // console.log(await parseMarkdown(content, {
-  //     rehype: {
-  //       plugins: {
-  //         footnoteTooltip: {
-  //           instance: footnoteTooltip,
-  //         },
-  //       },
-  //     },
-  //   }));
 
   return { content };
 });

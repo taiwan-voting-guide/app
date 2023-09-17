@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
 
       return sendRedirect(event, '/', 302);
     }
-    case '/api/get-content':
+    case '/api/get-content-md':
     case '/api/submit-content':
     case '/contribute': {
       const userSession = getCookie(event, 'user_session');

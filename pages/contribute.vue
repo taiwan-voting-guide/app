@@ -34,7 +34,6 @@
 
 <script setup lang="ts">
 import { PencilSquareIcon } from '@heroicons/vue/24/outline';
-import { parseMarkdown } from '@nuxtjs/mdc/dist/runtime';
 
 const userSession = useCookie('user_session');
 if (!userSession.value) {
@@ -63,7 +62,7 @@ watchEffect(async () => {
 
   loading.value = true;
   const { data } = await useFetch<{ content: string }>(
-    `/api/get-content?politician=${politician.value}`
+    `/api/get-content-md?politician=${politician.value}`
   );
 
   if (!data.value) {
@@ -80,18 +79,10 @@ watchEffect(async () => {
     return;
   }
 
-  preview.value = {
-    _id: '',
-    ...(await parseMarkdown(editor.value, {
-      rehype: {
-        plugins: {
-          footnoteTooltip: {
-            instance: footnoteTooltip,
-          },
-        },
-      },
-    })),
-  };
+  preview.value = await parseMarkdown(
+    `${politician.value}-${tag.value}`,
+    editor.value
+  );
 });
 
 onUpdated(() => {

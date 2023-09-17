@@ -4,14 +4,13 @@ import { visit } from 'unist-util-visit';
 
 export const footnoteTooltip = () => {
   return (tree: Node) => {
-    console.log(tree)
-    const footnotesMap = new Map<string, Element>();
+    const refsMap = new Map<string, Element>();
     visit(tree, 'element', (element: Element) => {
-      const id = element.properties?.id as string || '';
+      const id = (element.properties?.id as string) || '';
       if (element.tagName === 'li' && id.startsWith('user-content-fn-')) {
         const e = element.children[1];
         if (e.type === 'element') {
-          footnotesMap.set(id.substring(16), {
+          refsMap.set(id.substring(16), {
             ...e,
             children: e.children.filter(
               (e) =>
@@ -26,10 +25,10 @@ export const footnoteTooltip = () => {
     visit(tree, 'element', (element: Element) => {
       if (element.properties?.dataFootnoteRef) {
         const id = element.properties?.id as string;
-        const key = id.substring(19);
+        const temp = id.substring(19);
+        const key = temp.substring(0, temp.indexOf('-'));
         console.log(key);
-        console.log(footnotesMap);
-        const e = footnotesMap.get(key);
+        const e = refsMap.get(key);
         console.log(e);
         element.properties.className = ['relative group'];
         const children = [];
