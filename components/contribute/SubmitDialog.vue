@@ -4,7 +4,7 @@
       <div class="fixed inset-0 z-20 bg-black/40" aria-hidden="true" />
       <div class="fixed inset-0 z-20 flex items-center justify-center">
         <HeadlessDialogPanel
-          class="mx-auto w-72 min-w-70 rounded-md bg-white p-3 drop-shadow"
+          class="min-w-70 mx-auto w-72 rounded-md bg-white p-3 drop-shadow"
         >
           <form class="flex flex-col gap-4">
             <label>
@@ -13,7 +13,7 @@
               >
               <input
                 disabled
-                class="w-full bg-slate-200 border-0 rounded-md text-slate-400"
+                class="w-full rounded-md border-0 bg-slate-200 text-slate-400"
                 type="email"
                 :value="email"
               />
@@ -24,7 +24,7 @@
               >
 
               <input
-                class="w-full border-0 bg-slate-200 rounded-md focus:bg-white"
+                class="w-full rounded-md border-0 bg-slate-200 focus:bg-white"
                 :class="{ 'border border-red-500': error }"
                 type="text"
                 v-model="name"
@@ -36,12 +36,12 @@
 
             <div class="flex justify-end gap-4">
               <Button :onClick="closeDialog">
-                <XMarkIcon class="w-4 h-4" />
+                <XMarkIcon class="h-4 w-4" />
                 取消
               </Button>
               <ButtonPrimary :disabled="loading" :onClick="submit">
-                <ArrowPathIcon class="w-4 h-4 animate-spin" v-if="loading" />
-                <PencilSquareIcon class="w-4 h-4" v-else />
+                <ArrowPathIcon class="h-4 w-4 animate-spin" v-if="loading" />
+                <PencilSquareIcon class="h-4 w-4" v-else />
                 確認送出
               </ButtonPrimary>
             </div>

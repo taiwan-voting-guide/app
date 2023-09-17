@@ -1,21 +1,21 @@
 <template>
-  <div class="flex w-full h-full flex-col bg-slate-200">
-    <main class="flex-1 flex justify-stretch w-full overflow-auto">
-      <div class="flex gap-2 flex-col flex-1 w-1/2 overflow-hidden">
+  <div class="flex h-full w-full flex-col bg-slate-200">
+    <main class="flex w-full flex-1 justify-stretch overflow-auto">
+      <div class="flex w-1/2 flex-1 flex-col gap-2 overflow-hidden">
         <div class="h-12">tool bar</div>
         <div ref="editorElRef" class="flex-1 overflow-hidden"></div>
       </div>
 
-      <div class="flex flex-col gap-2 p-2 flex-1 w-1/2">
+      <div class="flex w-1/2 flex-1 flex-col gap-2 p-2">
         <header
-          class="flex-none w-full justify-end flex items-end pt-1 pr-1 gap-2"
+          class="flex w-full flex-none items-end justify-end gap-2 pr-1 pt-1"
         >
           <ButtonPrimary :onClick="openSubmitDialog">
-            <PencilSquareIcon class="w-4 h-4" />
+            <PencilSquareIcon class="h-4 w-4" />
             完成編輯</ButtonPrimary
           >
         </header>
-        <div class="flex-1 flex flex-col gap-[2px]">
+        <div class="flex flex-1 flex-col gap-[2px]">
           <div class="flex-none">
             <AppPoliticianHeader photoURL="/asdf.png" :name="politician" />
           </div>
@@ -34,9 +34,7 @@
 
 <script setup lang="ts">
 import { PencilSquareIcon } from '@heroicons/vue/24/outline';
-
-/* @ts-ignore */
-import markdown from '@nuxt/content/transformers/markdown';
+import { parseMarkdown } from '@nuxtjs/mdc/dist/runtime';
 
 const userSession = useCookie('user_session');
 if (!userSession.value) {
@@ -82,7 +80,18 @@ watchEffect(async () => {
     return;
   }
 
-  preview.value = await markdown.parse(politician.value, editor.value, {});
+  preview.value = {
+    _id: '',
+    ...(await parseMarkdown(editor.value, {
+      rehype: {
+        plugins: {
+          footnoteTooltip: {
+            instance: footnoteTooltip,
+          },
+        },
+      },
+    })),
+  };
 });
 
 onUpdated(() => {

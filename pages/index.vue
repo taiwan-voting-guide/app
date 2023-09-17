@@ -1,5 +1,5 @@
 <template>
-  <main class="flex-1 relative overflow-auto bg-slate-200">
+  <main class="relative flex-1 overflow-auto bg-slate-200">
     <ClientOnly>
       <div v-if="loading" class="flex flex-1 items-center justify-center">
         <ArrowPathIcon class="h-8 w-8 animate-spin text-primary" />
@@ -7,7 +7,7 @@
       <div v-else-if="politicians.length === 0" class="h-full">
         <AppPoliticianCTA />
       </div>
-      <div class="flex absolute w-full top-0" v-else>
+      <div class="absolute top-0 flex w-full" v-else>
         <div class="mx-auto px-20 pb-16 pt-1">
           <table>
             <thead class="sticky top-1 z-10">
@@ -42,7 +42,7 @@
     </ClientOnly>
   </main>
   <div
-    class="absolute top-0 m-2 inline-flex flex-col p-2 z-10 rounded-md bg-white drop-shadow transition-all"
+    class="absolute top-0 z-10 m-2 inline-flex flex-col rounded-md bg-white p-2 drop-shadow transition-all"
     :class="{ 'left-60': showTagSideBar, 'left-0': !showTagSideBar }"
   >
     <Button :onClick="toggleSidebar">
@@ -53,13 +53,13 @@
     </Button>
   </div>
   <aside
-    class="absolute w-60 top-0 z-10 h-full flex-none overflow-y-scroll bg-white transition-all"
+    class="absolute top-0 z-10 h-full w-60 flex-none overflow-y-scroll bg-white transition-all"
     :class="{
       'left-0 drop-shadow-md': showTagSideBar,
       '-left-60': !showTagSideBar,
     }"
   >
-    <header class="sticky flex flex-col gap-3 top-0 bg-white p-3">
+    <header class="sticky top-0 flex flex-col gap-3 bg-white p-3">
       <ButtonPrimary to="/docs/contribute"> 🏷️ 新增標籤 </ButtonPrimary>
       <input
         v-model="searchText"

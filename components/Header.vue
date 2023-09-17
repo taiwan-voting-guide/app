@@ -21,7 +21,7 @@
                 class="flex items-center gap-1 px-3 py-2"
                 to="/docs/contribute?politician=侯友宜&tag=生日"
               >
-                <PencilSquareIcon class="w-4 h-4" />
+                <PencilSquareIcon class="h-4 w-4" />
                 貢獻
               </NuxtLink>
             </HeadlessMenuItem>
@@ -31,7 +31,7 @@
                 class="flex items-center gap-1 px-3 py-2"
                 to="/docs/introduction"
               >
-                <DocumentTextIcon class="w-4 h-4" />
+                <DocumentTextIcon class="h-4 w-4" />
                 文件
               </NuxtLink>
             </HeadlessMenuItem>
@@ -41,7 +41,7 @@
                 class="flex items-center gap-1 px-3 py-2"
                 to="/data/tag_clicks_last_7_days"
               >
-                <ChartBarIcon class="w-4 h-4" />
+                <ChartBarIcon class="h-4 w-4" />
                 數據
               </NuxtLink>
             </HeadlessMenuItem>
@@ -67,7 +67,7 @@
                 class="flex items-center gap-1 px-3 py-2"
                 to="https://forms.gle/nAxdNjAqpAb3GEMz8"
               >
-                <ChatBubbleLeftEllipsisIcon class="w-4 h-4" />
+                <ChatBubbleLeftEllipsisIcon class="h-4 w-4" />
                 意見回饋</NuxtLink
               >
             </HeadlessMenuItem>
@@ -78,14 +78,14 @@
 
     <template v-else>
       <Button to="/contribute?politician=侯友宜&tag=生日">
-        <PencilSquareIcon class="w-4 h-4" />
+        <PencilSquareIcon class="h-4 w-4" />
         <span class="flex-none">貢獻</span>
       </Button>
       <Button to="/docs/introduction">
-        <DocumentTextIcon class="w-4 h-4" /> 文件</Button
+        <DocumentTextIcon class="h-4 w-4" /> 文件</Button
       >
       <Button to="/data/tag_clicks_last_7_days">
-        <ChartBarIcon class="w-4 h-4" /> 數據</Button
+        <ChartBarIcon class="h-4 w-4" /> 數據</Button
       >
       <div class="ml-auto mr-4 flex">
         <Button to="https://github.com/taiwan-voting-guide/app"
@@ -100,7 +100,7 @@
           </div></Button
         >
         <Button to="https://forms.gle/nAxdNjAqpAb3GEMz8">
-          <ChatBubbleLeftEllipsisIcon class="w-4 h-4" /> 意見回饋</Button
+          <ChatBubbleLeftEllipsisIcon class="h-4 w-4" /> 意見回饋</Button
         >
       </div>
     </template>
