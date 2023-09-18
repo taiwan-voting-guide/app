@@ -88,13 +88,11 @@ watch([editor, loading], async () => {
 onUpdated(() => {
   politician.value = route.query.politician as string;
   tag.value = route.query.tag as string;
-  console.log('updated', politician.value, tag.value);
 });
 
 onMounted(() => {
   politician.value = route.query.politician as string;
   tag.value = route.query.tag as string;
-  console.log('mounted', politician.value, tag.value);
 });
 
 const isSubmitDialogOpen = useShowEditorSubmitDialog();
