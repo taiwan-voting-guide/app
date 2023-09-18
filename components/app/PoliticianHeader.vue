@@ -38,15 +38,15 @@ watch(
       return;
     }
 
-    const { data } = await useFetch<FrontMatter>(
-      () => `/api/get-front-matter`,
-      { params: { politician: props.politician } }
-    );
+    const data = await $fetch<FrontMatter>('/api/get-front-matter', {
+      params: { politician: props.politician },
+    });
 
-    if (!data.value) {
+    if (!data) {
       return;
     }
-    frontMatter.value = data.value;
+
+    frontMatter.value = data;
   },
   { immediate: true }
 );

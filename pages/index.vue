@@ -1,24 +1,21 @@
 <template>
   <main class="relative flex-1 overflow-auto bg-slate-200">
     <ClientOnly>
-      <div v-if="loading" class="flex flex-1 items-center justify-center">
-        <ArrowPathIcon class="h-8 w-8 animate-spin text-primary" />
-      </div>
-      <div v-else-if="politicians.length === 0" class="h-full">
+      <div v-if="politicians.length === 0" class="h-full">
         <AppPoliticianCTA />
       </div>
-      <div class="absolute top-0 flex w-full" v-else>
+      <div v-else class="absolute top-0 flex w-full">
         <div class="mx-auto px-20 pb-16 pt-1">
           <table>
             <thead class="sticky top-1 z-10">
               <tr>
                 <th
-                  class="w-80 min-w-[20rem]"
+                  class="w-80 min-w-[20rem] max-w-[20rem]"
                   scope="col"
                   v-for="politician in politicians"
-                  :key="politician.name"
+                  :key="politician"
                 >
-                  <AppPoliticianHeader :politician="politician.name" />
+                  <AppPoliticianHeader :politician="politician" />
                 </th>
               </tr>
             </thead>
@@ -26,8 +23,8 @@
               <tr v-for="tag in tags">
                 <AppPoliticianContent
                   v-for="politician in politicians"
-                  :key="`${politician.name}-${tag}`"
-                  :politician="politician.name"
+                  :key="`${politician}-${tag}`"
+                  :politician="politician"
                   :tag="tag"
                 />
               </tr>
@@ -99,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { CheckIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
+import { CheckIcon } from '@heroicons/vue/24/outline';
 
 // fetch app data
 const { data, error } = await queryAppContent();
@@ -134,17 +131,12 @@ const initialPoliticianNames = (
   politiciansParam ? politiciansParam.split(',') : []
 ).filter((name) => allPoliticianNames.has(name));
 
-const {
-  set: setPoliticianNames,
-  politicians,
-  politicianNames,
-  loading,
-} = useSelectPolitician();
-setPoliticianNames(initialPoliticianNames);
+const { set: setPoliticians, politicians } = useSelectPolitician();
+setPoliticians(initialPoliticianNames);
 
 const { tags, toggle, tagSet } = useSelectTag();
 
-watch([tags, politicianNames], () => {
+watch([tags, politicians], () => {
   const query: { tags?: string; politicians?: string } = {};
 
   const tagParam = tags.value.join(',');
@@ -152,7 +144,7 @@ watch([tags, politicianNames], () => {
     query.tags = tagParam;
   }
 
-  const politicianParam = politicianNames.value.join(',');
+  const politicianParam = politicians.value.join(',');
   if (politicianParam) {
     query.politicians = politicianParam;
   }

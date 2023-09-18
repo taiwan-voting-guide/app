@@ -1,5 +1,5 @@
 <template>
-  <td class="h-px">
+  <td class="h-px max-w-[20rem] break-words">
     <Card>
       <ContentRenderer :value="data as ParsedContent">
         <ContentRendererMarkdown :value="data as ParsedContent" />
