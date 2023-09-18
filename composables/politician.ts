@@ -14,6 +14,7 @@ export function useSelectPolitician() {
   async function set(names: Array<string>) {
     if (names.length === 0) {
       politicians.value = [];
+      return;
     }
 
     politicians.value = names;

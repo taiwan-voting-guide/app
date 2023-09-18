@@ -23,7 +23,6 @@
               <tr v-for="tag in tags">
                 <AppPoliticianContent
                   v-for="politician in politicians"
-                  :key="`${politician}-${tag}`"
                   :politician="politician"
                   :tag="tag"
                 />
