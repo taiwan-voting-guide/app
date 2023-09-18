@@ -22,7 +22,6 @@ export default defineNuxtConfig({
     '@nuxtjs/device',
     'nuxt-clarity-analytics',
     'nuxt-headlessui',
-    'nuxt-monaco-editor',
   ],
   runtimeConfig: {
     public: {

@@ -3,7 +3,10 @@
     <main class="flex w-full flex-1 justify-stretch overflow-auto">
       <div class="flex w-1/2 flex-1 flex-col gap-2 overflow-hidden">
         <div class="h-12">tool bar</div>
-        <div ref="editorElRef" class="flex-1 overflow-hidden"></div>
+        <textarea
+          class="h-full w-full resize-none border-0 bg-slate-800 font-mono tracking-wide text-slate-50 focus:ring-0"
+          v-model="editor"
+        ></textarea>
       </div>
 
       <div class="flex w-1/2 flex-1 flex-col gap-2 p-2">
@@ -40,9 +43,6 @@ if (!userSession.value) {
   navigateTo('/login');
 }
 
-const monaco = useMonaco()!;
-const editorElRef = ref();
-
 const politician = useContributePolitician();
 const tag = useContributeTag();
 const editor = useContributeEditor();
@@ -72,7 +72,6 @@ watch(
     }
 
     editor.value = getTagSection(data.value.content, tag.value);
-    monaco.editor.getEditors()[0].setValue(editor.value);
     loading.value = false;
   },
   { immediate: true }
@@ -85,7 +84,7 @@ watchEffect(async () => {
 
   preview.value = await parseMarkdown(
     `${politician.value}-${tag.value}`,
-    editor.value
+    `## ${tag.value}\n\n${editor.value}`
   );
 });
 
@@ -95,30 +94,8 @@ onUpdated(() => {
 });
 
 onMounted(() => {
-  const e = monaco.editor.create(editorElRef.value, {
-    language: 'markdown',
-    theme: 'vs-dark',
-    automaticLayout: true,
-    minimap: {
-      enabled: false,
-    },
-  });
-
-  e.onDidChangeModelContent(() => {
-    editor.value = e.getValue();
-  });
-
   politician.value = route.query.politician as string;
   tag.value = route.query.tag as string;
-});
-
-onUnmounted(() => {
-  editor.value = '';
-  preview.value = {
-    body: [],
-    _id: '',
-  };
-  monaco.editor.getEditors().forEach((e) => e.dispose());
 });
 
 const isSubmitDialogOpen = useShowEditorSubmitDialog();
