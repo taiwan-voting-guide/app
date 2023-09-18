@@ -11,7 +11,7 @@ export function useSelectPolitician() {
     politicians.value = [];
   };
 
-  async function set(names: Array<string>) {
+  function set(names: Array<string>) {
     if (names.length === 0) {
       politicians.value = [];
       return;
@@ -20,9 +20,18 @@ export function useSelectPolitician() {
     politicians.value = names;
   }
 
+  function append(name: string) {
+    if (politicians.value.includes(name)) {
+      return;
+    }
+
+    politicians.value.push(name);
+  }
+
   return {
     politicians,
     set,
+    append,
     remove,
     removeAll,
   };
