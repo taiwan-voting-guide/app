@@ -45,40 +45,37 @@ if (!userSession.value) {
 
 const politician = useContributePolitician();
 const tag = useContributeTag();
+
 const editor = useContributeEditor();
 const preview = useContributePreview();
 const loading = ref<boolean>(false);
 
 const route = useRoute();
 
-watch(
-  [politician, tag],
-  async () => {
-    if (!userSession.value) {
-      return;
-    }
-
-    if (!politician.value || !tag.value) {
-      return;
-    }
-
-    loading.value = true;
-    const { data } = await useFetch<{ content: string }>(
-      `/api/get-content-md?politician=${politician.value}`
-    );
-
-    if (!data.value) {
-      return;
-    }
-
-    editor.value = getTagSection(data.value.content, tag.value);
-    loading.value = false;
-  },
-  { immediate: true }
-);
-
-watchEffect(async () => {
+watch([politician, tag], async () => {
   if (!userSession.value) {
+    return;
+  }
+
+  loading.value = true;
+  const { data } = await useFetch<{ content: string }>(
+    `/api/get-content-md?politician=${politician.value}`
+  );
+
+  if (!data.value) {
+    return;
+  }
+
+  editor.value = getTagSection(data.value.content, tag.value);
+  loading.value = false;
+});
+
+watch([editor, loading], async () => {
+  if (!userSession.value) {
+    return;
+  }
+
+  if (loading.value) {
     return;
   }
 
@@ -91,11 +88,13 @@ watchEffect(async () => {
 onUpdated(() => {
   politician.value = route.query.politician as string;
   tag.value = route.query.tag as string;
+  console.log('updated', politician.value, tag.value);
 });
 
 onMounted(() => {
   politician.value = route.query.politician as string;
   tag.value = route.query.tag as string;
+  console.log('mounted', politician.value, tag.value);
 });
 
 const isSubmitDialogOpen = useShowEditorSubmitDialog();
