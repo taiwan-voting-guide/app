@@ -95,6 +95,14 @@ onMounted(() => {
   tag.value = route.query.tag as string;
 });
 
+onUnmounted(() => {
+  editor.value = '';
+  preview.value = {
+    _id: '',
+    body: [],
+  };
+});
+
 const isSubmitDialogOpen = useShowEditorSubmitDialog();
 
 function openSubmitDialog() {
