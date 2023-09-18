@@ -62,5 +62,15 @@ export default defineNuxtConfig({
         'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
       },
     },
+    '/api/get-content': {
+      headers: {
+        'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
+      },
+    },
+    '/api/get-front-matter': {
+      headers: {
+        'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
+      },
+    },
   },
 });
