@@ -18,10 +18,7 @@
                   v-for="politician in politicians"
                   :key="politician.name"
                 >
-                  <AppPoliticianHeader
-                    :photoURL="politician.photoURL"
-                    :name="politician.name"
-                  />
+                  <AppPoliticianHeader :politician="politician.name" />
                 </th>
               </tr>
             </thead>

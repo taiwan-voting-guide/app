@@ -17,7 +17,7 @@
         </header>
         <div class="flex flex-1 flex-col gap-[2px]">
           <div class="flex-none">
-            <AppPoliticianHeader photoURL="/asdf.png" :name="politician" />
+            <AppPoliticianHeader :politician="politician" />
           </div>
           <Card>
             <div v-if="loading">loading...</div>
@@ -51,28 +51,32 @@ const loading = ref<boolean>(false);
 
 const route = useRoute();
 
-watchEffect(async () => {
-  if (!userSession.value) {
-    return;
-  }
+watch(
+  [politician, tag],
+  async () => {
+    if (!userSession.value) {
+      return;
+    }
 
-  if (!politician.value || !tag.value) {
-    return;
-  }
+    if (!politician.value || !tag.value) {
+      return;
+    }
 
-  loading.value = true;
-  const { data } = await useFetch<{ content: string }>(
-    `/api/get-content-md?politician=${politician.value}`
-  );
+    loading.value = true;
+    const { data } = await useFetch<{ content: string }>(
+      `/api/get-content-md?politician=${politician.value}`
+    );
 
-  if (!data.value) {
-    return;
-  }
+    if (!data.value) {
+      return;
+    }
 
-  editor.value = getTagSection(data.value.content, tag.value);
-  monaco.editor.getEditors()[0].setValue(editor.value);
-  loading.value = false;
-});
+    editor.value = getTagSection(data.value.content, tag.value);
+    monaco.editor.getEditors()[0].setValue(editor.value);
+    loading.value = false;
+  },
+  { immediate: true }
+);
 
 watchEffect(async () => {
   if (!userSession.value) {

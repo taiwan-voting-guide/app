@@ -44,26 +44,29 @@ export const getTagSection = (content: string, tag: string): string => {
 
 export const parseMarkdown = async (id: string = '', md: string) => {
   const clobberPrefix = `${id}-`;
-  return {
-    _id: id,
-    ...(await parseMarkdownMDC(md, {
-      rehype: {
-        options: {
-          clobberPrefix,
-          footnoteLabel: '資料來源',
-          footnoteLabelTagName: 'h2',
-          footnoteBackLabel: '返回',
-        },
-        plugins: {
-          footnoteTooltip: {
-            instance: footnoteTooltip,
-            options: {
-              clobberPrefix,
-            },
+
+  const ast = await parseMarkdownMDC(md, {
+    rehype: {
+      options: {
+        clobberPrefix,
+        footnoteLabel: '資料來源',
+        footnoteLabelTagName: 'h2',
+        footnoteBackLabel: '返回',
+      },
+      plugins: {
+        footnoteTooltip: {
+          instance: footnoteTooltip,
+          options: {
+            clobberPrefix,
           },
         },
       },
-    })),
+    },
+  });
+  return {
+    _id: id,
+    data: ast.data,
+    body: ast.body,
   };
 };
 
