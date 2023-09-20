@@ -1,28 +1,31 @@
 export default defineEventHandler(async (event) => {
-  const query = getQuery<{ politician: string; tag: string }>(event);
-  if (!query.politician) {
+  const { politician, tag } = getQuery<{ politician: string; tag: string }>(
+    event
+  );
+  if (!politician || !tag) {
     throw createError({
       statusCode: 400,
-      message: 'Missing politician',
+      message: 'Missing politician or tag',
     });
   }
 
+  let md: string | null = null;
   const contentStorage = getContentStorage();
-
-  let content: string | null = null;
   try {
-    content = await contentStorage.getItem(`politician/${query.politician}.md`);
+    md = await contentStorage.getItem(`politician/${politician}.md`);
   } catch (error) {
     throw createError({
       statusCode: 500,
     });
   }
 
-  if (!content) {
+  if (!md) {
     throw createError({
       statusCode: 404,
     });
   }
 
-  return { content };
+  const content = extractContent(md, tag);
+
+  return content;
 });

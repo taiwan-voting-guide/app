@@ -1,4 +1,8 @@
-import { parseMarkdown } from '@/utils/content';
+import remarkFrontmatter from 'remark-frontmatter';
+import remarkParse from 'remark-parse';
+import remarkStringify from 'remark-stringify';
+import { unified } from 'unified';
+import { matter } from 'vfile-matter';
 
 export default defineEventHandler(async (event) => {
   const { politician } = getQuery<{ politician: string }>(event);
@@ -9,9 +13,9 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  let md: string | null = null;
+  let md: string | null;
+  const contentStorage = getContentStorage();
   try {
-    const contentStorage = getContentStorage();
     md = await contentStorage.getItem(`politician/${politician}.md`);
   } catch (error) {
     throw createError({
@@ -27,12 +31,21 @@ export default defineEventHandler(async (event) => {
 
   const frontMatter = getFrontMatter(md);
 
-  const { data } = await parseMarkdown('', frontMatter);
+  const file = await unified()
+    .use(remarkParse)
+    .use(remarkStringify)
+    .use(remarkFrontmatter)
+    .use(() => {
+      return (_, file) => {
+        matter(file);
+      };
+    })
+    .process(frontMatter);
 
-  return data;
+  return file.data.matter;
 });
 
-function getFrontMatter(md: string): string {
+const getFrontMatter = (md: string): string => {
   if (!md.startsWith('---\n')) {
     return '';
   }
@@ -43,4 +56,4 @@ function getFrontMatter(md: string): string {
   }
 
   return md.substring(0, i + 4);
-}
+};

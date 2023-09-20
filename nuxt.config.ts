@@ -56,6 +56,8 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
+    // TODO: deprecated content API
+    // TODO: define all api cache time
     '/api/_content/**': {
       headers: {
         'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,

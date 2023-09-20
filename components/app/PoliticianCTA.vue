@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-const open = useShowPoliticianSearchDialog();
+const open = usePoliticianDialog();
 
 function setOpen() {
   open.value = true;

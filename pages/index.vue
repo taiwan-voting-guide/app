@@ -34,20 +34,20 @@
   </main>
   <div
     class="absolute top-0 z-10 m-2 inline-flex flex-col rounded-md bg-white p-2 drop-shadow transition-all"
-    :class="{ 'left-60': showTagSideBar, 'left-0': !showTagSideBar }"
+    :class="{ 'left-60': showTagDialog, 'left-0': !showTagDialog }"
   >
-    <Button :onClick="toggleSidebar">
+    <Button :onClick="toggleTagDialog">
       <span class="text-lg"> 🏷️ </span>
     </Button>
-    <Button :onClick="openPoliticianSearchDialog">
+    <Button :onClick="() => (showPoliticianDialog = true)">
       <span class="text-lg"> 🔍 </span>
     </Button>
   </div>
   <aside
     class="absolute top-0 z-10 h-full w-60 flex-none overflow-y-scroll bg-white transition-all"
     :class="{
-      'left-0 drop-shadow-md': showTagSideBar,
-      '-left-60': !showTagSideBar,
+      'left-0 drop-shadow-md': showTagDialog,
+      '-left-60': !showTagDialog,
     }"
   >
     <header class="sticky top-0 flex flex-col gap-3 bg-white p-3">
@@ -97,20 +97,8 @@
 import { CheckIcon } from '@heroicons/vue/24/outline';
 
 // fetch app data
-const { data, error } = await queryAppContent();
-if (error.value) {
-  throw createError({ statusCode: 500, statusMessage: 'App data not found' });
-}
+const { data } = await getAppData();
 const allTags = data.value?.tags || [];
-
-// set initial tags
-const url = useRequestURL();
-const tagParam = url.searchParams.get('tags') || '';
-const initialTags = (tagParam ? tagParam.split(',') : []).filter((tag) =>
-  allTags.includes(tag)
-);
-const { set: setTags } = useSelectTag();
-setTags(initialTags);
 
 // set all politician names
 const { data: politicianNav, error: navErr } = queryPoliticianNav();
@@ -123,15 +111,7 @@ politicianNav.value?.forEach((nav) => {
   allPoliticianNames.add(nav.title);
 });
 
-// set initial politicians
-const politiciansParam = url.searchParams.get('politicians') || '';
-const initialPoliticianNames = (
-  politiciansParam ? politiciansParam.split(',') : []
-).filter((name) => allPoliticianNames.has(name));
-
-const { set: setPoliticians, politicians } = useSelectPolitician();
-setPoliticians(initialPoliticianNames);
-
+const { politicians } = useSelectPolitician();
 const { tags, toggle, tagSet } = useSelectTag();
 
 watch([tags, politicians], () => {
@@ -157,13 +137,10 @@ const filterTags = computed(() =>
     : allTags
 );
 
-const showTagSideBar = useShowTagSideBar();
-const toggleSidebar = () => {
-  showTagSideBar.value = !showTagSideBar.value;
+const showTagDialog = useTagDialog();
+const toggleTagDialog = () => {
+  showTagDialog.value = !showTagDialog.value;
 };
 
-const showPoliticianSearchDialog = useShowPoliticianSearchDialog();
-const openPoliticianSearchDialog = () => {
-  showPoliticianSearchDialog.value = true;
-};
+const showPoliticianDialog = usePoliticianDialog();
 </script>

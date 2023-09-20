@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <HeadlessDialog :open="isOpen" @close="onClose">
+    <HeadlessDialog :open="showPoliticianDialog" @close="onClose">
       <div class="fixed inset-0 z-40 bg-black/40" aria-hidden="true" />
       <div class="fixed inset-0 z-40 flex items-center justify-center">
         <HeadlessDialogPanel
@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-const { data } = await queryAppContent();
+const { data } = await getAppData();
 
 const searchPoliticianResults = computed(() => {
   const results = new Map<string, Array<string>>();
@@ -90,15 +90,15 @@ const results = computed(() => {
 });
 
 const { set } = useSelectPolitician();
-const isOpen = useShowPoliticianSearchDialog();
+const showPoliticianDialog = usePoliticianDialog();
 
 const onClose = () => {
-  isOpen.value = false;
+  showPoliticianDialog.value = false;
 };
 
 const onClick = async (politicians: Array<string>) => {
   set(politicians);
   searchText.value = '';
-  isOpen.value = false;
+  showPoliticianDialog.value = false;
 };
 </script>

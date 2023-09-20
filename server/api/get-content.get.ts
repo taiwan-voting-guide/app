@@ -1,4 +1,10 @@
-import { parseMarkdown } from '@/utils/content';
+import rehypeClassNames from 'rehype-class-names';
+import rehypePresetMinify from 'rehype-preset-minify';
+import rehypeStringify from 'rehype-stringify';
+import remarkGfm from 'remark-gfm';
+import remarkParse from 'remark-parse';
+import remark2rehype from 'remark-rehype';
+import { unified } from 'unified';
 
 export default defineEventHandler(async (event) => {
   const { politician, tag } = getQuery<{ politician: string; tag: string }>(
@@ -11,9 +17,9 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  let md: string | null = null;
+  let md: string | null;
+  const contentStorage = getContentStorage();
   try {
-    const contentStorage = getContentStorage();
     md = await contentStorage.getItem(`politician/${politician}.md`);
   } catch (error) {
     throw createError({
@@ -27,23 +33,17 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const tagContent = getTagContent(md, tag);
-  const data = parseMarkdown(`${politician}-${tag}`, tagContent);
-  return data;
+  const contentMd = extractContent(md, tag);
+
+  const file = await unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remark2rehype)
+    // @ts-ignore
+    .use(rehypeClassNames, {})
+    .use(rehypeStringify)
+    .use(rehypePresetMinify)
+    .process(contentMd);
+
+  return file.value;
 });
-
-function getTagContent(content: string, tag: string): string {
-  const title = `## ${tag}`;
-  const start = content.indexOf(title);
-  if (start === -1) {
-    return '';
-  }
-
-  const contentStart = start + title.length;
-  const contentEnd = content.indexOf('\n## ', contentStart);
-  if (contentEnd === -1) {
-    return content.substring(start).trim();
-  }
-
-  return content.substring(start, contentEnd).trim();
-}

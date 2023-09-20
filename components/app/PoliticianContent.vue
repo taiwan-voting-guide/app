@@ -1,12 +1,7 @@
 <template>
   <td class="h-px max-w-[20rem] break-words">
     <Card>
-      <MDCRenderer
-        :key="politician"
-        v-if="content.exist"
-        :body="content.body"
-        :data="{}"
-      />
+      <div v-if="content.exist" v-html="content.body"></div>
       <div v-else class="flex flex-col items-center justify-center">
         <p class="mb-2 flex items-center gap-1">
           <FaceFrownIcon class="inline-block h-4 w-4 text-start" />
@@ -45,8 +40,8 @@ const data = await $fetch('/api/get-content?politician', {
 
 const content = data
   ? {
-      exist: data.body.children.length > 1,
-      body: data.body,
+      exist: true,
+      body: data,
     }
   : {
       exist: false,

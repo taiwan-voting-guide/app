@@ -18,25 +18,18 @@ const contentStorage = createStorage({
 
 export const getContentStorage = () => contentStorage;
 
-export const replaceTagSection = (
-  content: string,
-  tag: string,
-  section: string
-): string => {
-  const substr = `\n## ${tag}\n`;
-  const i = content.indexOf(substr);
-  if (i === -1) {
-    return `${content}\n\n## ${tag}\n\n${section}`;
+export const extractContent = (md: string, tag: string): string => {
+  const title = `## ${tag}`;
+  const start = md.indexOf(title);
+  if (start === -1) {
+    return '';
   }
 
-  const sectionStart = i + substr.length;
-  const sectionEnd = content.indexOf('\n## ', sectionStart);
-  if (sectionEnd === -1) {
-    return `${content.substring(0, sectionStart)}\n${section}`;
+  const contentStart = start + title.length;
+  const contentEnd = md.indexOf('\n## ', contentStart);
+  if (contentEnd === -1) {
+    return md.substring(start).trim();
   }
 
-  return `${content.substring(
-    0,
-    sectionStart
-  )}\n${section}\n${content.substring(sectionEnd)}`;
+  return md.substring(start, contentEnd).trim();
 };

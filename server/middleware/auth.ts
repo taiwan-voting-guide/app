@@ -1,3 +1,4 @@
+import { getEmailFromSessionKey } from '@/utils/user';
 import { kv } from '@vercel/kv';
 
 export default defineEventHandler(async (event) => {
@@ -39,21 +40,11 @@ export default defineEventHandler(async (event) => {
   }
 });
 
-async function kvExist(userSession: string): Promise<boolean> {
+const kvExist = async (userSession: string): Promise<boolean> => {
   if (process.env.NODE_ENV === 'development') {
     return true;
   }
 
   const exist = await kv.exists(userSession);
   return exist === 1;
-}
-
-function getEmailFromSessionKey(sessionKey: string | null | undefined): string {
-  if (!sessionKey) {
-    return '';
-  }
-
-  sessionKey = sessionKey.replace('user_session_', '');
-  const lastIndex = sessionKey.lastIndexOf('_');
-  return sessionKey.substring(0, lastIndex);
-}
+};

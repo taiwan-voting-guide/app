@@ -24,9 +24,7 @@
           </div>
           <Card>
             <div v-if="loading">loading...</div>
-            <ContentRenderer v-else :value="preview">
-              <template #empty> </template>
-            </ContentRenderer>
+            <div v-html="preview"></div>
           </Card>
         </div>
       </div>
@@ -37,6 +35,11 @@
 
 <script setup lang="ts">
 import { PencilSquareIcon } from '@heroicons/vue/24/outline';
+import rehypeStringify from 'rehype-stringify';
+import remarkGfm from 'remark-gfm';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import { unified } from 'unified';
 
 const userSession = useCookie('user_session');
 if (!userSession.value) {
@@ -58,15 +61,15 @@ watch([politician, tag], async () => {
   }
 
   loading.value = true;
-  const { data } = await useFetch<{ content: string }>(
-    `/api/get-content-md?politician=${politician.value}`
+  const { data } = await useFetch<string>(
+    `/api/get-content-md?politician=${politician.value}&tag=${tag.value}`
   );
 
   if (!data.value) {
     return;
   }
 
-  editor.value = getTagSection(data.value.content, tag.value);
+  editor.value = data.value.substring(`## ${tag.value}\n\n`.length);
   loading.value = false;
 });
 
@@ -79,10 +82,14 @@ watch([editor, loading], async () => {
     return;
   }
 
-  preview.value = await parseMarkdown(
-    `${politician.value}-${tag.value}`,
-    `## ${tag.value}\n\n${editor.value}`
-  );
+  const file = await unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkRehype)
+    .use(rehypeStringify)
+    .process(`## ${tag.value}\n\n${editor.value}`);
+
+  preview.value = file.value.toString();
 });
 
 onUpdated(() => {
@@ -97,15 +104,10 @@ onMounted(() => {
 
 onUnmounted(() => {
   editor.value = '';
-  preview.value = {
-    _id: '',
-    body: [],
-  };
+  preview.value = '';
 });
 
 const isSubmitDialogOpen = useShowEditorSubmitDialog();
 
-function openSubmitDialog() {
-  isSubmitDialogOpen.value = true;
-}
+const openSubmitDialog = () => (isSubmitDialogOpen.value = true);
 </script>

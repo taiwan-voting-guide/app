@@ -1,15 +1,22 @@
-const useTags = () => useState<Array<string>>('selected_tags', () => []);
+const useTags = () =>
+  useState<Array<string>>('selected_tags', () => {
+    const url = useRequestURL();
+    const tagParam = url.searchParams.get('tags') || '';
+    const initialTags = tagParam ? tagParam.split(',') : [];
+    // TODO: validate tags
+    return initialTags;
+  });
 const useTagSet = () => computed(() => new Set(useTags().value));
 
-export function useSelectTag() {
+export const useSelectTag = () => {
   const tags = useTags();
   const tagSet = useTagSet();
 
   const toggle = (tag: string) => {
     if (tagSet.value.has(tag)) {
-      tags.value = removeTag(tags.value, tag);
+      tags.value = tags.value.filter((t) => t !== tag);
     } else {
-      tags.value = appendTag(tags.value, tag);
+      tags.value = [...tags.value, tag];
     }
   };
 
@@ -18,4 +25,4 @@ export function useSelectTag() {
   };
 
   return { tags, tagSet, toggle, set };
-}
+};

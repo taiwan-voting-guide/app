@@ -1,4 +1,5 @@
 module.exports = {
+  content: ['./server/api/*.ts'],
   theme: {
     extend: {
       colors: {
@@ -6,5 +7,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 };

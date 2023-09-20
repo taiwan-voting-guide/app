@@ -1,5 +1,14 @@
 export function useSelectPolitician() {
-  const politicians = useState<Array<string>>('selected_politicians', () => []);
+  const url = useRequestURL();
+
+  const politicians = useState<Array<string>>('selected_politicians', () => {
+    const politiciansParam = url.searchParams.get('politicians') || '';
+    const initialPoliticianNames = politiciansParam
+      ? politiciansParam.split(',')
+      : [];
+    // TODO: validate politician names
+    return initialPoliticianNames;
+  });
 
   const remove = (name: string) => {
     politicians.value = politicians.value.filter((selected) => {

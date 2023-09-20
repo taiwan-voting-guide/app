@@ -34,12 +34,8 @@ const route = useRoute();
 const currentData = data.value?.find(
   (datum: ParsedContent) => datum.title === route.params.type
 );
-const chartData = currentData && toChartData(currentData);
-const chartOptions: ChartOptions = {
-  indexAxis: 'y',
-};
 
-function toChartData(data: ParsedContent) {
+const toChartData = (data: ParsedContent) => {
   switch (route.params.type) {
     case 'tag_clicks_last_7_days':
       return {
@@ -52,5 +48,10 @@ function toChartData(data: ParsedContent) {
         ],
       };
   }
-}
+};
+
+const chartData = currentData && toChartData(currentData);
+const chartOptions: ChartOptions = {
+  indexAxis: 'y',
+};
 </script>
