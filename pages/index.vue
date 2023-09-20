@@ -1,37 +1,36 @@
 <template>
   <main class="relative flex-1 overflow-auto bg-slate-200">
-    <ClientOnly>
-      <div v-if="politicians.length === 0" class="h-full">
-        <AppPoliticianCTA />
+    <div v-if="politicians.length === 0" class="h-full">
+      <AppPoliticianCTA />
+    </div>
+    <div v-else class="absolute top-0 flex w-full">
+      <div class="mx-auto px-20 pb-16 pt-1">
+        <table>
+          <thead class="sticky top-1 z-10">
+            <tr>
+              <th
+                class="w-80 min-w-[20rem] max-w-[20rem]"
+                scope="col"
+                v-for="politician in politicians"
+                :key="politician"
+              >
+                <AppPoliticianHeader :politician="politician" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="tag in tags" :key="`${tag}-${politicians.join('')}`">
+              <AppPoliticianContent
+                v-for="politician in politicians"
+                :key="`${politician}-${tag}`"
+                :politician="politician"
+                :tag="tag"
+              />
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div v-else class="absolute top-0 flex w-full">
-        <div class="mx-auto px-20 pb-16 pt-1">
-          <table>
-            <thead class="sticky top-1 z-10">
-              <tr>
-                <th
-                  class="w-80 min-w-[20rem] max-w-[20rem]"
-                  scope="col"
-                  v-for="politician in politicians"
-                  :key="politician"
-                >
-                  <AppPoliticianHeader :politician="politician" />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="tag in tags">
-                <AppPoliticianContent
-                  v-for="politician in politicians"
-                  :politician="politician"
-                  :tag="tag"
-                />
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </ClientOnly>
+    </div>
   </main>
   <div
     class="absolute top-0 z-10 m-2 inline-flex flex-col rounded-md bg-white p-2 drop-shadow transition-all"

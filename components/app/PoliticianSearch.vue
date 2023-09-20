@@ -49,8 +49,6 @@
 </template>
 
 <script setup lang="ts">
-import { MagnifyingGlassIcon } from '@heroicons/vue/24/solid';
-
 const { data } = await queryAppContent();
 
 const searchPoliticianResults = computed(() => {
