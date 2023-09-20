@@ -2,8 +2,8 @@
   <Card>
     <div class="flex items-center gap-4">
       <NuxtImg
-        v-if="frontMatter?.photoURL"
-        :src="frontMatter?.photoURL"
+        v-if="data?.photoURL"
+        :src="data?.photoURL"
         :alt="politician"
         width="48"
         height="48"
@@ -29,25 +29,7 @@ type FrontMatter = {
   photoURL?: string;
 };
 
-const frontMatter = ref<FrontMatter>({});
-
-watch(
-  () => props.politician,
-  async () => {
-    if (!props.politician) {
-      return;
-    }
-
-    const data = await $fetch<FrontMatter>('/api/get-front-matter', {
-      params: { politician: props.politician },
-    });
-
-    if (!data) {
-      return;
-    }
-
-    frontMatter.value = data;
-  },
-  { immediate: true }
-);
+const { data } = await useFetch<FrontMatter>('/api/get-front-matter', {
+  params: { politician: props.politician },
+});
 </script>

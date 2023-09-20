@@ -59,34 +59,32 @@
         class="h-10 w-full rounded-md border-primary bg-slate-50 px-2 shadow-inner placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary"
       />
     </header>
-    <ClientOnly>
-      <template v-if="filterTags && filterTags.length > 0">
-        <ul class="px-3">
-          <li>
-            <button
-              v-for="tag in filterTags"
-              @click="() => toggle(tag)"
-              class="ease w-full rounded-md px-4 py-2 text-left hover:bg-slate-100"
-              :class="{
-                'text-primary': tagSet.has(tag),
-                'text-slate-600': !tagSet.has(tag),
-              }"
-              :key="tag"
-            >
-              <div class="flex items-center">
-                <div class="mr-1 inline-block h-4 w-4">
-                  <CheckIcon class="h-4 w-4" v-if="tagSet.has(tag)" />
-                </div>
-                {{ tag }}
+    <template v-if="filterTags && filterTags.length > 0">
+      <ul class="px-3">
+        <li>
+          <button
+            v-for="tag in filterTags"
+            @click="() => toggle(tag)"
+            class="ease w-full rounded-md px-4 py-2 text-left hover:bg-slate-100"
+            :class="{
+              'text-primary': tagSet.has(tag),
+              'text-slate-600': !tagSet.has(tag),
+            }"
+            :key="tag"
+          >
+            <div class="flex items-center">
+              <div class="mr-1 inline-block h-4 w-4">
+                <CheckIcon class="h-4 w-4" v-if="tagSet.has(tag)" />
               </div>
-            </button>
-          </li>
-        </ul>
-      </template>
-      <template v-else>
-        <p>找不到標籤</p>
-      </template>
-    </ClientOnly>
+              {{ tag }}
+            </div>
+          </button>
+        </li>
+      </ul>
+    </template>
+    <template v-else>
+      <p>找不到標籤</p>
+    </template>
   </aside>
   <HeadlessListbox>
     <AppPoliticianSearch />
@@ -99,17 +97,6 @@ import { CheckIcon } from '@heroicons/vue/24/outline';
 // fetch app data
 const { data } = await getAppData();
 const allTags = data.value?.tags || [];
-
-// set all politician names
-const { data: politicianNav, error: navErr } = queryPoliticianNav();
-if (navErr.value) {
-  throw createError({ statusCode: 500, statusMessage: 'politician not found' });
-}
-
-const allPoliticianNames = new Set<string>();
-politicianNav.value?.forEach((nav) => {
-  allPoliticianNames.add(nav.title);
-});
 
 const { politicians } = useSelectPolitician();
 const { tags, toggle, tagSet } = useSelectTag();

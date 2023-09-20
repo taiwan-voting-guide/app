@@ -1,7 +1,7 @@
 <template>
   <td class="h-px max-w-[20rem] break-words">
     <Card>
-      <div v-if="content.exist" v-html="content.body"></div>
+      <div v-if="data" v-html="data"></div>
       <div v-else class="flex flex-col items-center justify-center">
         <p class="mb-2 flex items-center gap-1">
           <FaceFrownIcon class="inline-block h-4 w-4 text-start" />
@@ -34,20 +34,7 @@ const { tag, politician } = defineProps<{
   politician: string;
 }>();
 
-const data = await $fetch('/api/get-content?politician', {
+const { data } = await useFetch('/api/get-content?politician', {
   params: { politician: politician, tag: tag },
 });
-
-const content = data
-  ? {
-      exist: true,
-      body: data,
-    }
-  : {
-      exist: false,
-      body: {
-        type: 'root',
-        children: [],
-      },
-    };
 </script>
