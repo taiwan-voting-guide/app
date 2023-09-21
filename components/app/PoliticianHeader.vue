@@ -29,7 +29,15 @@ type FrontMatter = {
   photoURL?: string;
 };
 
-const { data } = await useFetch<FrontMatter>('/api/get-front-matter', {
-  params: { politician: props.politician },
+const data = ref<FrontMatter>();
+
+watchEffect(async () => {
+  if (!props.politician) {
+    return;
+  }
+
+  data.value = await $fetch<FrontMatter>('/api/get-front-matter', {
+    params: { politician: props.politician },
+  });
 });
 </script>

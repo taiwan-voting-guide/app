@@ -1,6 +1,9 @@
 <template>
   <div class="flex h-full w-full flex-col bg-slate-200">
-    <main class="flex w-full flex-1 justify-stretch overflow-auto">
+    <main
+      v-if="userSession"
+      class="flex w-full flex-1 justify-stretch overflow-auto"
+    >
       <div class="flex w-1/2 flex-1 flex-col gap-2 overflow-hidden">
         <div class="h-12">tool bar</div>
         <textarea
@@ -20,7 +23,9 @@
         </header>
         <div class="flex flex-1 flex-col gap-[2px]">
           <div class="flex-none">
-            <AppPoliticianHeader :politician="politician" />
+            <AppPoliticianHeader
+              :politician="route.query.politician as string"
+            />
           </div>
           <Card>
             <div v-if="loading">loading...</div>
@@ -46,68 +51,42 @@ if (!userSession.value) {
   navigateTo('/login');
 }
 
-const politician = useContributePolitician();
-const tag = useContributeTag();
+const route = useRoute();
 
 const editor = useContributeEditor();
 const preview = useContributePreview();
 const loading = ref<boolean>(false);
 
-const route = useRoute();
-
-watch([politician, tag], async () => {
-  if (!userSession.value) {
+watchEffect(async () => {
+  if (!route.query.politician || !route.query.tag) {
     return;
   }
 
-  loading.value = true;
-  const { data } = await useFetch<string>(
-    `/api/get-content-md?politician=${politician.value}&tag=${tag.value}`
-  );
+  const data = await $fetch<string>(`/api/get-content-md`, {
+    params: {
+      politician: route.query.politician,
+      tag: route.query.tag,
+    },
+  });
 
-  if (!data.value) {
-    return;
-  }
-
-  editor.value = data.value.substring(`## ${tag.value}\n\n`.length);
-  loading.value = false;
+  editor.value = data.substring(`## ${route.query.tag}\n\n`.length);
 });
 
-watch([editor, loading], async () => {
-  if (!userSession.value) {
-    return;
-  }
+watch(
+  editor,
+  async () => {
+    const file = await unified()
+      .use(remarkParse)
+      .use(remarkGfm)
+      .use(remarkRehype)
+      .use(rehypeStringify)
+      .process(`## ${route.query.tag}\n\n${editor.value}`);
 
-  if (loading.value) {
-    return;
-  }
+    preview.value = file.value.toString();
+  },
+  { immediate: true }
+);
 
-  const file = await unified()
-    .use(remarkParse)
-    .use(remarkGfm)
-    .use(remarkRehype)
-    .use(rehypeStringify)
-    .process(`## ${tag.value}\n\n${editor.value}`);
-
-  preview.value = file.value.toString();
-});
-
-onUpdated(() => {
-  politician.value = route.query.politician as string;
-  tag.value = route.query.tag as string;
-});
-
-onMounted(() => {
-  politician.value = route.query.politician as string;
-  tag.value = route.query.tag as string;
-});
-
-onUnmounted(() => {
-  editor.value = '';
-  preview.value = '';
-});
-
-const isSubmitDialogOpen = useShowEditorSubmitDialog();
-
+const isSubmitDialogOpen = useContributeSubmitDialog();
 const openSubmitDialog = () => (isSubmitDialogOpen.value = true);
 </script>

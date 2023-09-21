@@ -59,7 +59,7 @@ import {
   XMarkIcon,
 } from '@heroicons/vue/24/outline';
 
-const isOpen = useShowEditorSubmitDialog();
+const isOpen = useContributeSubmitDialog();
 const politician = useContributePolitician();
 const tag = useContributeTag();
 const editor = useContributeEditor();
