@@ -1,10 +1,4 @@
-import rehypeClassNames from 'rehype-class-names';
-import rehypePresetMinify from 'rehype-preset-minify';
-import rehypeStringify from 'rehype-stringify';
-import remarkGfm from 'remark-gfm';
-import remarkParse from 'remark-parse';
-import remark2rehype from 'remark-rehype';
-import { unified } from 'unified';
+import { parse } from '@/utils/content';
 
 export default defineEventHandler(async (event) => {
   const { politician, tag } = getQuery<{ politician: string; tag: string }>(
@@ -35,15 +29,13 @@ export default defineEventHandler(async (event) => {
 
   const contentMd = extractContent(md, tag);
 
-  const file = await unified()
-    .use(remarkParse)
-    .use(remarkGfm)
-    .use(remark2rehype)
-    // @ts-ignore
-    .use(rehypeClassNames, {})
-    .use(rehypeStringify)
-    .use(rehypePresetMinify)
-    .process(contentMd);
+  const file = await parse(contentMd, [
+    'remark-parse',
+    'remark-gfm',
+    'remark-rehype',
+    'rehype-preset-minify',
+    'rehype-stringify',
+  ]);
 
   return file.value;
 });

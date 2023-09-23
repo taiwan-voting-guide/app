@@ -38,11 +38,6 @@
 
 <script setup lang="ts">
 import { PencilSquareIcon } from '@heroicons/vue/24/outline';
-import rehypeStringify from 'rehype-stringify';
-import remarkGfm from 'remark-gfm';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
-import { unified } from 'unified';
 
 const userSession = useCookie('user_session');
 if (!userSession.value) {
@@ -73,12 +68,13 @@ watchEffect(async () => {
 watch(
   editor,
   async () => {
-    const file = await unified()
-      .use(remarkParse)
-      .use(remarkGfm)
-      .use(remarkRehype)
-      .use(rehypeStringify)
-      .process(`## ${route.query.tag}\n\n${editor.value}`);
+    const file = await parse(`## ${route.query.tag}\n\n${editor.value}`, [
+      'remark-parse',
+      // 'remark-gfm',
+      'remark-rehype',
+      // 'rehype-class-names',
+      'rehype-stringify',
+    ]);
 
     preview.value = file.value.toString();
   },

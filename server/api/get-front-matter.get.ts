@@ -1,8 +1,4 @@
-import remarkFrontmatter from 'remark-frontmatter';
-import remarkParse from 'remark-parse';
-import remarkStringify from 'remark-stringify';
-import { unified } from 'unified';
-import { matter } from 'vfile-matter';
+import { parse } from '@/utils/content';
 
 export default defineEventHandler(async (event) => {
   const { politician } = getQuery<{ politician: string }>(event);
@@ -31,16 +27,11 @@ export default defineEventHandler(async (event) => {
 
   const frontMatter = getFrontMatter(md);
 
-  const file = await unified()
-    .use(remarkParse)
-    .use(remarkStringify)
-    .use(remarkFrontmatter)
-    .use(() => {
-      return (_, file) => {
-        matter(file);
-      };
-    })
-    .process(frontMatter);
+  const file = await parse(frontMatter, [
+    'remark-parse',
+    'remark-stringify',
+    'remark-frontmatter',
+  ]);
 
   return file.data.matter;
 });
