@@ -35,10 +35,10 @@
             </label>
 
             <div class="flex justify-end gap-4">
-              <Button :onClick="closeDialog">
+              <ButtonInvisible :onClick="closeDialog">
                 <XMarkIcon class="h-4 w-4" />
                 取消
-              </Button>
+              </ButtonInvisible>
               <ButtonPrimary :disabled="loading" :onClick="submit">
                 <ArrowPathIcon class="h-4 w-4 animate-spin" v-if="loading" />
                 <PencilSquareIcon class="h-4 w-4" v-else />
@@ -59,9 +59,8 @@ import {
   XMarkIcon,
 } from '@heroicons/vue/24/outline';
 
+const route = useRoute();
 const isOpen = useContributeSubmitDialog();
-const politician = useContributePolitician();
-const tag = useContributeTag();
 const editor = useContributeEditor();
 const loading = ref(false);
 
@@ -87,8 +86,8 @@ async function submit() {
   const { url } = await $fetch<{ url: string }>('/api/submit-content', {
     method: 'POST',
     body: {
-      politician: politician.value,
-      tag: tag.value,
+      politician: route.params.politician,
+      tag: route.params.tag,
       name: nameTrimed,
       content: editorRrimed,
     },

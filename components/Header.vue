@@ -77,30 +77,31 @@
     </template>
 
     <template v-else>
-      <Button to="/contribute?politician=侯友宜&tag=生日">
+      <ButtonInvisible to="/contribute?politician=侯友宜&tag=生日">
         <PencilSquareIcon class="h-4 w-4" />
         <span class="flex-none">貢獻</span>
-      </Button>
-      <Button to="/docs/introduction">
-        <DocumentTextIcon class="h-4 w-4" /> 文件</Button
+      </ButtonInvisible>
+      <ButtonInvisible to="/docs/introduction">
+        <DocumentTextIcon class="h-4 w-4" /> 文件</ButtonInvisible
       >
-      <Button to="/data/tag_clicks_last_7_days">
-        <ChartBarIcon class="h-4 w-4" /> 數據</Button
+      <ButtonInvisible to="/data/tag_clicks_last_7_days">
+        <ChartBarIcon class="h-4 w-4" /> 數據</ButtonInvisible
       >
       <div class="ml-auto mr-4 flex">
-        <Button to="https://github.com/taiwan-voting-guide/app"
+        <ButtonInvisible to="https://github.com/taiwan-voting-guide/app"
           ><div class="flex items-center gap-1">
             <img class="h-4 w-4" src="/github-mark.svg" />GitHub
-          </div></Button
+          </div></ButtonInvisible
         >
-        <Button
+        <ButtonInvisible
           to="https://join.slack.com/t/taiwanvotingguide/shared_invite/zt-1stmgptpf-~D6X8ETZyaNR7uUHrIk~sA"
           ><div class="flex items-center gap-1">
             <img class="h-4 w-4" src="/slack.webp" />Slack
-          </div></Button
+          </div></ButtonInvisible
         >
-        <Button to="https://forms.gle/nAxdNjAqpAb3GEMz8">
-          <ChatBubbleLeftEllipsisIcon class="h-4 w-4" /> 意見回饋</Button
+        <ButtonInvisible to="https://forms.gle/nAxdNjAqpAb3GEMz8">
+          <ChatBubbleLeftEllipsisIcon class="h-4 w-4" />
+          意見回饋</ButtonInvisible
         >
       </div>
     </template>

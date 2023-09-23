@@ -23,9 +23,7 @@
         </header>
         <div class="flex flex-1 flex-col gap-[2px]">
           <div class="flex-none">
-            <AppPoliticianHeader
-              :politician="route.query.politician as string"
-            />
+            <AppContentHeader :politician="route.query.politician as string" />
           </div>
           <Card>
             <div v-if="loading">loading...</div>

@@ -1,7 +1,7 @@
 <template>
   <main class="relative flex-1 overflow-auto bg-slate-200">
     <div v-if="politicians.length === 0" class="h-full">
-      <AppPoliticianCTA />
+      <AppCTA />
     </div>
     <div v-else class="absolute top-0 flex w-full">
       <div class="mx-auto px-20 pb-16 pt-1">
@@ -14,13 +14,13 @@
                 v-for="politician in politicians"
                 :key="politician"
               >
-                <AppPoliticianHeader :politician="politician" />
+                <AppContentHeader :politician="politician" />
               </th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="tag in tags" :key="`${tag}-${politicians.join('')}`">
-              <AppPoliticianContent
+              <AppContent
                 v-for="politician in politicians"
                 :key="`${politician}-${tag}`"
                 :politician="politician"
@@ -36,12 +36,12 @@
     class="absolute top-0 z-10 m-2 inline-flex flex-col rounded-md bg-white p-2 drop-shadow transition-all"
     :class="{ 'left-60': showTagDialog, 'left-0': !showTagDialog }"
   >
-    <Button :onClick="toggleTagDialog">
+    <ButtonInvisible :onClick="toggleTagDialog">
       <span class="text-lg"> 🏷️ </span>
-    </Button>
-    <Button :onClick="() => (showPoliticianDialog = true)">
+    </ButtonInvisible>
+    <ButtonInvisible :onClick="() => (showPoliticianDialog = true)">
       <span class="text-lg"> 🔍 </span>
-    </Button>
+    </ButtonInvisible>
   </div>
   <aside
     class="absolute top-0 z-10 h-full w-60 flex-none overflow-y-scroll bg-white transition-all"
