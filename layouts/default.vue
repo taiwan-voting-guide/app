@@ -1,11 +1,6 @@
 <template>
-  <div class="flex h-screen w-screen flex-col text-slate-600">
+  <div class="flex h-screen w-screen flex-col">
     <Header />
-    <div class="relative flex flex-1 overflow-scroll">
-      <slot />
-    </div>
+    <slot />
   </div>
 </template>
-<script setup lang="ts">
-// TODO: rethink layout
-</script>
