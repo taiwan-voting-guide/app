@@ -1,3 +1,4 @@
+import { footnoteTooltip } from './rehype';
 import rehypeClassNames, { Options } from 'rehype-class-names';
 import rehypeMinifyAttributeWhitespace from 'rehype-minify-attribute-whitespace';
 import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
@@ -37,7 +38,11 @@ export const parse = async (content: string, pluginNames: string[]) => {
         });
         break;
       case 'remark-rehype':
-        parser.use(remarkRehype);
+        parser.use(remarkRehype, {
+          footnoteLabel: '資料來源',
+          footnoteLabelTagName: 'h2',
+          footnoteBackLabel: '返回',
+        });
         break;
       case 'rehype-class-names':
         // @ts-ignore
@@ -50,6 +55,8 @@ export const parse = async (content: string, pluginNames: string[]) => {
         parser.use(rehypeMinifyWhitespace);
         parser.use(rehypeMinifyAttributeWhitespace);
         break;
+      case 'footnote-tooltip':
+        parser.use(footnoteTooltip, { clobberPrefix: 'footnote' });
     }
   }
   return parser.process(content);
