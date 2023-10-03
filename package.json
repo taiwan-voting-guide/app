@@ -31,7 +31,7 @@
     "hastscript": "^8.0.0",
     "js-yaml": "^4.1.0",
     "mixpanel-browser": "^2.47.0",
-    "nuxt": "^3.7.0",
+    "nuxt": "^3.7.4",
     "nuxt-clarity-analytics": "^0.0.2",
     "nuxt-headlessui": "^1.1.4",
     "octokit": "^3.1.0",

@@ -1,4 +1,4 @@
-import rehypeClassNames from 'rehype-class-names';
+import rehypeClassNames, { Options } from 'rehype-class-names';
 import rehypeMinifyAttributeWhitespace from 'rehype-minify-attribute-whitespace';
 import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
 import rehypeStringify from 'rehype-stringify';
@@ -10,46 +10,47 @@ import remarkStringify from 'remark-stringify';
 import { unified } from 'unified';
 import { matter } from 'vfile-matter';
 
+export const classNames: Options = {
+  h2: ['text-xl font-bold text-slate-500 underline underline-thickness-1'],
+  p: ['text-lg'],
+};
+
 export const parse = async (content: string, pluginNames: string[]) => {
-  const plugins = [];
+  const parser = unified();
   for (const name of pluginNames) {
     switch (name) {
       case 'remark-parse':
-        plugins.push(remarkParse);
+        parser.use(remarkParse);
         break;
       case 'remark-gfm':
-        plugins.push(remarkGfm);
+        parser.use(remarkGfm);
         break;
       case 'remark-stringify':
-        plugins.push(remarkStringify);
+        parser.use(remarkStringify);
         break;
       case 'remark-frontmatter':
-        plugins.push(remarkFrontmatter);
-        plugins.push(() => {
-          // @ts-ignore
+        parser.use(remarkFrontmatter);
+        parser.use(() => {
           return (_, file) => {
-            // @ts-ignore
             matter(file);
           };
         });
         break;
       case 'remark-rehype':
-        plugins.push(remarkRehype);
+        parser.use(remarkRehype);
         break;
       case 'rehype-class-names':
-        plugins.push(rehypeClassNames, {
-          h2: 'text-xl font-bold text-slate-500 underline underline-thickness-1',
-          p: 'text-lg',
-        });
+        // @ts-ignore
+        parser.use(rehypeClassNames, classNames);
         break;
       case 'rehype-stringify':
-        plugins.push(rehypeStringify);
+        parser.use(rehypeStringify);
         break;
       case 'rehype-minify':
-        plugins.push(rehypeMinifyWhitespace);
-        plugins.push(rehypeMinifyAttributeWhitespace);
+        parser.use(rehypeMinifyWhitespace);
+        parser.use(rehypeMinifyAttributeWhitespace);
         break;
     }
   }
-  return unified().use(plugins).process(content);
+  return parser.process(content);
 };

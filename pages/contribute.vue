@@ -70,9 +70,9 @@ watch(
   async () => {
     const file = await parse(`## ${route.query.tag}\n\n${editor.value}`, [
       'remark-parse',
-      // 'remark-gfm',
+      'remark-gfm',
       'remark-rehype',
-      // 'rehype-class-names',
+      'rehype-class-names',
       'rehype-stringify',
     ]);
 
