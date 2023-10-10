@@ -50,31 +50,43 @@ const editor = useContributeEditor();
 const preview = useContributePreview();
 const loading = ref<boolean>(false);
 
-watchEffect(async () => {
-  if (!route.query.politician || !route.query.tag) {
-    return;
-  }
+watch(
+  () => `${route.query.politician}_${route.query.tag}`,
+  async () => {
+    if (!route.query.politician || !route.query.tag) {
+      return;
+    }
 
-  const data = await $fetch<string>(`/api/get-content-md`, {
-    params: {
-      politician: route.query.politician,
-      tag: route.query.tag,
-    },
-  });
+    const data = await $fetch<string>(`/api/get-content-md`, {
+      params: {
+        politician: route.query.politician,
+        tag: route.query.tag,
+      },
+    });
 
-  editor.value = data.substring(`## ${route.query.tag}\n\n`.length);
-});
+    editor.value = data.substring(`## ${route.query.tag}\n\n`.length);
+  },
+  { immediate: true }
+);
 
 watch(
   editor,
   async () => {
-    const file = await parse(`## ${route.query.tag}\n\n${editor.value}`, [
-      'remark-parse',
-      'remark-gfm',
-      'remark-rehype',
-      'rehype-class-names',
-      'rehype-stringify',
-    ]);
+    const file = await parse(
+      `## ${route.query.tag}\n\n${editor.value}`,
+      [
+        'remark-parse',
+        'remark-gfm',
+        'remark-rehype',
+        'rehype-class-names',
+        'rehype-stringify',
+      ],
+      {
+        'remark-rehype': {
+          id: `${route.query.politician}-${route.query.tag}`,
+        },
+      }
+    );
 
     preview.value = file.value.toString();
   },

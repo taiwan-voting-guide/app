@@ -29,14 +29,22 @@ export default defineEventHandler(async (event) => {
 
   const contentMd = extractContent(md, tag);
 
-  const file = await parse(contentMd, [
-    'remark-parse',
-    'remark-gfm',
-    'remark-rehype',
-    'rehype-class-names',
-    'rehype-minify',
-    'rehype-stringify',
-  ]);
+  const file = await parse(
+    contentMd,
+    [
+      'remark-parse',
+      'remark-gfm',
+      'remark-rehype',
+      'rehype-class-names',
+      'rehype-minify',
+      'rehype-stringify',
+    ],
+    {
+      'remark-rehype': {
+        id: `${politician}-${tag}`,
+      },
+    }
+  );
 
   return file.value;
 });

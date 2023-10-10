@@ -1,4 +1,3 @@
-import { footnoteTooltip } from './rehype';
 import rehypeClassNames, { Options } from 'rehype-class-names';
 import rehypeMinifyAttributeWhitespace from 'rehype-minify-attribute-whitespace';
 import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
@@ -16,7 +15,11 @@ export const classNames: Options = {
   p: ['text-lg'],
 };
 
-export const parse = async (content: string, pluginNames: string[]) => {
+export const parse = async (
+  content: string,
+  pluginNames: string[],
+  options: { [plugin: string]: any } = {}
+) => {
   const parser = unified();
   for (const name of pluginNames) {
     switch (name) {
@@ -39,6 +42,7 @@ export const parse = async (content: string, pluginNames: string[]) => {
         break;
       case 'remark-rehype':
         parser.use(remarkRehype, {
+          clobberPrefix: `content-${options[name].id}-`,
           footnoteLabel: '資料來源',
           footnoteLabelTagName: 'h2',
           footnoteBackLabel: '返回',
@@ -55,8 +59,6 @@ export const parse = async (content: string, pluginNames: string[]) => {
         parser.use(rehypeMinifyWhitespace);
         parser.use(rehypeMinifyAttributeWhitespace);
         break;
-      case 'footnote-tooltip':
-        parser.use(footnoteTooltip, { clobberPrefix: 'footnote' });
     }
   }
   return parser.process(content);

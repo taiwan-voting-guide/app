@@ -1,5 +1,5 @@
 <template>
-  <td class="h-px max-w-[20rem] break-words">
+  <td class="h-px max-w-[20rem]">
     <Card>
       <div v-if="data" v-html="data"></div>
       <div v-else class="flex flex-col items-center justify-center">

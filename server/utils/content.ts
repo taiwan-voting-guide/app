@@ -19,7 +19,7 @@ const contentStorage = createStorage({
 export const getContentStorage = () => contentStorage;
 
 export const extractContent = (md: string, tag: string): string => {
-  const title = `## ${tag}`;
+  const title = `## ${tag}\n`;
   const start = md.indexOf(title);
   if (start === -1) {
     return '';
