@@ -1,3 +1,4 @@
+import { Element } from 'hast';
 import rehypeClassNames, { Options } from 'rehype-class-names';
 import rehypeMinifyAttributeWhitespace from 'rehype-minify-attribute-whitespace';
 import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
@@ -8,11 +9,14 @@ import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import remarkStringify from 'remark-stringify';
 import { unified } from 'unified';
+import { Node } from 'unist';
+import { visit } from 'unist-util-visit';
 import { matter } from 'vfile-matter';
 
 export const classNames: Options = {
-  h2: ['text-xl font-bold text-slate-500 underline underline-thickness-1'],
-  p: ['text-lg'],
+  h2: 'underline decoration-2 underline-offset-4 text-lg text-slate-500 font-bold pt-2',
+  a: 'underline text-blue-600 hover:text-blue-800',
+  ol: 'list-inside list-disc',
 };
 
 export const parse = async (
@@ -46,7 +50,30 @@ export const parse = async (
           footnoteLabel: '資料來源',
           footnoteLabelTagName: 'h2',
           footnoteBackLabel: '返回',
+          footnoteBackContent: '🔙',
         });
+        parser.use(() => {
+          return (tree: Node) => {
+            visit(tree, 'element', (element: Element) => {
+              if (element.tagName !== 'li') {
+                return;
+              }
+
+              const id = element.properties?.id as string;
+              if (!id.startsWith(`content-${options[name].id}-fn-`)) {
+                return;
+              }
+
+              const e = element.children[1];
+              if (!(e.type === 'element' && e.tagName === 'p')) {
+                return;
+              }
+
+              element.children = e.children;
+            });
+          };
+        });
+
         break;
       case 'rehype-class-names':
         // @ts-ignore
