@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
 
   const frontMatter = getFrontMatter(md);
 
-  const file = await parse(frontMatter, [
+  const file = await parse(politician, '', frontMatter, [
     'remark-parse',
     'remark-stringify',
     'remark-frontmatter',

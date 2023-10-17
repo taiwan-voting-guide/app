@@ -1,6 +1,6 @@
 <template>
   <div class="relative flex flex-1 overflow-scroll">
-    <main class="relative flex-1 scroll-pt-20 overflow-auto bg-slate-200">
+    <main class="relative flex-1 scroll-pt-[5.5rem] overflow-auto bg-slate-200">
       <div v-if="politicians.length === 0" class="h-full">
         <AppCTA />
       </div>

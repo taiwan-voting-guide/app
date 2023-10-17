@@ -73,19 +73,17 @@ watch(
   editor,
   async () => {
     const file = await parse(
+      route.query.politician as string,
+      route.query.tag as string,
       `## ${route.query.tag}\n\n${editor.value}`,
       [
         'remark-parse',
         'remark-gfm',
         'remark-rehype',
         'rehype-class-names',
+        'rehype-anchor-links',
         'rehype-stringify',
-      ],
-      {
-        'remark-rehype': {
-          id: `${route.query.politician}-${route.query.tag}`,
-        },
-      }
+      ]
     );
 
     preview.value = file.value.toString();

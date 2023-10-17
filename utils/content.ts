@@ -1,7 +1,9 @@
 import { Element } from 'hast';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeClassNames, { Options } from 'rehype-class-names';
 import rehypeMinifyAttributeWhitespace from 'rehype-minify-attribute-whitespace';
 import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
+import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
@@ -14,16 +16,23 @@ import { visit } from 'unist-util-visit';
 import { matter } from 'vfile-matter';
 
 export const classNames: Options = {
-  h2: 'underline decoration-2 underline-offset-4 text-lg text-slate-500 font-bold pt-2',
-  a: 'underline text-blue-600 hover:text-blue-800',
-  ol: 'list-inside list-disc',
+  h2: 'underline decoration-primary/80 underline-offset-4 decoration-4 text-lg text-slate-500 font-bold pt-4 pb-2 first:pt-0',
+  h3: 'text-slate-500 font-bold pt-1',
+  a: 'underline text-primary/80 hover:text-primary',
+  ol: 'list-inside list-decimal',
+  ul: 'list-inside list-disc',
+  table: 'w-full border-collapse border border-slate-300',
+  th: 'border border-slate-300 text-slate-500 bg-slate-100 p-2',
+  td: 'border border-slate-300 p-2',
 };
 
 export const parse = async (
+  politician: string,
+  tag: string,
   content: string,
-  pluginNames: string[],
-  options: { [plugin: string]: any } = {}
+  pluginNames: string[]
 ) => {
+  const key = `${politician}-${tag}`;
   const parser = unified();
   for (const name of pluginNames) {
     switch (name) {
@@ -46,11 +55,15 @@ export const parse = async (
         break;
       case 'remark-rehype':
         parser.use(remarkRehype, {
-          clobberPrefix: `content-${options[name].id}-`,
+          clobberPrefix: `${key}-`,
           footnoteLabel: '資料來源',
           footnoteLabelTagName: 'h2',
           footnoteBackLabel: '返回',
           footnoteBackContent: '🔙',
+          footnoteLabelProperties: {
+            class:
+              'pt-4 underline decoration-primary/80 underline-offset-4 decoration-4 text-lg text-slate-500 font-bold pb-2',
+          },
         });
         parser.use(() => {
           return (tree: Node) => {
@@ -60,7 +73,7 @@ export const parse = async (
               }
 
               const id = element.properties?.id as string;
-              if (!id.startsWith(`content-${options[name].id}-fn-`)) {
+              if (!id?.startsWith(`${key}-fn-`)) {
                 return;
               }
 
@@ -81,6 +94,30 @@ export const parse = async (
         break;
       case 'rehype-stringify':
         parser.use(rehypeStringify);
+        break;
+      case 'rehype-anchor-links':
+        parser.use(rehypeSlug);
+        parser.use(() => {
+          return (tree: Node) => {
+            visit(tree, 'element', (element: Element) => {
+              if (
+                !(
+                  element.tagName === 'h2' &&
+                  element.properties.id === 'footnote-label'
+                )
+              ) {
+                return;
+              }
+
+              console.log(element);
+
+              delete element.properties.id;
+            });
+          };
+        });
+        parser.use(rehypeAutolinkHeadings, {
+          behavior: 'wrap',
+        });
         break;
       case 'rehype-minify':
         parser.use(rehypeMinifyWhitespace);
