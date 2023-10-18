@@ -8,7 +8,7 @@
       <Codemirror
         v-model="editor"
         :style="{ height: 'calc(100vh - 6.5rem)', width: '100%' }"
-        :extensions="[markdown(), oneDark]"
+        :extensions="[markdown({ base: markdownLanguage }), oneDark]"
       ></Codemirror>
     </div>
 
@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { markdown } from '@codemirror/lang-markdown';
+import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { PencilSquareIcon } from '@heroicons/vue/24/outline';
 import { Codemirror } from 'vue-codemirror';
