@@ -7,7 +7,7 @@
       <div class="h-12 shrink-0">tool bar</div>
       <Codemirror
         v-model="editor"
-        :style="{ height: '100%', width: '100%' }"
+        :style="{ height: 'calc(100vh - 6.5rem)', width: '100%' }"
         :extensions="[markdown(), oneDark]"
       ></Codemirror>
     </div>
