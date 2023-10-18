@@ -1,43 +1,45 @@
 <template>
-  <div class="flex h-full w-full flex-col bg-slate-200">
-    <main
-      v-if="userSession"
-      class="flex w-full flex-1 justify-stretch overflow-auto"
-    >
-      <div class="flex w-1/2 flex-1 flex-col gap-2 overflow-hidden">
-        <div class="h-12">tool bar</div>
-        <textarea
-          class="h-full w-full resize-none border-0 bg-slate-800 font-mono tracking-wide text-slate-50 focus:ring-0"
-          v-model="editor"
-        ></textarea>
-      </div>
+  <main
+    v-if="userSession"
+    class="flex w-full flex-1 justify-stretch bg-slate-200"
+  >
+    <div class="flex w-1/2 flex-1 flex-col gap-2 overflow-hidden">
+      <div class="h-12 shrink-0">tool bar</div>
+      <Codemirror
+        v-model="editor"
+        :style="{ height: '100%', width: '100%' }"
+        :extensions="[markdown(), oneDark]"
+      ></Codemirror>
+    </div>
 
-      <div class="flex w-1/2 flex-1 flex-col gap-2 p-2">
-        <header
-          class="flex w-full flex-none items-end justify-end gap-2 pr-1 pt-1"
+    <div class="flex w-1/2 flex-1 flex-col gap-2 p-2">
+      <header
+        class="flex w-full flex-none items-end justify-end gap-2 pr-1 pt-1"
+      >
+        <ButtonPrimary :onClick="openSubmitDialog">
+          <PencilSquareIcon class="h-4 w-4" />
+          完成編輯</ButtonPrimary
         >
-          <ButtonPrimary :onClick="openSubmitDialog">
-            <PencilSquareIcon class="h-4 w-4" />
-            完成編輯</ButtonPrimary
-          >
-        </header>
-        <div class="flex flex-1 flex-col gap-[2px]">
-          <div class="flex-none">
-            <AppContentHeader :politician="route.query.politician as string" />
-          </div>
-          <Card>
-            <div v-if="loading">loading...</div>
-            <div v-html="preview"></div>
-          </Card>
+      </header>
+      <div class="flex flex-1 flex-col gap-[2px]">
+        <div class="flex-none">
+          <AppContentHeader :politician="route.query.politician as string" />
         </div>
+        <Card>
+          <div v-if="loading">loading...</div>
+          <div v-html="preview"></div>
+        </Card>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
   <ContributeSubmitDialog />
 </template>
 
 <script setup lang="ts">
+import { markdown } from '@codemirror/lang-markdown';
+import { oneDark } from '@codemirror/theme-one-dark';
 import { PencilSquareIcon } from '@heroicons/vue/24/outline';
+import { Codemirror } from 'vue-codemirror';
 
 const userSession = useCookie('user_session');
 if (!userSession.value) {

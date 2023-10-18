@@ -109,8 +109,6 @@ export const parse = async (
                 return;
               }
 
-              console.log(element);
-
               delete element.properties.id;
             });
           };
