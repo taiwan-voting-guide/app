@@ -1,5 +1,5 @@
 export const getEmailFromSessionKey = (
-  sessionKey: string | null | undefined
+  sessionKey: string | null | undefined,
 ): string => {
   if (!sessionKey) {
     return '';

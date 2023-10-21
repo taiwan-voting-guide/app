@@ -1,9 +1,9 @@
 <template>
   <main
     v-if="userSession"
-    class="flex w-full flex-1 justify-stretch bg-slate-200"
+    class="flex h-[calc(100vh-6.5rem)] w-full flex-1 justify-stretch bg-slate-200"
   >
-    <div class="flex w-1/2 flex-1 flex-col gap-2 overflow-hidden">
+    <div class="flex w-1/2 flex-1 flex-col gap-2">
       <div class="h-12 shrink-0">tool bar</div>
       <Codemirror
         v-model="editor"
@@ -25,10 +25,12 @@
         <div class="flex-none">
           <AppContentHeader :politician="route.query.politician as string" />
         </div>
-        <Card>
-          <div v-if="loading">loading...</div>
-          <div v-html="preview"></div>
-        </Card>
+        <div class="max-h-[calc(100vh-12.5rem)] flex-1">
+          <Card>
+            <div v-if="loading">loading...</div>
+            <div v-html="preview"></div>
+          </Card>
+        </div>
       </div>
     </div>
   </main>
@@ -68,7 +70,7 @@ watch(
 
     editor.value = data.substring(`## ${route.query.tag}\n\n`.length);
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 watch(
@@ -85,12 +87,12 @@ watch(
         'rehype-class-names',
         'rehype-anchor-links',
         'rehype-stringify',
-      ]
+      ],
     );
 
     preview.value = file.value.toString();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 const isSubmitDialogOpen = useContributeSubmitDialog();

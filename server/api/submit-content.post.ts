@@ -82,7 +82,7 @@ export default defineEventHandler(async (event) => {
 const replaceTagSection = (
   content: string,
   tag: string,
-  section: string
+  section: string,
 ): string => {
   const substr = `\n## ${tag}\n`;
   const i = content.indexOf(substr);
@@ -98,6 +98,6 @@ const replaceTagSection = (
 
   return `${content.substring(
     0,
-    sectionStart
+    sectionStart,
   )}\n${section}\n${content.substring(sectionEnd)}`;
 };

@@ -2,7 +2,7 @@ import { parse } from '@/utils/content';
 
 export default defineEventHandler(async (event) => {
   const { politician, tag } = getQuery<{ politician: string; tag: string }>(
-    event
+    event,
   );
   if (!politician || !tag) {
     throw createError({

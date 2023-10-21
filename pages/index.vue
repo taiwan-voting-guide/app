@@ -123,7 +123,7 @@ const searchText = ref<string>('');
 const filterTags = computed(() =>
   searchText.value
     ? allTags.filter((tag) => tag.includes(searchText.value))
-    : allTags
+    : allTags,
 );
 
 const showTagDialog = useTagDialog();

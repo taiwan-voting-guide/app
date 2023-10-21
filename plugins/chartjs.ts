@@ -17,6 +17,6 @@ export default defineNuxtPlugin(() => {
     BarElement,
     CategoryScale,
     LinearScale,
-    Colors
+    Colors,
   );
 });
