@@ -2,14 +2,14 @@
   <NuxtLink
     v-if="to"
     :to="to"
-    class="flex items-center justify-center gap-1 rounded-md bg-primary px-3 py-2 text-white drop-shadow hover:bg-primary/80"
+    class="box-content flex h-4 items-center justify-center gap-1 rounded-md bg-primary px-3 py-2 text-sm text-white drop-shadow hover:bg-primary/80"
   >
     <slot></slot>
   </NuxtLink>
   <button
     v-else
     :type="submit ? 'submit' : 'button'"
-    class="flex items-center justify-center gap-1 rounded-md bg-primary px-3 py-2 text-white drop-shadow hover:bg-primary/80"
+    class="box-content flex h-4 items-center justify-center gap-1 rounded-md bg-primary px-3 py-2 text-sm text-white drop-shadow hover:bg-primary/80"
     @click="onClickHandler"
     :disabled="disabled"
     :class="{

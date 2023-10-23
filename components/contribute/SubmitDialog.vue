@@ -4,7 +4,7 @@
       <div class="fixed inset-0 z-20 bg-black/40" aria-hidden="true" />
       <div class="fixed inset-0 z-20 flex items-center justify-center">
         <HeadlessDialogPanel
-          class="min-w-70 mx-auto w-72 rounded-md bg-white p-3 drop-shadow"
+          class="min-w-70 mx-auto w-72 rounded-md bg-white p-5 drop-shadow"
         >
           <form class="flex flex-col gap-4">
             <label>

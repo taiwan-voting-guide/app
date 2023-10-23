@@ -1,39 +1,47 @@
 <template>
-  <main
-    v-if="userSession"
-    class="flex h-[calc(100vh-6.5rem)] w-full flex-1 justify-stretch bg-slate-200"
-  >
-    <div class="flex w-1/2 flex-1 flex-col gap-2">
-      <div class="h-12 shrink-0">tool bar</div>
-      <Codemirror
-        v-model="editor"
-        :style="{ height: 'calc(100vh - 6.5rem)', width: '100%' }"
-        :extensions="[markdown({ base: markdownLanguage }), oneDark]"
-      ></Codemirror>
-    </div>
-
-    <div class="flex w-1/2 flex-1 flex-col gap-2 p-2">
-      <header
-        class="flex w-full flex-none items-end justify-end gap-2 pr-1 pt-1"
-      >
-        <ButtonPrimary :onClick="openSubmitDialog">
-          <PencilSquareIcon class="h-4 w-4" />
-          完成編輯</ButtonPrimary
-        >
-      </header>
-      <div class="flex flex-1 flex-col gap-[2px]">
-        <div class="flex-none">
-          <AppContentHeader :politician="route.query.politician as string" />
-        </div>
-        <div class="max-h-[calc(100vh-12.5rem)] flex-1">
-          <Card>
-            <div v-if="loading">loading...</div>
-            <div v-html="preview"></div>
-          </Card>
-        </div>
+  <div class="flex h-screen flex-col">
+    <header class="sticky z-10 flex h-12 items-center justify-between pr-2">
+      <Logo />
+      <div class="flex flex-none gap-x-2">
+        <ContributePoliticianSelect
+          :onSelectPolitician="
+            (politician) =>
+              $router.push({ query: { ...$route.query, politician } })
+          "
+          :politician="route.query.politician?.toString()"
+        />
+        <ContributeTagSelect
+          :onSelectTag="
+            (tag) => $router.push({ query: { ...$route.query, tag } })
+          "
+          :tag="route.query.tag?.toString()"
+        />
       </div>
-    </div>
-  </main>
+      <ButtonPrimary :onClick="openSubmitDialog">
+        <PencilSquareIcon class="h-4 w-4" />
+        完成編輯</ButtonPrimary
+      >
+    </header>
+    <main
+      v-if="userSession && route.query.politician && route.query.tag"
+      class="flex h-[calc(100vh-4rem)] w-full flex-1 gap-2 px-2 pb-2"
+    >
+      <div class="flex-1 overflow-y-scroll rounded">
+        <Codemirror
+          v-model="editor"
+          :style="{ flex: '1 1 0%', height: '100%' }"
+          :extensions="[markdown({ base: markdownLanguage }), oneDark]"
+        ></Codemirror>
+      </div>
+
+      <div class="flex flex-1 flex-col">
+        <Card>
+          <div v-if="loading">loading...</div>
+          <div v-html="preview"></div>
+        </Card>
+      </div>
+    </main>
+  </div>
   <ContributeSubmitDialog />
 </template>
 
@@ -97,4 +105,16 @@ watch(
 
 const isSubmitDialogOpen = useContributeSubmitDialog();
 const openSubmitDialog = () => (isSubmitDialogOpen.value = true);
+//       <div class="flex-none p-2">
+//         使用<a
+//           class="text-blue-500 underline"
+//           href="https://markdown.tw"
+//           target="_blank"
+//           rel="noopener noreferrer"
+//           >Markdown</a
+//         >語法來編輯這份內容。
+//         <a href="https://markdown.tw" class="text-blue-500 underline"
+//           >查看範例</a
+//         >
+//       </div>
 </script>

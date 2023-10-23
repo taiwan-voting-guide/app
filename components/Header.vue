@@ -19,7 +19,7 @@
             <HeadlessMenuItem>
               <NuxtLink
                 class="flex items-center gap-1 px-3 py-2"
-                to="/docs/contribute?politician=侯友宜&tag=生日"
+                to="/docs/contribute"
               >
                 <PencilSquareIcon class="h-4 w-4" />
                 貢獻
@@ -77,7 +77,7 @@
     </template>
 
     <template v-else>
-      <ButtonInvisible to="/contribute?politician=侯友宜&tag=生日">
+      <ButtonInvisible to="/contribute">
         <PencilSquareIcon class="h-4 w-4" />
         <span class="flex-none">貢獻</span>
       </ButtonInvisible>

@@ -1,5 +1,5 @@
 module.exports = {
-  content: ['./server/api/*.ts'],
+  content: ['./server/api/*.ts', './nuxt.config.ts'],
   theme: {
     extend: {
       colors: {
