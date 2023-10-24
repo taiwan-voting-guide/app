@@ -40,15 +40,19 @@
 <script setup lang="ts">
 const { politicians } = useSelectPolitician();
 const { tags } = useSelectTag();
+const query = computed<string>(() => {
+  const strArr = [];
+  const politiciansStr = politicians.value.join(',') || '';
+  if (politiciansStr) {
+    strArr.push(`politicians=${politiciansStr}`);
+  }
 
-const query = computed(() => {
-  const politiciansStr =
-    politicians.value.length === 0
-      ? ''
-      : `politicians=${politicians.value.join(',')}`;
-  const tagsStr = tags.value.length === 0 ? '' : `tags=${tags.value.join(',')}`;
+  const tagsStr = tags.value.join(',') || '';
+  if (tagsStr) {
+    strArr.push(`tags=${tagsStr}`);
+  }
 
-  console.log(politiciansStr, tagsStr);
-  return politiciansStr || tagsStr ? `?${politiciansStr}&${tagsStr}` : '';
+  const str = strArr.join('&');
+  return str ? `?${str}` : '';
 });
 </script>

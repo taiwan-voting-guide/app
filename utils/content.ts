@@ -1,6 +1,6 @@
-import { Element } from 'hast';
+import { type Element } from 'hast';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import rehypeClassNames, { Options } from 'rehype-class-names';
+import rehypeClassNames, { type Options } from 'rehype-class-names';
 import rehypeMinifyAttributeWhitespace from 'rehype-minify-attribute-whitespace';
 import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
 import rehypeSlug from 'rehype-slug';
@@ -11,7 +11,7 @@ import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import remarkStringify from 'remark-stringify';
 import { unified } from 'unified';
-import { Node } from 'unist';
+import { type Node } from 'unist';
 import { visit } from 'unist-util-visit';
 import { matter } from 'vfile-matter';
 

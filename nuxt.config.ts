@@ -8,7 +8,7 @@ export default defineNuxtConfig({
         lang: 'zh-Hant-TW',
       },
       bodyAttrs: {
-        class: 'bg-slate-100',
+        class: 'bg-slate-100 text-slate-600',
       },
       link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
       title: '選前大補帖',
@@ -37,7 +37,21 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    // TODO: define all api cache time
+    '/api/get-all-politicians': {
+      headers: {
+        'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
+      },
+    },
+    '/api/get-all-tags': {
+      headers: {
+        'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
+      },
+    },
+    '/api/get-app-data': {
+      headers: {
+        'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
+      },
+    },
     '/api/get-content': {
       headers: {
         'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,

@@ -1,4 +1,4 @@
-import { AppData } from '@/utils/fetch';
+import { type AppData } from '@/utils/fetch';
 import { load } from 'js-yaml';
 
 export default defineEventHandler(async () => {

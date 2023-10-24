@@ -9,7 +9,7 @@
         v-if="!selected && query === ''"
         class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"
       >
-        政治人物
+        標籤
       </div>
       <HeadlessComboboxButton
         class="absolute inset-y-0 right-0 flex items-center pr-2"
@@ -30,7 +30,7 @@
           v-if="filteredTags.length === 0 && query !== ''"
           class="relative select-none px-4 py-2 text-slate-600"
         >
-          查無此政治人物
+          查無此標籤
         </div>
 
         <HeadlessComboboxOption

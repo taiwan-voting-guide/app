@@ -2,9 +2,7 @@
   <div class="flex h-screen w-screen flex-col">
     <Header />
     <div class="relative flex flex-1 overflow-scroll">
-      <main
-        class="relative flex-1 scroll-pt-[5.5rem] overflow-auto bg-slate-200"
-      >
+      <main class="relative flex-1 scroll-pt-[5.5rem] overflow-auto">
         <div v-if="politicians.length === 0" class="h-full">
           <AppCTA />
         </div>
@@ -109,7 +107,6 @@ const { politicians } = useSelectPolitician();
 const { tags, toggle, tagSet } = useSelectTag();
 
 watch([tags, politicians], () => {
-  console.log(tags, politicians);
   const query: { tags?: string; politicians?: string } = {};
 
   const tagParam = tags.value.join(',');
@@ -122,7 +119,7 @@ watch([tags, politicians], () => {
     query.politicians = politicianParam;
   }
 
-  navigateTo({ query });
+  // navigateTo({ query });
 });
 
 const searchText = ref<string>('');

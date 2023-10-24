@@ -62,6 +62,8 @@ const editor = useContributeEditor();
 const preview = useContributePreview();
 const loading = ref<boolean>(false);
 
+console.log(route.query.politician, route.query.tag);
+
 watch(
   () => `${route.query.politician}_${route.query.tag}`,
   async () => {
