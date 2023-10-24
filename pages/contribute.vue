@@ -1,8 +1,8 @@
 <template>
-  <div class="flex h-screen flex-col">
-    <header class="sticky z-10 flex h-12 items-center justify-between pr-2">
+  <div v-if="userSession" class="flex h-screen flex-col">
+    <header class="flex h-14 items-center justify-between p-3">
       <Logo />
-      <div class="flex flex-none gap-x-2">
+      <div class="flex gap-x-2">
         <ContributePoliticianSelect
           :onSelectPolitician="
             (politician) =>
@@ -17,26 +17,25 @@
           :tag="route.query.tag?.toString()"
         />
       </div>
-      <ButtonPrimary :onClick="openSubmitDialog">
+      <ButtonPrimary :onClick="() => setIsSubmitDialogOpen(true)">
         <PencilSquareIcon class="h-4 w-4" />
         完成編輯</ButtonPrimary
       >
     </header>
     <main
-      v-if="userSession && route.query.politician && route.query.tag"
-      class="flex h-[calc(100vh-4rem)] w-full flex-1 gap-2 px-2 pb-2"
+      v-if="route.query.politician && route.query.tag"
+      class="flex h-[calc(100vh-4rem)] flex-1 gap-3 px-3 pb-3"
     >
-      <div class="flex-1 overflow-y-scroll rounded">
+      <div class="h-full flex-1 overflow-hidden rounded-md">
         <Codemirror
           v-model="editor"
-          :style="{ flex: '1 1 0%', height: '100%' }"
+          :style="{ height: '100%' }"
           :extensions="[markdown({ base: markdownLanguage }), oneDark]"
         ></Codemirror>
       </div>
 
       <div class="flex flex-1 flex-col">
         <Card>
-          <div v-if="loading">loading...</div>
           <div v-html="preview"></div>
         </Card>
       </div>
@@ -56,14 +55,10 @@ if (!userSession.value) {
   navigateTo('/login');
 }
 
-const route = useRoute();
-
 const editor = useContributeEditor();
 const preview = useContributePreview();
-const loading = ref<boolean>(false);
 
-console.log(route.query.politician, route.query.tag);
-
+const route = useRoute();
 watch(
   () => `${route.query.politician}_${route.query.tag}`,
   async () => {
@@ -106,17 +101,7 @@ watch(
 );
 
 const isSubmitDialogOpen = useContributeSubmitDialog();
-const openSubmitDialog = () => (isSubmitDialogOpen.value = true);
-//       <div class="flex-none p-2">
-//         使用<a
-//           class="text-blue-500 underline"
-//           href="https://markdown.tw"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//           >Markdown</a
-//         >語法來編輯這份內容。
-//         <a href="https://markdown.tw" class="text-blue-500 underline"
-//           >查看範例</a
-//         >
-//       </div>
+const setIsSubmitDialogOpen = (open: boolean) => {
+  isSubmitDialogOpen.value = open;
+};
 </script>
