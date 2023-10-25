@@ -35,7 +35,7 @@
       </div>
 
       <div class="flex max-h-full flex-1 justify-center overflow-y-auto py-12">
-        <div class="h-min max-w-[20rem]">
+        <div class="h-min w-80 max-w-[20rem]">
           <Card>
             <div v-html="preview"></div>
           </Card>
