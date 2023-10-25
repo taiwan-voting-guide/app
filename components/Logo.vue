@@ -1,5 +1,5 @@
 <template>
-  <a :href="`/${query}`">
+  <a class="p-3" :href="`/${query}`">
     <svg
       width="144"
       height="24"

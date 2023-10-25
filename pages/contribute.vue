@@ -1,6 +1,6 @@
 <template>
   <div v-if="userSession" class="flex h-screen flex-col">
-    <header class="flex h-14 items-center justify-between p-3">
+    <Header>
       <Logo />
       <div class="flex gap-x-2">
         <ContributePoliticianSelect
@@ -21,7 +21,7 @@
         <PencilSquareIcon class="h-4 w-4" />
         完成編輯</ButtonPrimary
       >
-    </header>
+    </Header>
     <main
       v-if="route.query.politician && route.query.tag"
       class="flex h-[calc(100vh-4rem)] flex-1 gap-3 px-3 pb-3"
@@ -46,7 +46,7 @@
       v-else
       class="flex w-full items-center justify-center gap-2 font-bold text-slate-400"
     >
-      <LightBulbIcon class="h-5 w-5" />
+      <LightBulbIcon class="h-4 w-4" />
       選擇要編輯的 '政治人物' 及 '標籤'
     </div>
   </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-screen w-screen flex-col">
-    <Header />
+    <AppHeader />
     <div class="relative flex flex-1 overflow-scroll">
       <main class="relative flex-1 scroll-pt-[5.5rem] overflow-auto">
         <div v-if="politicians.length === 0" class="h-full">

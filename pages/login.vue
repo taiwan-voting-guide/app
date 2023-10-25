@@ -1,22 +1,35 @@
 <template>
-  <main class="m-4 flex flex-1 items-center justify-center">
-    <form class="flex flex-col gap-4" @submit.prevent="sendVerificationCode">
-      <label>
-        <span class="m-1 after:text-red-500 after:content-['*']">Email</span>
-        <input
-          :readonly="loading"
-          v-model="email"
-          placeholder="you@example.com"
-          type="email"
-          class="block h-8 w-60 rounded-md border-primary bg-slate-50 px-2 shadow-inner placeholder:text-slate-400 read-only:cursor-not-allowed read-only:text-slate-400 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary"
-          :class="{ 'ring-1 ring-red-500': isError }"
-        />
-      </label>
-      <ButtonPrimary :submit="true" :disabled="loading">
-        ✉️ 寄送驗證碼
-      </ButtonPrimary>
-    </form>
-  </main>
+  <div class="flex h-screen flex-col">
+    <Header>
+      <Logo />
+    </Header>
+    <main class="flex h-full w-full flex-1 items-center justify-center p-2">
+      <div class="flex flex-col items-center gap-4">
+        <div class="font-bold">請先進行電子郵件驗證，以繼續編輯內容。</div>
+        <form
+          class="flex w-full flex-col gap-4"
+          @submit.prevent="sendVerificationCode"
+        >
+          <label>
+            <span class="m-1 after:text-red-500 after:content-['*']"
+              >Email</span
+            >
+            <input
+              :readonly="loading"
+              v-model="email"
+              placeholder="you@example.com"
+              type="email"
+              class="w-full rounded-md border-none px-3 py-2 text-sm placeholder-slate-400 drop-shadow"
+              :class="{ 'ring-1 ring-red-500': isError }"
+            />
+          </label>
+          <ButtonPrimary :submit="true" :disabled="loading">
+            寄送驗證信
+          </ButtonPrimary>
+        </form>
+      </div>
+    </main>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -29,6 +42,14 @@ const router = useRouter();
 if (sessionkey.value) {
   router.push('/');
 }
+
+onMounted(() => {
+  setInterval(() => {
+    if (sessionkey.value) {
+      router.push('/contribute');
+    }
+  }, 1000);
+});
 
 async function sendVerificationCode() {
   loading.value = true;
