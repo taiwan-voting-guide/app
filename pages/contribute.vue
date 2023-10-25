@@ -87,7 +87,6 @@ watch(
 watch(editor, updatePreview);
 
 async function updatePreview() {
-  console.log('updatePreview');
   const file = await parse(
     route.query.politician as string,
     route.query.tag as string,
