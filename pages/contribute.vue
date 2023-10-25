@@ -34,8 +34,8 @@
         ></Codemirror>
       </div>
 
-      <div class="flex flex-1 justify-center">
-        <div class="max-w-[20rem]">
+      <div class="flex max-h-full flex-1 justify-center overflow-y-auto py-12">
+        <div class="h-min max-w-[20rem]">
           <Card>
             <div v-html="preview"></div>
           </Card>
