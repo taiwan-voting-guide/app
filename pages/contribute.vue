@@ -60,8 +60,11 @@ const preview = useContributePreview();
 
 const route = useRoute();
 watch(
-  () => `${route.query.politician}_${route.query.tag}`,
-  async () => {
+  () => ({
+    politician: route.query.politician,
+    tag: route.query.tag,
+  }),
+  async (newQuery, oldQuery) => {
     if (!route.query.politician || !route.query.tag) {
       return;
     }
@@ -74,31 +77,33 @@ watch(
     });
 
     editor.value = data.substring(`## ${route.query.tag}\n\n`.length);
+    if (oldQuery && oldQuery.tag !== newQuery.tag) {
+      updatePreview();
+    }
   },
   { immediate: true },
 );
 
-watch(
-  editor,
-  async () => {
-    const file = await parse(
-      route.query.politician as string,
-      route.query.tag as string,
-      `## ${route.query.tag}\n\n${editor.value}`,
-      [
-        'remark-parse',
-        'remark-gfm',
-        'remark-rehype',
-        'rehype-class-names',
-        'rehype-anchor-links',
-        'rehype-stringify',
-      ],
-    );
+watch(editor, updatePreview);
 
-    preview.value = file.value.toString();
-  },
-  { immediate: true },
-);
+async function updatePreview() {
+  console.log('updatePreview');
+  const file = await parse(
+    route.query.politician as string,
+    route.query.tag as string,
+    `## ${route.query.tag}\n\n${editor.value}`,
+    [
+      'remark-parse',
+      'remark-gfm',
+      'remark-rehype',
+      'rehype-class-names',
+      'rehype-anchor-links',
+      'rehype-stringify',
+    ],
+  );
+
+  preview.value = file.value.toString();
+}
 
 const isSubmitDialogOpen = useContributeSubmitDialog();
 const setIsSubmitDialogOpen = (open: boolean) => {

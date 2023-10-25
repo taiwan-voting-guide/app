@@ -1,22 +1,18 @@
 <template>
   <HeadlessCombobox as="div" class="relative z-10" v-model="selected">
-    <div class="relative overflow-hidden rounded bg-white drop-shadow-md">
+    <div class="relative overflow-hidden rounded-md bg-white drop-shadow">
       <HeadlessComboboxInput
-        class="w-full border-none py-1 pl-3 text-slate-600"
+        class="font-sm w-48 border-none px-3 py-2 text-sm placeholder-slate-400"
+        placeholder="標籤"
         @change="query = $event.target.value"
       />
-      <div
-        v-if="!selected && query === ''"
-        class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"
-      >
-        標籤
-      </div>
       <HeadlessComboboxButton
         class="absolute inset-y-0 right-0 flex items-center pr-2"
       >
         <ChevronUpDownIcon class="h-5 w-5 text-slate-400" aria-hidden="true" />
       </HeadlessComboboxButton>
     </div>
+
     <HeadlessTransitionRoot
       leave="transition"
       leaveFrom="opacity-100"
@@ -24,39 +20,35 @@
       @after-leave="query = ''"
     >
       <HeadlessComboboxOptions
-        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white drop-shadow"
       >
         <div
           v-if="filteredTags.length === 0 && query !== ''"
-          class="relative select-none px-4 py-2 text-slate-600"
+          class="relative px-3 py-2 text-slate-400"
         >
           查無此標籤
         </div>
 
         <HeadlessComboboxOption
-          v-for="person in filteredTags"
+          v-for="tag in filteredTags"
           as="template"
-          :key="person"
-          :value="person"
+          :key="tag"
+          :value="tag"
           v-slot="{ selected, active }"
         >
           <li
-            class="relative cursor-default select-none py-2 pl-10 pr-4"
+            class="relative cursor-pointer select-none py-2 pl-10 pr-4 text-sm"
             :class="{
-              'bg-slate-100': active,
+              'bg-slate-100 font-bold': active,
             }"
           >
-            <span
-              class="block truncate"
-              :class="{ 'font-medium': selected, 'font-normal': !selected }"
-            >
-              {{ person }}
+            <span :class="{ 'font-bold': selected }">
+              {{ tag }}
             </span>
             <span
-              v-if="selected"
               class="absolute inset-y-0 left-0 flex items-center pl-3 text-primary"
             >
-              <CheckIcon class="h-5 w-5" aria-hidden="true" />
+              <CheckIcon v-if="selected" class="h-5 w-5" aria-hidden="true" />
             </span>
           </li>
         </HeadlessComboboxOption>

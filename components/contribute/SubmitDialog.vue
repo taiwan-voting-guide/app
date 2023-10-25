@@ -74,7 +74,7 @@ const email = useUserEmail();
 const name = useUserName();
 
 async function submit() {
-  const editorRrimed = editor.value.trim();
+  const editorTrimed = editor.value.trim();
   const nameTrimed = name.value.trim();
 
   loading.value = true;
@@ -89,7 +89,7 @@ async function submit() {
       politician: route.params.politician,
       tag: route.params.tag,
       name: nameTrimed,
-      content: editorRrimed,
+      content: editorTrimed,
     },
   });
 
