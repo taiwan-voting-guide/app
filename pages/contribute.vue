@@ -34,10 +34,12 @@
         ></Codemirror>
       </div>
 
-      <div class="flex flex-1 flex-col">
-        <Card>
-          <div v-html="preview"></div>
-        </Card>
+      <div class="flex flex-1 justify-center">
+        <div class="max-w-[20rem]">
+          <Card>
+            <div v-html="preview"></div>
+          </Card>
+        </div>
       </div>
     </main>
     <div
