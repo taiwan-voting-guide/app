@@ -1,8 +1,6 @@
 <template>
-  <header class="flex h-12 w-full flex-none items-center">
-    <NuxtLink class="flex h-full flex-none items-center" to="/">
-      <NuxtImg width="144" height="24" class="m-3 h-6" src="/logo.svg" />
-    </NuxtLink>
+  <header class="flex h-12 w-full flex-none items-center px-2">
+    <Logo />
 
     <template v-if="isMobile">
       <div class="ml-auto mr-3 h-6">
