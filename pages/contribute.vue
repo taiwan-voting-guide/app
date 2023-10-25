@@ -40,6 +40,13 @@
         </Card>
       </div>
     </main>
+    <div
+      v-else
+      class="flex w-full items-center justify-center gap-2 font-bold text-slate-400"
+    >
+      <LightBulbIcon class="h-5 w-5" />
+      選擇要編輯的 '政治人物' 及 '標籤'
+    </div>
   </div>
   <ContributeSubmitDialog />
 </template>
@@ -47,7 +54,7 @@
 <script setup lang="ts">
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { oneDark } from '@codemirror/theme-one-dark';
-import { PencilSquareIcon } from '@heroicons/vue/24/outline';
+import { PencilSquareIcon, LightBulbIcon } from '@heroicons/vue/24/outline';
 import { Codemirror } from 'vue-codemirror';
 
 const userSession = useCookie('user_session');
