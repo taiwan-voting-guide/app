@@ -22,11 +22,16 @@
               placeholder="you@example.com"
               type="email"
               class="w-full rounded-md border-none px-3 py-2 text-sm placeholder-slate-400 drop-shadow"
-              :class="{ 'ring-1 ring-red-500': isError }"
+              :disabled="loading || sent"
+              :class="{
+                'ring-1 ring-red-500': isError,
+                'text-slate-400': sent,
+              }"
             />
           </label>
-          <ButtonPrimary :submit="true" :disabled="loading">
-            寄送驗證信
+          <ButtonPrimary :submit="true" :disabled="loading || sent">
+            <template v-if="sent"> 驗證信已寄出 </template>
+            <template v-else> 寄送驗證信 </template>
           </ButtonPrimary>
         </form>
       </div>
@@ -40,6 +45,7 @@ import { InformationCircleIcon } from '@heroicons/vue/24/outline';
 const email = ref<string>('');
 const loading = ref<boolean>(false);
 const isError = ref<boolean>(false);
+const sent = ref<boolean>(false);
 
 const sessionkey = useCookie('user_session');
 const router = useRouter();
@@ -66,6 +72,7 @@ async function sendVerificationCode() {
       },
       body: JSON.stringify({ email: email.value }),
     });
+    sent.value = true;
   } catch (error) {
     loading.value = false;
     isError.value = !!error;
