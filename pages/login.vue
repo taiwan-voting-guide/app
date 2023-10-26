@@ -4,16 +4,18 @@
       <Logo />
     </Header>
     <main class="flex h-full w-full flex-1 items-center justify-center p-2">
-      <div class="flex flex-col items-center gap-4">
-        <div class="font-bold">請先進行電子郵件驗證，以繼續編輯內容。</div>
+      <div class="flex w-80 flex-col gap-4">
+        <div class="flex items-center gap-1 font-bold">
+          <InformationCircleIcon class="h-5 w-5" />
+
+          請先進行電子郵件驗證，以繼續編輯內容。
+        </div>
         <form
           class="flex w-full flex-col gap-4"
           @submit.prevent="sendVerificationCode"
         >
           <label>
-            <span class="m-1 after:text-red-500 after:content-['*']"
-              >Email</span
-            >
+            <span class="after:text-red-500 after:content-['*']">Email</span>
             <input
               :readonly="loading"
               v-model="email"
@@ -33,6 +35,8 @@
 </template>
 
 <script setup lang="ts">
+import { InformationCircleIcon } from '@heroicons/vue/24/outline';
+
 const email = ref<string>('');
 const loading = ref<boolean>(false);
 const isError = ref<boolean>(false);
