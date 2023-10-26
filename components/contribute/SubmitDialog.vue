@@ -1,44 +1,39 @@
 <template>
   <ClientOnly>
     <HeadlessDialog :open="isOpen" @close="closeDialog">
-      <div class="fixed inset-0 z-20 bg-black/40" aria-hidden="true" />
-      <div class="fixed inset-0 z-20 flex items-center justify-center">
-        <HeadlessDialogPanel
-          class="min-w-70 mx-auto w-72 rounded-md bg-white p-5 drop-shadow"
-        >
+      <div class="fixed inset-0 z-10 bg-black/50" aria-hidden="true" />
+      <div class="fixed inset-0 z-10 flex items-center justify-center">
+        <HeadlessDialogPanel class="w-80 rounded-md bg-white p-4 drop-shadow">
           <form class="flex flex-col gap-4">
             <label>
-              <span class="pl-2 text-sm after:text-red-500 after:content-['*']"
-                >Email</span
-              >
+              <span>Email</span>
               <input
                 disabled
-                class="w-full rounded-md border-0 bg-slate-200 text-slate-400"
+                class="w-full rounded-md border-0 bg-slate-100 text-sm text-slate-400"
                 type="email"
                 :value="email"
               />
             </label>
             <label>
-              <span class="pl-2 text-sm after:text-red-500 after:content-['*']"
-                >貢獻者</span
-              >
+              <span class="after:text-red-500 after:content-['*']">貢獻者</span>
 
               <input
-                class="w-full rounded-md border-0 bg-slate-200 focus:bg-white"
+                class="w-full rounded-md border-0 bg-slate-100 text-sm"
                 :class="{ 'border border-red-500': error }"
                 type="text"
                 v-model="name"
               />
-              <span class="pl-2 text-sm text-red-500" v-if="error">{{
-                error
-              }}</span>
+              <div
+                v-if="error"
+                class="flex items-center gap-1 pt-1 text-red-500"
+              >
+                <ExclamationTriangleIcon class="h-4 w-4" v-if="error" />
+                {{ error }}
+              </div>
             </label>
 
             <div class="flex justify-end gap-4">
-              <ButtonInvisible :onClick="closeDialog">
-                <XMarkIcon class="h-4 w-4" />
-                取消
-              </ButtonInvisible>
+              <ButtonInvisible :onClick="closeDialog"> 取消 </ButtonInvisible>
               <ButtonPrimary :disabled="loading" :onClick="submit">
                 <ArrowPathIcon class="h-4 w-4 animate-spin" v-if="loading" />
                 <PencilSquareIcon class="h-4 w-4" v-else />
@@ -56,7 +51,7 @@
 import {
   ArrowPathIcon,
   PencilSquareIcon,
-  XMarkIcon,
+  ExclamationTriangleIcon,
 } from '@heroicons/vue/24/outline';
 
 const route = useRoute();

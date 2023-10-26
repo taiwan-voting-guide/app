@@ -17,7 +17,10 @@
           :tag="route.query.tag?.toString()"
         />
       </div>
-      <ButtonPrimary :onClick="() => setIsSubmitDialogOpen(true)">
+      <ButtonPrimary
+        :disabled="!route.query.politician || !route.query.tag"
+        :onClick="() => setIsSubmitDialogOpen(true)"
+      >
         <PencilSquareIcon class="h-4 w-4" />
         完成編輯</ButtonPrimary
       >
