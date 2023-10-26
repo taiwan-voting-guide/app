@@ -48,15 +48,10 @@ const isError = ref<boolean>(false);
 const sent = ref<boolean>(false);
 
 const sessionkey = useCookie('user_session');
-const router = useRouter();
-if (sessionkey.value) {
-  router.push('/');
-}
-
 onMounted(() => {
   setInterval(() => {
-    if (sessionkey.value) {
-      router.push('/contribute');
+    if (sent && sessionkey.value) {
+      navigateTo('/contribute');
     }
   }, 1000);
 });
@@ -78,4 +73,8 @@ async function sendVerificationCode() {
     isError.value = !!error;
   }
 }
+
+definePageMeta({
+  middleware: ['auth'],
+});
 </script>

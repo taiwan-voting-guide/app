@@ -3,16 +3,6 @@ import { kv } from '@vercel/kv';
 
 export default defineEventHandler(async (event) => {
   switch (getRequestURL(event).pathname) {
-    case '/login':
-      const userSession = getCookie(event, 'user_session');
-      if (userSession) {
-        const exist = await kvExist(userSession);
-        if (exist) {
-          return sendRedirect(event, '/', 302);
-        }
-      }
-
-      break;
     case '/logout': {
       const userSession = getCookie(event, 'user_session');
       if (userSession) {
@@ -22,8 +12,7 @@ export default defineEventHandler(async (event) => {
       return sendRedirect(event, '/', 302);
     }
     case '/api/get-content-md':
-    case '/api/submit-content':
-    case '/contribute': {
+    case '/api/submit-content': {
       const userSession = getCookie(event, 'user_session');
       if (!userSession) {
         return sendRedirect(event, '/login', 302);

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userSession" class="flex h-screen flex-col">
+  <div class="flex h-screen flex-col">
     <Header>
       <Logo />
       <div class="flex gap-x-2">
@@ -59,11 +59,6 @@ import { oneDark } from '@codemirror/theme-one-dark';
 import { PencilSquareIcon, LightBulbIcon } from '@heroicons/vue/24/outline';
 import { Codemirror } from 'vue-codemirror';
 
-const userSession = useCookie('user_session');
-if (!userSession.value) {
-  navigateTo('/login');
-}
-
 const editor = useContributeEditor();
 const preview = useContributePreview();
 
@@ -117,4 +112,8 @@ const isSubmitDialogOpen = useContributeSubmitDialog();
 const setIsSubmitDialogOpen = (open: boolean) => {
   isSubmitDialogOpen.value = open;
 };
+
+definePageMeta({
+  middleware: ['auth'],
+});
 </script>
