@@ -1,16 +1,8 @@
 <template>
-  <NuxtLink
-    v-if="to"
-    :to="to"
-    class="box-content flex h-4 items-center justify-center gap-1 rounded-md bg-primary px-3 py-2 text-sm text-white drop-shadow hover:bg-primary/80"
-  >
-    <slot></slot>
-  </NuxtLink>
   <button
-    v-else
     :type="submit ? 'submit' : 'button'"
     class="box-content flex h-4 items-center justify-center gap-1 rounded-md bg-primary px-3 py-2 text-sm text-white drop-shadow hover:bg-primary/80"
-    @click="onClickHandler"
+    @click="onClick"
     :disabled="disabled"
     :class="{
       'cursor-not-allowed': disabled,
@@ -22,20 +14,9 @@
 </template>
 
 <script setup lang="ts">
-const { onClick, disabled } = defineProps<{
-  to?: string;
+const { submit, onClick, disabled } = defineProps<{
   onClick?: () => void;
   disabled?: boolean;
   submit?: boolean;
 }>();
-
-function onClickHandler() {
-  if (disabled) {
-    return;
-  }
-
-  if (onClick) {
-    onClick();
-  }
-}
 </script>
