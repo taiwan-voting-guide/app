@@ -81,8 +81,8 @@ async function submit() {
   const { url } = await $fetch<{ url: string }>('/api/submit-content', {
     method: 'POST',
     body: {
-      politician: route.params.politician,
-      tag: route.params.tag,
+      politician: route.query.politician,
+      tag: route.query.tag,
       name: nameTrimed,
       content: editorTrimed,
     },
