@@ -5,11 +5,11 @@ export default defineNuxtRouteMiddleware((to) => {
       if (userSession.value) {
         return navigateTo('/contribute');
       }
+      return;
     case '/contribute':
       if (!userSession.value) {
         return navigateTo('/login');
       }
-    default:
       return;
   }
 });
