@@ -2,7 +2,7 @@
   <HeadlessCombobox as="div" class="relative z-10" v-model="selected">
     <div class="relative overflow-hidden rounded-md bg-white drop-shadow">
       <HeadlessComboboxInput
-        class="w-48 border-none px-3 py-2 text-sm placeholder-slate-400"
+        class="w-48 border-none px-3 py-2 placeholder-slate-400"
         placeholder="標籤"
         @change="query = $event.target.value"
       />

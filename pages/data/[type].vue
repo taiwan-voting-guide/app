@@ -1,6 +1,6 @@
 <template>新的數據頁面趕工中</template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 // import type { ParsedContent } from '@nuxt/content/dist/runtime/types';
 // import { ChartOptions } from 'chart.js';
 // import { Bar } from 'vue-chartjs';

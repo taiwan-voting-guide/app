@@ -7,9 +7,6 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: 'zh-Hant-TW',
       },
-      bodyAttrs: {
-        class: 'text-sm bg-slate-100 text-slate-600 tracking-wide',
-      },
       link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
       title: '選前大補帖',
     },

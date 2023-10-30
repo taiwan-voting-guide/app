@@ -119,7 +119,7 @@ watch([tags, politicians], () => {
     query.politicians = politicianParam;
   }
 
-  // navigateTo({ query });
+  navigateTo({ query });
 });
 
 const searchText = ref<string>('');

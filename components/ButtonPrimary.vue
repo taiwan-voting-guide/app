@@ -1,7 +1,7 @@
 <template>
   <button
     :type="submit ? 'submit' : 'button'"
-    class="box-content flex h-4 items-center justify-center gap-1 rounded-md bg-primary px-3 py-2 text-sm text-white drop-shadow hover:bg-primary/80"
+    class="box-content flex h-4 items-center justify-center gap-1 rounded-md bg-primary px-3 py-2 text-white drop-shadow hover:bg-primary/80"
     @click="onClick"
     :disabled="disabled"
     :class="{
