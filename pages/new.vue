@@ -46,8 +46,9 @@
               (n - 1) / 2 === addPosition && isPoliticianSelectDialogOpen,
           }"
         >
+          <div class="h-full w-px border border-dashed group-hover:hidden" />
           <PlusIcon
-            class="h-6 w-6 stroke-2 text-transparent group-hover:text-slate-400"
+            class="hidden h-6 w-6 stroke-2 text-transparent group-hover:block group-hover:text-slate-400"
           />
         </div>
       </li>
