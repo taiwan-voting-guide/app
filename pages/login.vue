@@ -8,7 +8,7 @@
         <div class="flex items-center gap-1 font-bold">
           <InformationCircleIcon class="h-5 w-5" />
 
-          請先進行電子郵件驗證，以繼續編輯內容。
+          請進行電子郵件驗證，以繼續編輯內容。
         </div>
         <form
           class="flex w-full flex-col gap-4"

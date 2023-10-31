@@ -44,6 +44,7 @@ export default defineNuxtConfig({
         'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
       },
     },
+    // TODO: remove this
     '/api/get-app-data': {
       headers: {
         'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,

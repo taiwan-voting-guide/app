@@ -30,17 +30,25 @@ export function useSelectPolitician() {
   }
 
   function append(name: string) {
-    if (politicians.value.includes(name)) {
-      return;
-    }
+    const names = politicians.value.filter((selected) => selected !== name);
+    politicians.value = [...names, name];
+  }
 
-    politicians.value.push(name);
+  function inject(names: Array<string>, position: number) {
+    const left = politicians.value
+      .slice(0, position)
+      .filter((name) => !names.includes(name));
+    const right = politicians.value
+      .slice(position)
+      .filter((name) => !names.includes(name));
+    politicians.value = [...left, ...names, ...right];
   }
 
   return {
     politicians,
     set,
     append,
+    inject,
     remove,
     removeAll,
   };

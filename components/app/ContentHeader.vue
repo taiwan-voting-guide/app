@@ -1,6 +1,6 @@
 <template>
   <Card>
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-4 p-4">
       <NuxtImg
         v-if="data?.photoURL"
         :src="data?.photoURL"
