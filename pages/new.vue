@@ -3,11 +3,33 @@
   <ul class="flex w-fit min-w-full p-20">
     <template v-for="n in politicians.length * 2 + 1" :key="n">
       <li v-if="n % 2 === 0" class="w-80 flex-none">
-        <AppContentHeader :politician="politicians[(n - 2) / 2]" />
+        <AppContentHeader :politician="politicians[(n - 2) / 2]">
+          <XMarkIcon
+            @click="remove(politicians[(n - 2) / 2])"
+            class="ml-auto h-6 w-6 cursor-pointer stroke-2 text-slate-400"
+          />
+        </AppContentHeader>
       </li>
       <li
-        v-else-if="n === 1"
-        @click="onAddPoliticianClicked((n - 1) / 2)"
+        v-else-if="n === 1 && politicians.length === 0"
+        @click="onAddPoliticianClicked(0)"
+        class="group mx-auto flex flex-none cursor-pointer flex-col gap-2 pr-4 transition-all"
+      >
+        <div
+          class="flex h-20 w-80 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
+        >
+          <PlusIcon
+            class="h-6 w-6 stroke-2 text-slate-200 group-hover:text-slate-400"
+          />
+        </div>
+        <div class="flex w-full items-center justify-center gap-1">
+          <InformationCircleIcon class="h-6 w-6 stroke-2 text-slate-400" />
+          <span class="text-slate-400">新增候選人或政治人物</span>
+        </div>
+      </li>
+      <li
+        v-else-if="n === 1 && politicians.length > 0"
+        @click="onAddPoliticianClicked(0)"
         class="group ml-auto flex-none cursor-pointer pr-4 transition-all"
       >
         <div
@@ -20,7 +42,7 @@
       </li>
       <li
         v-else-if="n === politicians.length * 2 + 1"
-        @click="onAddPoliticianClicked((n - 1) / 2)"
+        @click="onAddPoliticianClicked(politicians.length)"
         class="group mr-auto flex-none cursor-pointer pl-4 transition-all"
       >
         <div
@@ -62,13 +84,17 @@
 </template>
 
 <script setup lang="ts">
-import { PlusIcon } from '@heroicons/vue/24/outline';
+import {
+  XMarkIcon,
+  PlusIcon,
+  InformationCircleIcon,
+} from '@heroicons/vue/24/outline';
 
 // fetch app data
 const { data } = await getAppData();
 const allTags = data.value?.tags || [];
 
-const { politicians, inject } = useSelectPolitician();
+const { politicians, inject, remove } = useSelectPolitician();
 const { tags, toggle, tagSet } = useSelectTag();
 
 const isPoliticianSelectDialogOpen = ref<boolean>(false);
@@ -109,6 +135,7 @@ function onPoliticiansSelect(politicians: Array<string> | string) {
     inject([politicians], addPosition.value);
   }
 
+  searchText.value = '';
   isPoliticianSelectDialogOpen.value = false;
 }
 </script>

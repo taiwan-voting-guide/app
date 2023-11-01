@@ -15,7 +15,7 @@
               class="flex items-center gap-1 px-3 py-2"
               to="/docs/contribute"
             >
-              <PencilSquareIcon class="h-4 w-4" />
+              <PencilSquareIcon class="h-5 w-5 stroke-2" />
               貢獻
             </NuxtLink>
           </HeadlessMenuItem>
@@ -25,7 +25,7 @@
               class="flex items-center gap-1 px-3 py-2"
               to="/docs/introduction"
             >
-              <DocumentTextIcon class="h-4 w-4" />
+              <DocumentTextIcon class="h-5 w-5 stroke-2" />
               文件
             </NuxtLink>
           </HeadlessMenuItem>
@@ -35,7 +35,7 @@
               class="flex items-center gap-1 px-3 py-2"
               to="/data/tag_clicks_last_7_days"
             >
-              <ChartBarIcon class="h-4 w-4" />
+              <ChartBarIcon class="h-5 w-5 stroke-2" />
               數據
             </NuxtLink>
           </HeadlessMenuItem>
@@ -45,7 +45,10 @@
               class="flex items-center gap-1 px-3 py-2"
               to="https://github.com/taiwan-voting-guide/app"
             >
-              <img class="inline h-4 w-4" src="/github-mark.svg" />GitHub
+              <img
+                class="inline h-5 w-5 stroke-2"
+                src="/github-mark.svg"
+              />GitHub
             </NuxtLink>
           </HeadlessMenuItem>
           <HeadlessMenuItem>
@@ -53,7 +56,7 @@
               class="flex items-center gap-1 px-3 py-2"
               to="https://join.slack.com/t/taiwanvotingguide/shared_invite/zt-1stmgptpf-~D6X8ETZyaNR7uUHrIk~sA"
             >
-              <img class="inline h-4 w-4" src="/slack.webp" />Slack
+              <img class="inline h-5 w-5 stroke-2" src="/slack.webp" />Slack
             </NuxtLink>
           </HeadlessMenuItem>
           <HeadlessMenuItem>
@@ -61,7 +64,7 @@
               class="flex items-center gap-1 px-3 py-2"
               to="https://forms.gle/nAxdNjAqpAb3GEMz8"
             >
-              <ChatBubbleLeftEllipsisIcon class="h-4 w-4" />
+              <ChatBubbleLeftEllipsisIcon class="h-5 w-5 stroke-2" />
               意見回饋</NuxtLink
             >
           </HeadlessMenuItem>
@@ -73,41 +76,41 @@
       to="/contribute"
       class="ease hidden min-w-max items-center gap-1 rounded-md px-3 py-1 font-bold text-slate-500 lg:flex"
     >
-      <PencilSquareIcon class="h-4 w-4" />
+      <PencilSquareIcon class="h-5 w-5 stroke-2" />
       <span class="flex-none">貢獻</span>
     </NuxtLink>
     <NuxtLink
       to="/docs/introduction"
       class="ease hidden min-w-max items-center gap-1 rounded-md px-3 py-1 font-bold text-slate-500 lg:flex"
     >
-      <DocumentTextIcon class="h-4 w-4" /> 文件
+      <DocumentTextIcon class="h-5 w-5 stroke-2" /> 文件
     </NuxtLink>
     <NuxtLink
       to="/data/tag_clicks_last_7_days"
       class="ease hidden min-w-max items-center gap-1 rounded-md px-3 py-1 font-bold text-slate-500 lg:flex"
     >
-      <ChartBarIcon class="h-4 w-4" /> 數據
+      <ChartBarIcon class="h-5 w-5 stroke-2" /> 數據
     </NuxtLink>
     <div class="ml-auto hidden lg:flex">
       <NuxtLink
         class="ease flex min-w-max items-center gap-1 rounded-md px-3 py-1 font-bold text-slate-500"
         to="https://github.com/taiwan-voting-guide/app"
         ><div class="flex items-center gap-1">
-          <img class="h-4 w-4" src="/github-mark.svg" />GitHub
+          <img class="h-5 w-5 stroke-2" src="/github-mark.svg" />GitHub
         </div></NuxtLink
       >
       <NuxtLink
         class="ease flex min-w-max items-center gap-1 rounded-md px-3 py-1 font-bold text-slate-500"
         to="https://join.slack.com/t/taiwanvotingguide/shared_invite/zt-1stmgptpf-~D6X8ETZyaNR7uUHrIk~sA"
         ><div class="flex items-center gap-1">
-          <img class="h-4 w-4" src="/slack.webp" />Slack
+          <img class="h-5 w-5 stroke-2" src="/slack.webp" />Slack
         </div></NuxtLink
       >
       <NuxtLink
         class="ease flex min-w-max items-center gap-1 rounded-md px-3 py-1 font-bold text-slate-500"
         to="https://forms.gle/nAxdNjAqpAb3GEMz8"
       >
-        <ChatBubbleLeftEllipsisIcon class="h-4 w-4" />
+        <ChatBubbleLeftEllipsisIcon class="h-5 w-5 stroke-2" />
         意見回饋</NuxtLink
       >
     </div>
