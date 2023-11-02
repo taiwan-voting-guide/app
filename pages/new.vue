@@ -8,14 +8,17 @@
       >
         <li v-if="n % 2 === 0" class="w-80 flex-none">
           <AppContentHeader :politician="politicians[(n - 2) / 2]">
-            <XMarkIcon
-              @click="remove(politicians[(n - 2) / 2])"
-              class="ml-auto h-6 w-6 cursor-pointer stroke-2 text-slate-400"
-            />
+            <div class="ml-auto" title="移除">
+              <XMarkIcon
+                @click="remove(politicians[(n - 2) / 2])"
+                class="h-6 w-6 cursor-pointer stroke-2 text-slate-400"
+              />
+            </div>
           </AppContentHeader>
         </li>
         <button
           v-else-if="n === 1 && politicians.length === 0"
+          title="新增候選人或政治人物"
           @click="onAddPoliticianClicked(0)"
           class="group mx-auto flex flex-none flex-col gap-2 pr-4 transition-all"
         >
@@ -33,6 +36,7 @@
         </button>
         <button
           v-else-if="n === 1 && politicians.length > 0"
+          title="新增候選人或政治人物"
           @click="onAddPoliticianClicked(0)"
           class="group ml-auto flex-none pr-4 transition-all"
         >
@@ -46,6 +50,7 @@
         </button>
         <button
           v-else-if="n === politicians.length * 2 + 1"
+          title="新增候選人或政治人物"
           @click="onAddPoliticianClicked(politicians.length)"
           class="group mr-auto flex-none pl-4 transition-all"
         >
@@ -58,18 +63,22 @@
           </div>
         </button>
         <button
+          v-else
+          title="新增候選人或政治人物"
           class="group flex-none transition-all hover:px-4"
           :class="{
-            'px-4': (n - 1) / 2 === addPosition && isPoliticianSelectDialogOpen,
+            'px-4':
+              (n - 1) / 2 === addPoliticianPosition &&
+              isPoliticianSelectDialogOpen,
           }"
-          v-else
           @click="onAddPoliticianClicked((n - 1) / 2)"
         >
           <div
             class="flex h-full w-4 items-center justify-center rounded-md group-hover:w-20 group-hover:border-2 group-hover:border-dashed group-hover:border-slate-400 group-hover:bg-white"
             :class="{
               'w-20 border-2 border-dashed border-slate-400 bg-white':
-                (n - 1) / 2 === addPosition && isPoliticianSelectDialogOpen,
+                (n - 1) / 2 === addPoliticianPosition &&
+                isPoliticianSelectDialogOpen,
             }"
           >
             <div class="h-full w-px border border-dashed group-hover:hidden" />
@@ -82,12 +91,22 @@
     </ul>
     <template v-if="politicians.length > 0">
       <template v-for="tag in tags" :key="tag">
-        <ul></ul>
+        <ul>
+          {{
+            tag
+          }}
+        </ul>
       </template>
-      <button class="group mx-auto block pt-4">
+      <button
+        @click="onAddTagClicked(tags.length)"
+        class="group mx-auto block pt-4"
+      >
         <div
-          class="flex h-20 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
+          class="relative flex h-10 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
         >
+          <PlusIcon
+            class="absolute h-6 w-6 stroke-2 text-slate-200 group-hover:text-slate-400"
+          />
           <template
             v-for="n in politicians.length * 2 + 1"
             :key="`${n}_${politicians[(n - 2) / 2]}`"
@@ -108,6 +127,11 @@
     :onClose="() => (isPoliticianSelectDialogOpen = false)"
     :onSelect="onPoliticiansSelect"
   />
+  <AppNewTagSearch
+    :open="isTagSelectDialogOpen"
+    :onClose="() => (isTagSelectDialogOpen = false)"
+    :onSelect="onTagsSelect"
+  />
 </template>
 
 <script setup lang="ts">
@@ -121,11 +145,17 @@ import {
 const { data } = await getAppData();
 const allTags = data.value?.tags || [];
 
-const { politicians, inject, remove } = useSelectPolitician();
-const { tags, toggle, tagSet } = useSelectTag();
+const {
+  politicians,
+  inject: injectPoliticians,
+  remove,
+} = useSelectPolitician();
+const { tags, toggle, tagSet, inject: injectTags } = useSelectTag();
 
 const isPoliticianSelectDialogOpen = ref<boolean>(false);
-const addPosition = ref<number>(0);
+const addPoliticianPosition = ref<number>(0);
+const isTagSelectDialogOpen = ref<boolean>(false);
+const addTagPosition = ref<number>(0);
 
 watch([tags, politicians], () => {
   const query: { tags?: string; politicians?: string } = {};
@@ -151,18 +181,27 @@ const filterTags = computed(() =>
 );
 
 function onAddPoliticianClicked(position: number) {
-  addPosition.value = position;
+  addPoliticianPosition.value = position;
   isPoliticianSelectDialogOpen.value = true;
 }
 
 function onPoliticiansSelect(politicians: Array<string> | string) {
   if (Array.isArray(politicians)) {
-    inject(politicians, addPosition.value);
+    injectPoliticians(politicians, addPoliticianPosition.value);
   } else {
-    inject([politicians], addPosition.value);
+    injectPoliticians([politicians], addPoliticianPosition.value);
   }
 
   searchText.value = '';
   isPoliticianSelectDialogOpen.value = false;
+}
+
+function onAddTagClicked(position: number) {
+  isTagSelectDialogOpen.value = true;
+  addTagPosition.value = position;
+}
+
+function onTagsSelect(tag: string) {
+  injectTags([tag], addTagPosition.value);
 }
 </script>

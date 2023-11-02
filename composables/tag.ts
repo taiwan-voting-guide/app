@@ -24,5 +24,15 @@ export const useSelectTag = () => {
     tags.value = newTags;
   };
 
-  return { tags, tagSet, toggle, set };
+  const inject = (injectedTags: Array<string>, position: number) => {
+    const left = injectedTags
+      .slice(0, position)
+      .filter((t) => !tagSet.value.has(t));
+    const right = injectedTags
+      .slice(position)
+      .filter((t) => !tagSet.value.has(t));
+    tags.value = [...left, ...tags.value, ...right];
+  };
+
+  return { tags, tagSet, toggle, set, inject };
 };
