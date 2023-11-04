@@ -14,7 +14,7 @@
       </div>
       <ul>
         <li
-          v-for="tag in data"
+          v-for="tag in filteredTags"
           :key="tag"
           @click="onSelect(tag)"
           class="flex cursor-pointer gap-2 p-4 hover:bg-slate-100"
@@ -45,4 +45,10 @@ const {
 const searchText = ref<string>('');
 const { tagSet } = useSelectTag();
 const { data } = await getAllTags();
+
+const filteredTags = computed(() =>
+  searchText.value
+    ? data.value.filter((tag) => tag.includes(searchText.value))
+    : data.value,
+);
 </script>

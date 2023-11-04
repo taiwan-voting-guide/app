@@ -9,7 +9,14 @@ export default defineNuxtConfig({
       },
       link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
       title: '選前大補帖',
+      meta: [
+        {
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1, minimum-scale=1',
+        },
+      ],
     },
+    rootTag: 'body',
   },
   modules: [
     '@nuxtjs/tailwindcss',

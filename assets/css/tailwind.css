@@ -2,7 +2,11 @@
 
 @layer base {
   html {
-    @apply bg-slate-100 text-sm text-slate-600;
+    @apply bg-slate-100 text-slate-600;
+  }
+
+  body {
+    @apply h-screen w-screen overflow-scroll;
   }
 }
 

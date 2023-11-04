@@ -1,104 +1,64 @@
 <template>
-  <ClientOnly>
-    <HeadlessDialog :open="showPoliticianDialog" @close="onClose">
-      <div class="fixed inset-0 z-40 bg-black/40" aria-hidden="true" />
-      <div class="fixed inset-0 z-40 flex items-center justify-center">
-        <HeadlessDialogPanel
-          class="w-full max-w-md rounded-md bg-white p-3 drop-shadow"
-        >
-          <div class="mb-3 flex items-center">
-            <input
-              v-model="searchText"
-              placeholder="🔍 e.g. 2024_總統, 第八選區, 侯友宜"
-              type="search"
-              class="h-8 w-full rounded-md border-primary bg-slate-100 px-2 shadow-inner placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary"
-            />
-          </div>
-          <ul class="flex w-full flex-col gap-2 rounded-md">
-            <template v-if="results.length === 0">
-              <li
-                class="flex h-24 items-center justify-center p-2 text-slate-600"
-              >
-                沒有結果
-              </li>
-            </template>
-            <template v-else>
-              <li
-                v-for="[group, ...politicians] in results"
-                class="cursor-pointer rounded-md p-2 hover:bg-slate-100"
-                @click="() => onClick(politicians)"
-              >
-                <span class="font-semibold text-slate-600">
-                  {{ group }}
-                </span>
-                <ol class="mt-2 flex gap-2">
-                  <li
-                    class="rounded-md bg-primary/20 px-2 text-slate-600"
-                    v-for="politician in politicians"
-                  >
-                    {{ politician }}
-                  </li>
-                </ol>
-              </li>
-            </template>
-          </ul>
-        </HeadlessDialogPanel>
+  <Dialog :open="open" :onClose="onClose">
+    <div class="flex h-72 flex-col overflow-y-auto">
+      <div class="relative sticky top-0 border-b border-slate-100 bg-white p-4">
+        <input
+          type="text"
+          v-model="searchText"
+          placeholder="2024_總統, 侯友宜, 第八選舉區, ..."
+          class="w-full border-0 bg-white/40 py-0 pl-9 placeholder-slate-400 backdrop-blur-sm focus:ring-0"
+        />
+        <MagnifyingGlassIcon
+          class="absolute inset-y-0 left-4 h-5 h-full w-5 text-gray-400"
+        />
       </div>
-    </HeadlessDialog>
-  </ClientOnly>
+      <ul>
+        <li
+          v-for="result in results"
+          :key="result.key"
+          @click="onSelect(result.value)"
+          class="cursor-pointer p-4 hover:bg-slate-100"
+        >
+          {{ result.name }}
+        </li>
+      </ul>
+    </div>
+  </Dialog>
 </template>
 
 <script setup lang="ts">
-const { data } = await getAppData();
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 
-const searchPoliticianResults = computed(() => {
-  const results = new Map<string, Array<string>>();
+const {
+  open,
+  onClose,
+  onSelect = () => {},
+} = defineProps<{
+  open: boolean;
+  onClose: () => void;
+  onSelect?: (politicians: Array<string> | string) => void;
+}>();
 
-  if (!data.value) {
-    return results;
-  }
+const searchText = ref<string>('');
 
-  for (const [groupName, politicians] of Object.entries(data.value.group)) {
-    if (groupName === 'title' || groupName.startsWith('_')) {
-      continue;
-    }
+const { data } = await getPoliticianSearchOptions();
 
-    const key = `${groupName}_${politicians.join('_')}`;
-    const value = [groupName, ...politicians];
-
-    results.set(key, value);
-  }
-
-  return results;
-});
-
-const searchText = useState<string>('search_politician_text', () => '');
 const results = computed(() => {
-  const keywords = searchText.value.trim().replace(/\s+/g, ' ').split(' ');
+  if (!data?.value) {
+    return [];
+  }
 
-  const results: Array<Array<string>> = [];
-  searchPoliticianResults.value.forEach((value, key) => {
+  const keywords = searchText.value.trim().replace(/\s+/g, ' ').split(' ');
+  const results: Array<PoliticianSearchOption> = [];
+  for (const option of data.value) {
     for (const keyword of keywords) {
-      if (key.includes(keyword)) {
-        results.push(value);
+      if (option.key.includes(keyword)) {
+        results.push(option);
         break;
       }
     }
-  });
+  }
 
   return results;
 });
-
-const { set } = useSelectPolitician();
-const showPoliticianDialog = usePoliticianDialog();
-
-const onClose = () => {
-  showPoliticianDialog.value = false;
-};
-
-const onClick = async (politicians: Array<string>) => {
-  set(politicians);
-  searchText.value = '';
-  showPoliticianDialog.value = false;
-};
 </script>

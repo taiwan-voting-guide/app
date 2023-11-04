@@ -1,110 +1,197 @@
 <template>
-  <div class="flex h-screen w-screen flex-col">
-    <AppHeader />
-    <div class="relative flex flex-1 overflow-scroll">
-      <main class="relative flex-1 scroll-pt-[5.5rem] overflow-auto">
-        <div v-if="politicians.length === 0" class="h-full">
-          <AppCTA />
-        </div>
-        <div v-else class="absolute top-0 flex w-full">
-          <div class="mx-auto px-20 pb-16">
-            <table class="border-separate border-spacing-2">
-              <thead class="sticky top-2 z-10">
-                <tr>
-                  <th
-                    class="w-80 min-w-[20rem] max-w-[20rem]"
-                    scope="col"
-                    v-for="politician in politicians"
-                    :key="politician"
-                  >
-                    <AppContentHeader :politician="politician" />
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="tag in tags" :key="`${tag}-${politicians.join('')}`">
-                  <AppContent
-                    v-for="politician in politicians"
-                    :key="`${politician}-${tag}`"
-                    :politician="politician"
-                    :tag="tag"
-                  />
-                </tr>
-              </tbody>
-            </table>
+  <AppHeader />
+  <main class="w-fit min-w-full px-10 pt-20">
+    <ul class="flex">
+      <template
+        v-for="n in politicians.length * 2 + 1"
+        :key="`${n}_${politicians[(n - 2) / 2]}`"
+      >
+        <li v-if="n % 2 === 0" class="w-80 flex-none">
+          <AppContentHeader :politician="politicians[(n - 2) / 2]">
+            <div class="ml-auto" title="移除">
+              <XMarkIcon
+                @click="remove(politicians[(n - 2) / 2])"
+                class="h-6 w-6 cursor-pointer stroke-2 text-slate-400"
+              />
+            </div>
+          </AppContentHeader>
+        </li>
+        <button
+          v-else-if="n === 1 && politicians.length === 0"
+          title="新增候選人或政治人物"
+          @click="onAddPoliticianClicked(0)"
+          class="group mx-auto flex flex-none flex-col gap-2 transition-all"
+        >
+          <div
+            class="flex h-20 w-80 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
+          >
+            <PlusIcon
+              class="h-6 w-6 stroke-2 text-slate-200 group-hover:text-slate-400"
+            />
           </div>
-        </div>
-      </main>
-      <div
-        class="absolute top-0 z-10 m-2 inline-flex flex-col rounded-md bg-white p-2 drop-shadow transition-all"
-        :class="{ 'left-60': showTagDialog, 'left-0': !showTagDialog }"
-      >
-        <ButtonInvisible :onClick="toggleTagDialog">
-          <span class="text-lg"> 🏷️ </span>
-        </ButtonInvisible>
-        <ButtonInvisible :onClick="() => (showPoliticianDialog = true)">
-          <span class="text-lg"> 🔍 </span>
-        </ButtonInvisible>
-      </div>
-      <aside
-        class="absolute top-0 z-10 h-full w-60 flex-none overflow-y-scroll bg-white transition-all"
-        :class="{
-          'left-0 drop-shadow-md': showTagDialog,
-          '-left-60': !showTagDialog,
-        }"
-      >
-        <header class="sticky top-0 flex flex-col gap-3 bg-white p-3">
-          <ButtonPrimary to="/docs/contribute"> 🏷️ 新增標籤 </ButtonPrimary>
-          <input
-            v-model="searchText"
-            placeholder="🔍 搜尋標籤"
-            type="search"
-            class="h-10 w-full rounded-md border-primary bg-slate-50 px-2 shadow-inner placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary"
+          <div class="flex w-full items-center justify-center gap-1">
+            <InformationCircleIcon class="h-6 w-6 stroke-2 text-slate-400" />
+            <span class="text-slate-400">新增候選人或政治人物</span>
+          </div>
+        </button>
+        <button
+          v-else-if="n === 1 && politicians.length > 0"
+          title="新增候選人或政治人物"
+          @click="onAddPoliticianClicked(0)"
+          class="group ml-auto flex-none pr-4 transition-all"
+        >
+          <div
+            class="flex h-full w-20 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
+          >
+            <PlusIcon
+              class="h-6 w-6 stroke-2 text-slate-200 group-hover:text-slate-400"
+            />
+          </div>
+        </button>
+        <button
+          v-else-if="n === politicians.length * 2 + 1"
+          title="新增候選人或政治人物"
+          @click="onAddPoliticianClicked(politicians.length)"
+          class="group mr-auto flex-none pl-4 transition-all"
+        >
+          <div
+            class="flex h-full w-20 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
+          >
+            <PlusIcon
+              class="h-6 w-6 stroke-2 text-slate-200 group-hover:text-slate-400"
+            />
+          </div>
+        </button>
+        <button
+          v-else
+          title="新增候選人或政治人物"
+          class="group flex-none transition-all hover:px-4"
+          :class="{
+            'px-4':
+              (n - 1) / 2 === addPoliticianPosition &&
+              isPoliticianSelectDialogOpen,
+          }"
+          @click="onAddPoliticianClicked((n - 1) / 2)"
+        >
+          <div
+            class="relative flex h-full items-center justify-center rounded-md"
+            :class="{
+              'w-20 border-2 border-dashed border-slate-400 bg-white':
+                (n - 1) / 2 === addPoliticianPosition &&
+                isPoliticianSelectDialogOpen,
+              'w-4 group-hover:w-20 group-hover:border-2 group-hover:border-dashed group-hover:border-slate-400 group-hover:bg-white':
+                (n - 1) / 2 !== addPoliticianPosition ||
+                !isPoliticianSelectDialogOpen,
+            }"
+          >
+            <div
+              class="absolute h-full w-px border border-dashed group-hover:hidden"
+            />
+            <PlusIcon
+              class="hidden h-6 w-6 stroke-2 text-transparent group-hover:block group-hover:text-slate-400"
+            />
+          </div>
+        </button>
+      </template>
+    </ul>
+    <template v-if="politicians.length > 0">
+      <template v-for="(tag, i) in tags" :key="tag">
+        <button
+          @click="onAddTagClicked(i)"
+          class="group mx-auto flex flex-none transition-all hover:py-4"
+        >
+          <div
+            class="relative flex h-4 items-center justify-center rounded-md border-slate-200"
+            :class="{
+              'group-hover:h-10 group-hover:border-2 group-hover:border-dashed group-hover:border-slate-400 group-hover:bg-white group-hover:py-4': true,
+            }"
+          >
+            <div
+              class="absolute h-px w-full border border-dashed group-hover:hidden"
+            />
+            <PlusIcon
+              class="absolute hidden h-6 w-6 stroke-2 text-slate-200 group-hover:block group-hover:text-slate-400"
+            />
+            <template
+              v-for="n in politicians.length * 2 + 1"
+              :key="`${n}_${politicians[(n - 2) / 2]}`"
+            >
+              <div v-if="n % 2 === 0" class="w-80" />
+              <div
+                v-else-if="n !== 1 && n !== politicians.length * 2 + 1"
+                class="w-4"
+              />
+            </template>
+          </div>
+        </button>
+        <ul class="flex gap-4">
+          <AppContent
+            v-for="politician in politicians"
+            :key="`${politician}-${tag}`"
+            :politician="politician"
+            :tag="tag"
           />
-        </header>
-        <template v-if="filterTags && filterTags.length > 0">
-          <ul class="px-3">
-            <li>
-              <button
-                v-for="tag in filterTags"
-                @click="() => toggle(tag)"
-                class="ease w-full rounded-md px-4 py-2 text-left hover:bg-slate-100"
-                :class="{
-                  'text-primary': tagSet.has(tag),
-                  'text-slate-600': !tagSet.has(tag),
-                }"
-                :key="tag"
-              >
-                <div class="flex items-center">
-                  <div class="mr-1 inline-block h-4 w-4">
-                    <CheckIcon class="h-4 w-4" v-if="tagSet.has(tag)" />
-                  </div>
-                  {{ tag }}
-                </div>
-              </button>
-            </li>
-          </ul>
-        </template>
-        <template v-else>
-          <p>找不到標籤</p>
-        </template>
-      </aside>
-    </div>
-  </div>
-  <HeadlessListbox>
-    <AppPoliticianSearch />
-  </HeadlessListbox>
+        </ul>
+      </template>
+      <button
+        @click="onAddTagClicked(tags.length)"
+        class="group mx-auto block pt-4"
+      >
+        <div
+          class="relative flex h-10 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
+        >
+          <PlusIcon
+            class="absolute h-6 w-6 stroke-2 text-slate-200 group-hover:text-slate-400"
+          />
+          <template
+            v-for="n in politicians.length * 2 + 1"
+            :key="`${n}_${politicians[(n - 2) / 2]}`"
+          >
+            <div v-if="n % 2 === 0" class="h-20 w-80" />
+            <div
+              v-else-if="n !== 1 && n !== politicians.length * 2 + 1"
+              class="h-20 w-4"
+            />
+          </template>
+        </div>
+      </button>
+    </template>
+  </main>
+
+  <AppPoliticianSearch
+    :open="isPoliticianSelectDialogOpen"
+    :onClose="() => (isPoliticianSelectDialogOpen = false)"
+    :onSelect="onPoliticiansSelect"
+  />
+  <AppTagSearch
+    :open="isTagSelectDialogOpen"
+    :onClose="() => (isTagSelectDialogOpen = false)"
+    :onSelect="onTagsSelect"
+  />
 </template>
 
 <script setup lang="ts">
-import { CheckIcon } from '@heroicons/vue/24/outline';
+import {
+  XMarkIcon,
+  PlusIcon,
+  InformationCircleIcon,
+} from '@heroicons/vue/24/outline';
 
 // fetch app data
-const { data } = await getAppData();
-const allTags = data.value?.tags || [];
+const { data } = await getAllTags();
+const allTags = data.value || [];
 
-const { politicians } = useSelectPolitician();
-const { tags, toggle, tagSet } = useSelectTag();
+const {
+  politicians,
+  inject: injectPoliticians,
+  remove,
+} = useSelectPolitician();
+const { tags, inject: injectTags } = useSelectTag();
+
+const isPoliticianSelectDialogOpen = ref<boolean>(false);
+const addPoliticianPosition = ref<number>(0);
+const isTagSelectDialogOpen = ref<boolean>(false);
+const addTagPosition = ref<number>(0);
 
 watch([tags, politicians], () => {
   const query: { tags?: string; politicians?: string } = {};
@@ -123,16 +210,30 @@ watch([tags, politicians], () => {
 });
 
 const searchText = ref<string>('');
-const filterTags = computed(() =>
-  searchText.value
-    ? allTags.filter((tag) => tag.includes(searchText.value))
-    : allTags,
-);
 
-const showTagDialog = useTagDialog();
-const toggleTagDialog = () => {
-  showTagDialog.value = !showTagDialog.value;
-};
+function onAddPoliticianClicked(position: number) {
+  addPoliticianPosition.value = position;
+  isPoliticianSelectDialogOpen.value = true;
+}
 
-const showPoliticianDialog = usePoliticianDialog();
+function onPoliticiansSelect(politicians: Array<string> | string) {
+  if (Array.isArray(politicians)) {
+    injectPoliticians(politicians, addPoliticianPosition.value);
+  } else {
+    injectPoliticians([politicians], addPoliticianPosition.value);
+  }
+
+  searchText.value = '';
+  isPoliticianSelectDialogOpen.value = false;
+}
+
+function onAddTagClicked(position: number) {
+  isTagSelectDialogOpen.value = true;
+  addTagPosition.value = position;
+}
+
+function onTagsSelect(tag: string) {
+  const leftRemoved = injectTags([tag], addTagPosition.value);
+  addTagPosition.value += 1 - leftRemoved;
+}
 </script>
