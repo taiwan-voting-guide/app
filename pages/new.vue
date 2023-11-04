@@ -1,6 +1,6 @@
 <template>
   <AppHeader />
-  <main class="w-fit min-w-full px-20 pt-20">
+  <main class="w-fit min-w-full px-10 pt-20">
     <ul class="flex">
       <template
         v-for="n in politicians.length * 2 + 1"
