@@ -14,11 +14,14 @@
       </div>
       <ul>
         <li
-          v-for="tag in filteredTags"
+          v-for="tag in data"
           :key="tag"
           @click="onSelect(tag)"
-          class="cursor-pointer p-4 hover:bg-slate-100"
+          class="flex cursor-pointer gap-2 p-4 hover:bg-slate-100"
         >
+          <div class="h-5 w-5 flex-none">
+            <CheckIcon v-if="tagSet.has(tag)" class="h-5 w-5 text-slate-400" />
+          </div>
           {{ tag }}
         </li>
       </ul>
@@ -27,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
+import { MagnifyingGlassIcon, CheckIcon } from '@heroicons/vue/24/outline';
 
 const {
   open,
@@ -42,22 +45,4 @@ const {
 const searchText = ref<string>('');
 const { tagSet } = useSelectTag();
 const { data } = await getAllTags();
-
-const unselectedTags = computed(() => {
-  if (data.value === null) {
-    return [];
-  }
-
-  return data.value.filter((t: string) => !tagSet.value.has(t));
-});
-
-const filteredTags = computed(() => {
-  if (data.value === null) {
-    return [];
-  }
-
-  return searchText.value === ''
-    ? unselectedTags.value
-    : unselectedTags.value.filter((t: string) => t.includes(searchText.value));
-});
 </script>

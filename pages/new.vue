@@ -74,14 +74,19 @@
           @click="onAddPoliticianClicked((n - 1) / 2)"
         >
           <div
-            class="flex h-full w-4 items-center justify-center rounded-md group-hover:w-20 group-hover:border-2 group-hover:border-dashed group-hover:border-slate-400 group-hover:bg-white"
+            class="relative flex h-full items-center justify-center rounded-md"
             :class="{
               'w-20 border-2 border-dashed border-slate-400 bg-white':
                 (n - 1) / 2 === addPoliticianPosition &&
                 isPoliticianSelectDialogOpen,
+              'w-4 group-hover:w-20 group-hover:border-2 group-hover:border-dashed group-hover:border-slate-400 group-hover:bg-white':
+                (n - 1) / 2 !== addPoliticianPosition ||
+                !isPoliticianSelectDialogOpen,
             }"
           >
-            <div class="h-full w-px border border-dashed group-hover:hidden" />
+            <div
+              class="absolute h-full w-px border border-dashed group-hover:hidden"
+            />
             <PlusIcon
               class="hidden h-6 w-6 stroke-2 text-transparent group-hover:block group-hover:text-slate-400"
             />
@@ -90,11 +95,42 @@
       </template>
     </ul>
     <template v-if="politicians.length > 0">
-      <template v-for="tag in tags" :key="tag">
-        <ul>
-          {{
-            tag
-          }}
+      <template v-for="(tag, i) in tags" :key="tag">
+        <button
+          @click="onAddTagClicked(i)"
+          class="group mx-auto flex flex-none transition-all hover:py-4"
+        >
+          <div
+            class="relative flex h-4 items-center justify-center rounded-md border-slate-200"
+            :class="{
+              'group-hover:h-10 group-hover:border-2 group-hover:border-dashed group-hover:border-slate-400 group-hover:bg-white group-hover:py-4': true,
+            }"
+          >
+            <div
+              class="absolute h-px w-full border border-dashed group-hover:hidden"
+            />
+            <PlusIcon
+              class="absolute hidden h-6 w-6 stroke-2 text-slate-200 group-hover:block group-hover:text-slate-400"
+            />
+            <template
+              v-for="n in politicians.length * 2 + 1"
+              :key="`${n}_${politicians[(n - 2) / 2]}`"
+            >
+              <div v-if="n % 2 === 0" class="w-80" />
+              <div
+                v-else-if="n !== 1 && n !== politicians.length * 2 + 1"
+                class="w-4"
+              />
+            </template>
+          </div>
+        </button>
+        <ul class="flex gap-4">
+          <AppContent
+            v-for="politician in politicians"
+            :key="`${politician}-${tag}`"
+            :politician="politician"
+            :tag="tag"
+          />
         </ul>
       </template>
       <button
@@ -202,6 +238,7 @@ function onAddTagClicked(position: number) {
 }
 
 function onTagsSelect(tag: string) {
-  injectTags([tag], addTagPosition.value);
+  const leftRemoved = injectTags([tag], addTagPosition.value);
+  addTagPosition.value += 1 - leftRemoved;
 }
 </script>
