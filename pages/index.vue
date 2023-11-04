@@ -20,7 +20,7 @@
           v-else-if="n === 1 && politicians.length === 0"
           title="新增候選人或政治人物"
           @click="onAddPoliticianClicked(0)"
-          class="group mx-auto flex flex-none flex-col gap-2 transition-all"
+          class="group mx-auto flex flex-none flex-col gap-2"
         >
           <div
             class="flex h-20 w-80 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
@@ -38,7 +38,7 @@
           v-else-if="n === 1 && politicians.length > 0"
           title="新增候選人或政治人物"
           @click="onAddPoliticianClicked(0)"
-          class="group ml-auto flex-none pr-4 transition-all"
+          class="group ml-auto flex-none pr-4"
         >
           <div
             class="flex h-full w-20 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
@@ -52,7 +52,7 @@
           v-else-if="n === politicians.length * 2 + 1"
           title="新增候選人或政治人物"
           @click="onAddPoliticianClicked(politicians.length)"
-          class="group mr-auto flex-none pl-4 transition-all"
+          class="group mr-auto flex-none pl-4"
         >
           <div
             class="flex h-full w-20 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
@@ -65,7 +65,7 @@
         <button
           v-else
           title="新增候選人或政治人物"
-          class="group flex-none transition-all hover:px-4"
+          class="group flex-none hover:px-4"
           :class="{
             'px-4':
               (n - 1) / 2 === addPoliticianPosition &&
@@ -98,7 +98,7 @@
       <template v-for="(tag, i) in tags" :key="tag">
         <button
           @click="onAddTagClicked(i)"
-          class="group mx-auto flex flex-none transition-all hover:py-4"
+          class="group mx-auto flex flex-none hover:py-4"
         >
           <div
             class="relative flex h-4 items-center justify-center rounded-md border-slate-200"
