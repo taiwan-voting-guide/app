@@ -48,7 +48,7 @@ const { data } = await getAllTags();
 
 const filteredTags = computed(() =>
   searchText.value
-    ? data.value.filter((tag) => tag.includes(searchText.value))
+    ? data.value?.filter((tag) => tag.includes(searchText.value))
     : data.value,
 );
 </script>
