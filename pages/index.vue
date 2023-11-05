@@ -4,20 +4,10 @@
     <ul class="flex">
       <template
         v-for="n in politicians.length * 2 + 1"
-        :key="`${n}_${politicians[(n - 2) / 2]}`"
+        :key="`${n}${politicians[(n - 2) / 2]}`"
       >
-        <li v-if="n % 2 === 0" class="w-80 flex-none">
-          <AppContentHeader :politician="politicians[(n - 2) / 2]">
-            <div class="ml-auto" title="移除">
-              <XMarkIcon
-                @click="remove(politicians[(n - 2) / 2])"
-                class="h-6 w-6 cursor-pointer stroke-2 text-slate-400"
-              />
-            </div>
-          </AppContentHeader>
-        </li>
         <button
-          v-else-if="n === 1 && politicians.length === 0"
+          v-if="n === 1 && politicians.length === 0"
           title="新增候選人或政治人物"
           @click="onAddPoliticianClicked(0)"
           class="group mx-auto flex flex-none flex-col gap-2"
@@ -26,14 +16,15 @@
             class="flex h-20 w-80 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
           >
             <PlusIcon
-              class="h-6 w-6 stroke-2 text-slate-200 group-hover:text-slate-400"
+              class="h-5 w-5 stroke-2 text-slate-200 group-hover:text-slate-400"
             />
           </div>
           <div class="flex w-full items-center justify-center gap-1">
-            <InformationCircleIcon class="h-6 w-6 stroke-2 text-slate-400" />
+            <InformationCircleIcon class="h-5 w-5 stroke-2 text-slate-400" />
             <span class="text-slate-400">新增候選人或政治人物</span>
           </div>
         </button>
+
         <button
           v-else-if="n === 1 && politicians.length > 0"
           title="新增候選人或政治人物"
@@ -41,13 +32,14 @@
           class="group ml-auto flex-none pr-4"
         >
           <div
-            class="flex h-full w-20 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
+            class="flex h-20 w-20 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
           >
             <PlusIcon
-              class="h-6 w-6 stroke-2 text-slate-200 group-hover:text-slate-400"
+              class="h-5 w-5 stroke-2 text-slate-200 group-hover:text-slate-400"
             />
           </div>
         </button>
+
         <button
           v-else-if="n === politicians.length * 2 + 1"
           title="新增候選人或政治人物"
@@ -55,45 +47,41 @@
           class="group mr-auto flex-none pl-4"
         >
           <div
-            class="flex h-full w-20 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
+            class="flex h-20 w-20 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
           >
             <PlusIcon
-              class="h-6 w-6 stroke-2 text-slate-200 group-hover:text-slate-400"
+              class="h-5 w-5 stroke-2 text-slate-200 group-hover:text-slate-400"
             />
           </div>
         </button>
+
         <button
-          v-else
+          v-else-if="n % 2 === 1"
           title="新增候選人或政治人物"
-          class="group flex-none hover:px-4"
-          :class="{
-            'px-4':
-              (n - 1) / 2 === addPoliticianPosition &&
-              isPoliticianSelectDialogOpen,
-          }"
+          class="group flex w-4 flex-none justify-center hover:w-28"
           @click="onAddPoliticianClicked((n - 1) / 2)"
         >
+          <div class="h-full w-px border border-dashed group-hover:hidden" />
           <div
-            class="relative flex h-full items-center justify-center rounded-md"
-            :class="{
-              'w-20 border-2 border-dashed border-slate-400 bg-white':
-                (n - 1) / 2 === addPoliticianPosition &&
-                isPoliticianSelectDialogOpen,
-              'w-4 group-hover:w-20 group-hover:border-2 group-hover:border-dashed group-hover:border-slate-400 group-hover:bg-white':
-                (n - 1) / 2 !== addPoliticianPosition ||
-                !isPoliticianSelectDialogOpen,
-            }"
+            class="hidden h-20 w-20 items-center justify-center rounded-md border-2 border-dashed border-slate-400 bg-white group-hover:flex"
           >
-            <div
-              class="absolute h-full w-px border border-dashed group-hover:hidden"
-            />
-            <PlusIcon
-              class="hidden h-6 w-6 stroke-2 text-transparent group-hover:block group-hover:text-slate-400"
-            />
+            <PlusIcon class="h-5 w-5 stroke-2 text-slate-400" />
           </div>
         </button>
+
+        <li v-else class="w-80 flex-none">
+          <AppContentHeader :politician="politicians[(n - 2) / 2]">
+            <div class="ml-auto" title="移除">
+              <XMarkIcon
+                @click="remove(politicians[(n - 2) / 2])"
+                class="h-5 w-5 cursor-pointer stroke-2 text-slate-400"
+              />
+            </div>
+          </AppContentHeader>
+        </li>
       </template>
     </ul>
+
     <template v-if="politicians.length > 0">
       <template v-for="(tag, i) in tags" :key="tag">
         <button
@@ -110,7 +98,7 @@
               class="absolute h-px w-full border border-dashed group-hover:hidden"
             />
             <PlusIcon
-              class="absolute hidden h-6 w-6 stroke-2 text-slate-200 group-hover:block group-hover:text-slate-400"
+              class="absolute hidden h-5 w-5 stroke-2 text-slate-200 group-hover:block group-hover:text-slate-400"
             />
             <template
               v-for="n in politicians.length * 2 + 1"
@@ -141,7 +129,7 @@
           class="relative flex h-10 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
         >
           <PlusIcon
-            class="absolute h-6 w-6 stroke-2 text-slate-200 group-hover:text-slate-400"
+            class="absolute h-5 w-5 stroke-2 text-slate-200 group-hover:text-slate-400"
           />
           <template
             v-for="n in politicians.length * 2 + 1"
