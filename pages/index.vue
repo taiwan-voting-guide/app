@@ -86,32 +86,19 @@
       <template v-for="(tag, i) in tags" :key="tag">
         <button
           @click="onAddTagClicked(i)"
-          class="group mx-auto flex flex-none hover:py-4"
+          class="group mx-auto flex h-4 flex-none flex-col justify-center hover:h-16"
         >
+          <AppFiller :arrLen="politicians.length" />
+          <div class="h-px w-full border border-dashed group-hover:hidden" />
           <div
-            class="relative flex h-4 items-center justify-center rounded-md border-slate-200"
-            :class="{
-              'group-hover:h-10 group-hover:border-2 group-hover:border-dashed group-hover:border-slate-400 group-hover:bg-white group-hover:py-4': true,
-            }"
+            class="hidden h-10 w-full items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:flex group-hover:border-slate-400"
           >
-            <div
-              class="absolute h-px w-full border border-dashed group-hover:hidden"
-            />
             <PlusIcon
-              class="absolute hidden h-5 w-5 stroke-2 text-slate-200 group-hover:block group-hover:text-slate-400"
+              class="h-5 w-5 stroke-2 text-slate-200 group-hover:block group-hover:text-slate-400"
             />
-            <template
-              v-for="n in politicians.length * 2 + 1"
-              :key="`${n}_${politicians[(n - 2) / 2]}`"
-            >
-              <div v-if="n % 2 === 0" class="w-80" />
-              <div
-                v-else-if="n !== 1 && n !== politicians.length * 2 + 1"
-                class="w-4"
-              />
-            </template>
           </div>
         </button>
+
         <ul class="flex gap-4">
           <AppContent
             v-for="politician in politicians"
@@ -121,26 +108,18 @@
           />
         </ul>
       </template>
+
       <button
         @click="onAddTagClicked(tags.length)"
-        class="group mx-auto block pt-4"
+        class="group mx-auto flex py-4"
       >
         <div
-          class="relative flex h-10 items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
+          class="flex h-10 flex-col items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
         >
           <PlusIcon
-            class="absolute h-5 w-5 stroke-2 text-slate-200 group-hover:text-slate-400"
+            class="h-5 w-5 stroke-2 text-slate-200 group-hover:text-slate-400"
           />
-          <template
-            v-for="n in politicians.length * 2 + 1"
-            :key="`${n}_${politicians[(n - 2) / 2]}`"
-          >
-            <div v-if="n % 2 === 0" class="h-20 w-80" />
-            <div
-              v-else-if="n !== 1 && n !== politicians.length * 2 + 1"
-              class="h-20 w-4"
-            />
-          </template>
+          <AppFiller :arrLen="politicians.length" />
         </div>
       </button>
     </template>
