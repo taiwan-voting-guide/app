@@ -24,16 +24,22 @@ export const useSelectTag = () => {
     tags.value = newTags;
   };
 
-  const inject = (injectedTags: Array<string>, position: number): number => {
-    const left = tags.value.slice(0, position);
-    const originalLeftLength = left.length;
-    const newLeft = left.filter((t) => !injectedTags.includes(t));
-    const right = tags.value
-      .slice(position)
-      .filter((t) => !injectedTags.includes(t));
-    tags.value = [...newLeft, ...injectedTags, ...right];
-    return originalLeftLength - newLeft.length;
+  const remove = (tag: string): number => {
+    const index = tags.value.indexOf(tag);
+    tags.value = tags.value.filter((t) => t !== tag);
+    return index;
   };
 
-  return { tags, tagSet, toggle, set, inject };
+  const inject = (tag: string, position: number): number => {
+    const index = tags.value.indexOf(tag);
+    console.log('index', index);
+    console.log('position', position);
+    const shift = position > index ? 1 : 0;
+    const left = tags.value.slice(0, position).filter((t) => t !== tag);
+    const right = tags.value.slice(position).filter((t) => t !== tag);
+    tags.value = [...left, tag, ...right];
+    return shift;
+  };
+
+  return { tags, tagSet, toggle, set, remove, inject };
 };

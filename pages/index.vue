@@ -153,7 +153,7 @@ const {
   inject: injectPoliticians,
   remove,
 } = useSelectPolitician();
-const { tags, inject: injectTags } = useSelectTag();
+const { tags, tagSet, remove: removeTag, inject: injectTags } = useSelectTag();
 
 const isPoliticianSelectDialogOpen = ref<boolean>(false);
 const addPoliticianPosition = ref<number>(0);
@@ -200,7 +200,16 @@ function onAddTagClicked(position: number) {
 }
 
 function onTagsSelect(tag: string) {
-  const leftRemoved = injectTags([tag], addTagPosition.value);
-  addTagPosition.value += 1 - leftRemoved;
+  if (tagSet.value.has(tag)) {
+    const i = removeTag(tag);
+    if (i < addTagPosition.value) {
+      addTagPosition.value -= 1;
+    }
+    return;
+  }
+
+  const shift = injectTags(tag, addTagPosition.value);
+  console.log(shift);
+  addTagPosition.value += shift;
 }
 </script>
