@@ -4,7 +4,7 @@
       <Logo />
       <NuxtLink
         to="/docs/introduction"
-        class="ease flex min-w-max items-center gap-1 rounded-md px-3 py-1 font-bold text-slate-500"
+        class="flex flex-none items-center gap-1 rounded-md px-2 font-bold text-slate-400 hover:text-slate-600"
       >
         <QuestionMarkCircleIcon class="h-5 w-5 stroke-2" />
         如何使用
@@ -54,7 +54,12 @@
       ></Codemirror>
     </div>
 
-    <div class="flex max-h-full flex-1 justify-center overflow-y-auto py-12">
+    <div
+      class="flex max-h-full flex-1 flex-col items-center gap-4 overflow-y-auto pb-20"
+    >
+      <div class="sticky top-0 z-10 h-20 w-80">
+        <AppContentHeader :politician="route.query.politician as string" />
+      </div>
       <div class="h-min w-80 max-w-[20rem]">
         <Card>
           <div class="p-4" v-html="preview"></div>

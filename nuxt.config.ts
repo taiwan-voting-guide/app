@@ -51,8 +51,7 @@ export default defineNuxtConfig({
         'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
       },
     },
-    // TODO: remove this
-    '/api/get-app-data': {
+    '/api/get-politician-search-options': {
       headers: {
         'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
       },
