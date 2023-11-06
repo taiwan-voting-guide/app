@@ -212,7 +212,6 @@ function onTagsSelect(tag: string) {
   }
 
   const shift = injectTags(tag, addTagPosition.value);
-  console.log(shift);
   addTagPosition.value += shift;
 }
 </script>

@@ -32,8 +32,6 @@ export const useSelectTag = () => {
 
   const inject = (tag: string, position: number): number => {
     const index = tags.value.indexOf(tag);
-    console.log('index', index);
-    console.log('position', position);
     const shift = position > index ? 1 : 0;
     const left = tags.value.slice(0, position).filter((t) => t !== tag);
     const right = tags.value.slice(position).filter((t) => t !== tag);
