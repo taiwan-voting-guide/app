@@ -54,13 +54,11 @@
       ></Codemirror>
     </div>
 
-    <div
-      class="flex max-h-full flex-1 flex-col items-center gap-4 overflow-y-auto pb-20"
-    >
-      <div class="sticky top-0 z-10 h-20 w-80">
+    <div class="flex max-h-full flex-1 flex-col gap-4 overflow-y-auto pb-20">
+      <div class="sticky top-0 z-10 mx-auto h-20 w-80">
         <AppContentHeader :politician="route.query.politician as string" />
       </div>
-      <div class="h-min w-80 max-w-[20rem]">
+      <div class="mx-auto h-min w-80 max-w-[20rem]">
         <Card>
           <div class="p-4" v-html="preview"></div>
         </Card>
