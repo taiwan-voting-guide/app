@@ -111,7 +111,7 @@
 
       <button
         @click="onAddTagClicked(tags.length)"
-        class="group mx-auto flex py-4"
+        class="group mx-auto flex flex-col items-center gap-2 py-4"
       >
         <div
           class="flex h-10 flex-col items-center justify-center rounded-md border-2 border-dashed border-slate-200 bg-white group-hover:border-slate-400"
@@ -120,6 +120,13 @@
             class="h-5 w-5 stroke-2 text-slate-200 group-hover:text-slate-400"
           />
           <AppFiller :arrLen="politicians.length" />
+        </div>
+        <div
+          v-if="tags.length === 0"
+          class="flex items-center gap-1 font-bold text-slate-400"
+        >
+          <InformationCircleIcon class="h-5 w-5 stroke-2 text-slate-400" />
+          新增資訊標籤
         </div>
       </button>
     </template>
@@ -143,10 +150,6 @@ import {
   PlusIcon,
   InformationCircleIcon,
 } from '@heroicons/vue/24/outline';
-
-// fetch app data
-const { data } = await getAllTags();
-const allTags = data.value || [];
 
 const {
   politicians,
