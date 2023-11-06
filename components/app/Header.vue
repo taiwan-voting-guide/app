@@ -13,20 +13,20 @@
           <HeadlessMenuItem>
             <NuxtLink
               class="flex items-center gap-1 px-3 py-2"
-              to="/docs/contribute"
+              to="/docs/introduction"
             >
-              <PencilSquareIcon class="h-5 w-5 stroke-2" />
-              貢獻
+              <QuestionMarkCircleIcon class="h-5 w-5 stroke-2" />
+              如何使用
             </NuxtLink>
           </HeadlessMenuItem>
 
           <HeadlessMenuItem>
             <NuxtLink
               class="flex items-center gap-1 px-3 py-2"
-              to="/docs/introduction"
+              to="/docs/contribute"
             >
-              <DocumentTextIcon class="h-5 w-5 stroke-2" />
-              文件
+              <PencilSquareIcon class="h-5 w-5 stroke-2" />
+              貢獻
             </NuxtLink>
           </HeadlessMenuItem>
 
@@ -73,17 +73,18 @@
     </div>
 
     <NuxtLink
+      to="/docs/introduction"
+      class="ease hidden min-w-max items-center gap-1 rounded-md px-3 py-1 font-bold text-slate-500 lg:flex"
+    >
+      <QuestionMarkCircleIcon class="h-5 w-5 stroke-2" />
+      如何使用
+    </NuxtLink>
+    <NuxtLink
       to="/contribute"
       class="ease hidden min-w-max items-center gap-1 rounded-md px-3 py-1 font-bold text-slate-500 lg:flex"
     >
       <PencilSquareIcon class="h-5 w-5 stroke-2" />
-      <span class="flex-none">貢獻</span>
-    </NuxtLink>
-    <NuxtLink
-      to="/docs/introduction"
-      class="ease hidden min-w-max items-center gap-1 rounded-md px-3 py-1 font-bold text-slate-500 lg:flex"
-    >
-      <DocumentTextIcon class="h-5 w-5 stroke-2" /> 文件
+      <span class="flex-none">參與貢獻</span>
     </NuxtLink>
     <NuxtLink
       to="/data/tag_clicks_last_7_days"
@@ -120,7 +121,7 @@
 <script setup lang="ts">
 import {
   Bars3Icon,
-  DocumentTextIcon,
+  QuestionMarkCircleIcon,
   PencilSquareIcon,
   ChartBarIcon,
   ChatBubbleLeftEllipsisIcon,

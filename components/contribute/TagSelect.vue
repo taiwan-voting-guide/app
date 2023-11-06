@@ -37,7 +37,7 @@
           v-slot="{ selected, active }"
         >
           <li
-            class="relative cursor-pointer select-none py-2 pl-10 pr-4 text-sm"
+            class="relative cursor-pointer select-none py-2 pl-10 pr-4"
             :class="{
               'bg-slate-100 font-bold': active,
             }"
