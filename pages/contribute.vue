@@ -37,7 +37,7 @@
         :disabled="!route.query.politician || !route.query.tag"
         :onClick="() => setIsSubmitDialogOpen(true)"
       >
-        <PencilSquareIcon class="h-4 w-4" />
+        <PencilSquareIcon class="h-5 w-5" />
         完成編輯</ButtonPrimary
       >
     </div>
