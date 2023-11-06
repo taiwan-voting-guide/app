@@ -2,7 +2,7 @@
   <ClientOnly>
     <HeadlessDialog :open="open" @close="onClose">
       <div
-        class="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-sm"
+        class="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur"
         aria-hidden="true"
       />
       <div class="fixed inset-0 z-40 flex items-center justify-center">

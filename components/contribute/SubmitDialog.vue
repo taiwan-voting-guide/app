@@ -1,15 +1,18 @@
 <template>
   <ClientOnly>
     <HeadlessDialog :open="isOpen" @close="closeDialog">
-      <div class="fixed inset-0 z-10 bg-black/50" aria-hidden="true" />
-      <div class="fixed inset-0 z-10 flex items-center justify-center">
+      <div
+        class="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur"
+        aria-hidden="true"
+      />
+      <div class="fixed inset-0 z-40 flex items-center justify-center">
         <HeadlessDialogPanel class="w-80 rounded-md bg-white p-4 drop-shadow">
           <form class="flex flex-col gap-4">
             <label>
               <span>Email</span>
               <input
                 disabled
-                class="w-full rounded-md border-0 bg-slate-100 text-sm text-slate-400"
+                class="w-full rounded-md border-0 bg-slate-100 text-slate-400"
                 type="email"
                 :value="email"
               />
@@ -18,7 +21,7 @@
               <span class="after:text-red-500 after:content-['*']">貢獻者</span>
 
               <input
-                class="w-full rounded-md border-0 bg-slate-100 text-sm"
+                class="w-full rounded-md border-0 bg-slate-100"
                 :class="{ 'border border-red-500': error }"
                 type="text"
                 v-model="name"

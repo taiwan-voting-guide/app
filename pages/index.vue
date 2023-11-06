@@ -1,7 +1,7 @@
 <template>
   <AppHeader />
   <main class="w-fit min-w-full px-10 pt-16">
-    <ul class="sticky top-16 z-20 flex pt-4 backdrop-blur-md">
+    <ul class="sticky top-16 z-20 flex pt-4 backdrop-blur">
       <template
         v-for="n in politicians.length * 2 + 1"
         :key="`${n}${politicians[(n - 2) / 2]}`"

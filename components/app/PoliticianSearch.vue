@@ -6,7 +6,7 @@
           type="text"
           v-model="searchText"
           placeholder="2024_總統, 侯友宜, 第八選舉區, ..."
-          class="w-full border-0 bg-white/40 py-0 pl-16 placeholder-slate-400 backdrop-blur-sm focus:ring-0"
+          class="w-full border-0 py-0 pl-16 placeholder-slate-400 focus:ring-0"
         />
         <ArrowLeftIcon
           @click="onClose"
