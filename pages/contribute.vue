@@ -119,7 +119,6 @@ async function updatePreview() {
       'remark-gfm',
       'remark-rehype',
       'rehype-class-names',
-      'rehype-anchor-links',
       'rehype-stringify',
     ],
   );

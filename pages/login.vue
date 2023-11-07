@@ -21,7 +21,7 @@
               v-model="email"
               placeholder="you@example.com"
               type="email"
-              class="w-full rounded-md border-none px-3 py-2 placeholder-slate-400 drop-shadow"
+              class="w-full rounded-md border-none px-3 py-2 placeholder-slate-400 shadow"
               :disabled="loading || sent"
               :class="{
                 'ring-1 ring-red-500': isError,

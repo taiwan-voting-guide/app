@@ -6,7 +6,7 @@
         aria-hidden="true"
       />
       <div class="fixed inset-0 z-40 flex items-center justify-center">
-        <HeadlessDialogPanel class="w-80 rounded-md bg-white p-4 drop-shadow">
+        <HeadlessDialogPanel class="w-80 rounded-md bg-white p-4 shadow">
           <form class="flex flex-col gap-4">
             <label>
               <span>Email</span>

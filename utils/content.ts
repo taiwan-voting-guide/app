@@ -16,15 +16,15 @@ import { visit } from 'unist-util-visit';
 import { matter } from 'vfile-matter';
 
 export const classNames: Options = {
-  h2: 'pb-3 text-xl font-extrabold text-slate-700 underline decoration-primary decoration-4 underline-offset-4',
-  h3: 'pb-3 font-extrabold text-slate-700 underline decoration-primary decoration-2  underline-offset-4',
-  h4: 'pb-3 font-extrabold text-slate-700 underline decoration-primary decoration-2  underline-offset-4',
+  h2: 'pb-3 text-xl font-bold underline decoration-primary decoration-4 underline-offset-4',
+  h3: 'pb-3 font-bold underline decoration-primary decoration-2 underline-offset-4',
+  h4: 'pb-3 font-bold underline decoration-primary decoration-2 underline-offset-4',
 
-  p: 'text-slate-700',
-  a: 'text-blue-500 underline',
+  p: '',
+  a: 'text-blue-600 underline',
   ul: 'group-ul list-disc pl-4',
   ol: 'group-ol list-decimal pl-4',
-  li: 'text-slate-700 marker:text-primary',
+  li: 'marker:text-primary',
 
   img: 'h-auto max-w-full rounded border',
   blockquote: 'rounded-md border-l-4 bg-slate-100 p-4 italic text-slate-500',

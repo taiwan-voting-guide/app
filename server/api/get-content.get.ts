@@ -34,7 +34,6 @@ export default defineEventHandler(async (event) => {
     'remark-gfm',
     'remark-rehype',
     'rehype-class-names',
-    'rehype-anchor-links',
     'rehype-minify',
     'rehype-stringify',
   ]);

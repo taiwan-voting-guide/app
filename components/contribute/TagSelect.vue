@@ -1,6 +1,6 @@
 <template>
   <HeadlessCombobox as="div" class="relative z-10" v-model="selected">
-    <div class="relative overflow-hidden rounded-md bg-white drop-shadow">
+    <div class="relative overflow-hidden rounded-md bg-white shadow">
       <HeadlessComboboxInput
         class="w-48 border-none px-3 py-2 placeholder-slate-400"
         placeholder="標籤"
@@ -20,7 +20,7 @@
       @after-leave="query = ''"
     >
       <HeadlessComboboxOptions
-        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white drop-shadow"
+        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white shadow"
       >
         <div
           v-if="filteredTags.length === 0 && query !== ''"
