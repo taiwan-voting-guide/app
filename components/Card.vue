@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-full w-full overflow-y-auto break-words rounded-md bg-white drop-shadow"
+    class="h-full w-full overflow-y-auto break-words rounded-md bg-white shadow"
   >
     <slot></slot>
   </div>
