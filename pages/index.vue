@@ -69,7 +69,7 @@
           </div>
         </button>
 
-        <li v-else class="w-80 flex-none">
+        <li v-else class="w-80 flex-none overflow-visible">
           <AppContentHeader :politician="politicians[(n - 2) / 2]">
             <div class="ml-auto" title="移除">
               <XMarkIcon
@@ -99,7 +99,7 @@
           </div>
         </button>
 
-        <ul class="flex gap-4">
+        <ul class="flex gap-4 overflow-visible">
           <AppContent
             v-for="politician in politicians"
             :key="`${politician}-${tag}`"
