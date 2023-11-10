@@ -18,18 +18,39 @@ const contentStorage = createStorage({
 
 export const getContentStorage = () => contentStorage;
 
-export const extractContent = (md: string, tag: string): string => {
+type ExtractContentResult = {
+  startingLine: number;
+  endingLine: number;
+  content: string;
+};
+
+export function extractContent(md: string, tag: string): ExtractContentResult {
   const title = `## ${tag}\n`;
   const start = md.indexOf(title);
   if (start === -1) {
-    return '';
+    return { startingLine: -1, endingLine: -1, content: '' };
   }
+
+  const lines = md.substring(0, start).split('\n');
+  const startingLine = lines.length;
 
   const contentStart = start + title.length;
   const contentEnd = md.indexOf('\n## ', contentStart);
+
   if (contentEnd === -1) {
-    return md.substring(start).trim();
+    return {
+      startingLine,
+      endingLine: startingLine,
+      content: md.substring(start).trim(),
+    };
   }
 
-  return md.substring(start, contentEnd).trim();
-};
+  const content = md.substring(start, contentEnd).trim();
+  const endingLine = startingLine + content.split('\n').length - 1;
+
+  return {
+    startingLine,
+    endingLine,
+    content,
+  };
+}

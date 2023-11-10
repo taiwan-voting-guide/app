@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const content = extractContent(md, tag);
+  const { content } = extractContent(md, tag);
 
   return content;
 });

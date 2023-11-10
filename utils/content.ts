@@ -16,26 +16,26 @@ import { visit } from 'unist-util-visit';
 import { matter } from 'vfile-matter';
 
 export const classNames: Options = {
-  h2: 'pb-3 text-xl font-bold underline decoration-primary decoration-4 underline-offset-4',
-  h3: 'pb-3 font-bold underline decoration-primary decoration-2 underline-offset-4',
-  h4: 'pb-3 font-bold underline decoration-primary decoration-2 underline-offset-4',
+  h2: 'group relative pb-3 text-xl font-bold underline decoration-primary decoration-4 underline-offset-4',
+  h3: 'group relative pb-3 font-bold underline decoration-primary decoration-2 underline-offset-4',
+  h4: 'group relative pb-3 font-bold underline decoration-primary decoration-2 underline-offset-4',
 
-  p: '',
+  p: 'group relative',
   a: 'text-blue-600 underline',
   ul: 'group-ul list-disc pl-4',
   ol: 'group-ol list-decimal pl-4',
-  li: 'marker:text-primary',
+  li: 'group relative marker:text-primary',
 
-  img: 'h-auto max-w-full rounded border',
+  img: 'group relative h-auto max-w-full rounded border',
   blockquote: 'rounded-md border-l-4 bg-slate-100 p-4 italic text-slate-500',
-  hr: 'my-4 border-slate-100',
+  hr: 'group relative my-4 border-slate-100',
 
-  pre: 'overflow-x-auto rounded bg-slate-700 p-4 text-white',
-  code: 'px-1 rounded bg-slate-100 text-sm',
+  pre: 'group relative rounded bg-slate-700 p-4 text-white',
+  code: 'group relative px-1 rounded bg-slate-100 text-sm',
 
   table: 'w-full border border-slate-100',
   thead: 'bg-slate-100',
-  td: 'border border-slate-100 p-2',
+  td: 'group relative border border-slate-100 p-2',
 };
 
 export const parse = async (
@@ -43,6 +43,7 @@ export const parse = async (
   tag: string,
   content: string,
   pluginNames: string[],
+  options: { [pluginNames: string]: any } = {},
 ) => {
   const key = `${politician}-${tag}`;
   const parser = unified();
@@ -57,6 +58,23 @@ export const parse = async (
       case 'remark-stringify':
         parser.use(remarkStringify);
         break;
+      case 'remark-lines':
+        parser.use(() => {
+          return (tree: Node) => {
+            visit(tree, '', (node: Node) => {
+              node.data = {
+                hProperties: {
+                  dataLines:
+                    generateDataLines(
+                      node.position?.start.line,
+                      node.position?.end?.line,
+                      options['remark-lines'].startingLine,
+                    ) || undefined,
+                },
+              };
+            });
+          };
+        });
       case 'remark-frontmatter':
         parser.use(remarkFrontmatter);
         parser.use(() => {
@@ -99,6 +117,59 @@ export const parse = async (
         });
 
         break;
+      case 'rehype-blames':
+        parser.use(() => {
+          return (tree: Node) => {
+            visit(tree, 'element', (element: Element) => {
+              switch (element.tagName) {
+                case 'p':
+                case 'h3':
+                case 'h4':
+                case 'h6':
+                case 'li':
+                case 'code':
+                case 'th':
+                case 'td': {
+                  if (!element.properties?.dataLines) {
+                    return;
+                  }
+
+                  const lineStr = element.properties.dataLines as string;
+                  const [startingLine, endingLine] = lineStr.split(',');
+                  const blames: Array<{
+                    line: number;
+                    email: string;
+                    timestamp: number;
+                  }> = [];
+
+                  for (
+                    let i = Number(startingLine);
+                    i <= Number(endingLine);
+                    i++
+                  ) {
+                    blames.push(options['rehype-blames'].blames.get(i));
+                  }
+
+                  element.children.push({
+                    type: 'element',
+                    tagName: 'span',
+                    properties: {
+                      class:
+                        'py-20 absolute bottom-full invisible group-hover:visible  z-50 block opacity-0 group-hover:opacity-100 bg-primary transition-opacity delay-500',
+                    },
+                    children: blames.map((blame) => ({
+                      type: 'text',
+                      value: blame ? blame.email : '',
+                    })),
+                  });
+
+                  break;
+                }
+              }
+            });
+          };
+        });
+
       case 'rehype-class-names':
         // @ts-ignore
         parser.use(rehypeClassNames, classNames);
@@ -136,3 +207,17 @@ export const parse = async (
   }
   return parser.process(content);
 };
+
+function generateDataLines(
+  startingLine?: number,
+  endingLine?: number,
+  offset: number = 0,
+): string {
+  if (!startingLine || !endingLine) {
+    return '';
+  }
+
+  return `${(startingLine + offset).toString()},${(
+    endingLine + offset
+  ).toString()}`;
+}
