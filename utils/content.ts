@@ -26,15 +26,16 @@ export const classNames: Options = {
   ol: 'group-ol list-decimal pl-4',
   li: 'group relative marker:text-primary',
 
-  img: 'group relative h-auto max-w-full rounded border',
+  img: 'relative h-auto max-w-full rounded border',
   blockquote: 'rounded-md border-l-4 bg-slate-100 p-4 italic text-slate-500',
-  hr: 'group relative my-4 border-slate-100',
+  hr: 'relative my-4 border-slate-100',
 
-  pre: 'group relative rounded bg-slate-700 p-4 text-white',
+  pre: 'relative rounded bg-slate-700 p-4 text-white',
   code: 'group relative px-1 rounded bg-slate-100 text-sm',
 
   table: 'w-full border border-slate-100',
   thead: 'bg-slate-100',
+  th: 'group relative border border-slate-100 p-2',
   td: 'group relative border border-slate-100 p-2',
 };
 
@@ -155,12 +156,21 @@ export const parse = async (
                     tagName: 'span',
                     properties: {
                       class:
-                        'py-20 absolute bottom-full invisible group-hover:visible  z-50 block opacity-0 group-hover:opacity-100 bg-primary transition-opacity delay-500',
+                        'p-4 opacity-0 w-0 absolute bottom-full group-hover:opacity-100 group-hover:w-80 overflow-hidden transition-[opacity,width] delay-500 z-50 bg-primary',
                     },
-                    children: blames.map((blame) => ({
-                      type: 'text',
-                      value: blame ? blame.email : '',
-                    })),
+                    children: [
+                      {
+                        type: 'element',
+                        tagName: 'span',
+                        properties: {
+                          class: 'block min-w-[20rem]',
+                        },
+                        children: blames.map((blame) => ({
+                          type: 'text',
+                          value: blame ? blame.email : '',
+                        })),
+                      },
+                    ],
                   });
 
                   break;

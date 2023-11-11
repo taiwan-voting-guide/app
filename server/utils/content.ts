@@ -26,26 +26,19 @@ type ExtractContentResult = {
 
 export function extractContent(md: string, tag: string): ExtractContentResult {
   const title = `## ${tag}\n`;
-  const start = md.indexOf(title);
-  if (start === -1) {
+  const left = md.indexOf(title);
+  if (left === -1) {
     return { startingLine: -1, endingLine: -1, content: '' };
   }
 
-  const lines = md.substring(0, start).split('\n');
+  const lines = md.substring(0, left).split('\n');
   const startingLine = lines.length;
 
-  const contentStart = start + title.length;
+  const contentStart = left + title.length;
   const contentEnd = md.indexOf('\n## ', contentStart);
 
-  if (contentEnd === -1) {
-    return {
-      startingLine,
-      endingLine: startingLine,
-      content: md.substring(start).trim(),
-    };
-  }
-
-  const content = md.substring(start, contentEnd).trim();
+  const content =
+    contentEnd === -1 ? md.substring(left) : md.substring(left, contentEnd);
   const endingLine = startingLine + content.split('\n').length - 1;
 
   return {
