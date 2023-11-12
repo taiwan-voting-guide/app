@@ -47,3 +47,46 @@ export function extractContent(md: string, tag: string): ExtractContentResult {
     content,
   };
 }
+
+export function generateBlames(
+  blame: string | null,
+  startingLine: number,
+  endingLine: number,
+): Map<
+  number,
+  {
+    line: number;
+    hash: string;
+    email: string;
+    timestamp: number;
+  }
+> {
+  if (!blame) {
+    return new Map();
+  }
+
+  const blames = new Map<
+    number,
+    { line: number; email: string; timestamp: number; hash: string }
+  >();
+  blame.split('\n').forEach((row, i) => {
+    const currentLine = i + 1;
+    if (currentLine < startingLine || currentLine > endingLine) {
+      return;
+    }
+    const [hash, emailStr, timeStr, lineNumContentStr] = row.split('\t');
+    const email = emailStr.substring(2, emailStr.length - 1);
+    const timestamp = new Date(timeStr).getTime();
+    const line = lineNumContentStr.split(')')[0];
+    const lineNum = parseInt(line);
+
+    blames.set(lineNum, {
+      hash,
+      line: lineNum,
+      email,
+      timestamp,
+    });
+  });
+
+  return blames;
+}

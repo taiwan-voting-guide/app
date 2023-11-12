@@ -1,7 +1,4 @@
 import { parse } from '@/utils/content';
-import { Octokit } from 'octokit';
-
-const githubToken = process.env.GITHUB_TOKEN || '';
 
 type GetBlameRes = {
   repository: {
@@ -26,6 +23,7 @@ export default defineEventHandler(async (event) => {
   const { politician, tag } = getQuery<{ politician: string; tag: string }>(
     event,
   );
+  console.time(`${politician} ${tag}`);
   if (!politician || !tag) {
     throw createError({
       statusCode: 400,
@@ -37,6 +35,7 @@ export default defineEventHandler(async (event) => {
   const contentStorage = getContentStorage();
   try {
     md = await contentStorage.getItem(`politician/${politician}.md`);
+    console.timeLog(`${politician} ${tag}`, 'get md');
   } catch (error) {
     throw createError({
       statusCode: 500,
@@ -49,68 +48,19 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const octokit = new Octokit({ auth: githubToken });
-  const {
-    repository: {
-      object: {
-        blame: { ranges },
-      },
-    },
-  } = await octokit.graphql<GetBlameRes>(
-    `
-      query blame($owner: String!, $repo: String!, $path: String!) {
-        repository(owner: $owner, name: $repo) {
-          object(expression: "HEAD") {
-            ... on Commit {
-              blame(path: $path) {
-                ranges {
-                  commit {
-                    author {
-                      name
-                      email
-                      date
-                    }
-                  }
-                  startingLine
-                  endingLine
-                }
-              }
-            }
-          }                  
-        }
-      }
-  `,
-    {
-      owner: 'taiwan-voting-guide',
-      repo: 'content',
-      path: `content/politician/${politician}.md`,
-    },
-  );
-
-  const blames = new Map<
-    number,
-    {
-      line: number;
-      email: string;
-      timestamp: number;
-    }
-  >();
-  const { content, startingLine, endingLine } = extractContent(md, tag);
-  for (let i = startingLine + 1; i <= endingLine; i++) {
-    const range = ranges.find((range) => {
-      return range.startingLine <= i && range.endingLine >= i;
-    });
-
-    if (!range) {
-      continue;
-    }
-
-    blames.set(i, {
-      line: i,
-      email: range.commit.author.email,
-      timestamp: new Date(range.commit.author.date).getTime(),
+  let blameFile: string | null;
+  try {
+    blameFile = await contentStorage.getItem(`blame/${politician}.txt`);
+    console.timeLog(`${politician} ${tag}`, 'get blame');
+  } catch (error) {
+    throw createError({
+      statusCode: 500,
     });
   }
+
+  const { content, startingLine, endingLine } = extractContent(md, tag);
+  const blames = generateBlames(blameFile, startingLine, endingLine);
+  console.timeLog(`${politician} ${tag}`, 'get blame');
 
   const file = await parse(
     politician,
@@ -135,6 +85,8 @@ export default defineEventHandler(async (event) => {
       },
     },
   );
+  console.timeLog(`${politician} ${tag}`, 'parse');
 
+  console.timeEnd(`${politician} ${tag}`);
   return file.value;
 });
