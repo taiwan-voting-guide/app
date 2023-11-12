@@ -48,32 +48,29 @@ export function extractContent(md: string, tag: string): ExtractContentResult {
   };
 }
 
+type Blame = {
+  line: number;
+  hash: string;
+  email: string;
+  timestamp: number;
+};
+
 export function generateBlames(
   blame: string | null,
   startingLine: number,
   endingLine: number,
-): Map<
-  number,
-  {
-    line: number;
-    hash: string;
-    email: string;
-    timestamp: number;
-  }
-> {
+): Map<number, Blame> {
   if (!blame) {
     return new Map();
   }
 
-  const blames = new Map<
-    number,
-    { line: number; email: string; timestamp: number; hash: string }
-  >();
+  const blames = new Map<number, Blame>();
   blame.split('\n').forEach((row, i) => {
     const currentLine = i + 1;
     if (currentLine < startingLine || currentLine > endingLine) {
       return;
     }
+
     const [hash, emailStr, timeStr, lineNumContentStr] = row.split('\t');
     const email = emailStr.substring(2, emailStr.length - 1);
     const timestamp = new Date(timeStr).getTime();

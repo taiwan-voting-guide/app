@@ -1,29 +1,9 @@
 import { parse } from '@/utils/content';
 
-type GetBlameRes = {
-  repository: {
-    object: {
-      blame: {
-        ranges: Array<{
-          commit: {
-            author: {
-              email: string;
-              date: string;
-            };
-          };
-          startingLine: number;
-          endingLine: number;
-        }>;
-      };
-    };
-  };
-};
-
 export default defineEventHandler(async (event) => {
   const { politician, tag } = getQuery<{ politician: string; tag: string }>(
     event,
   );
-  console.time(`${politician} ${tag}`);
   if (!politician || !tag) {
     throw createError({
       statusCode: 400,
@@ -31,18 +11,17 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  let md: string | null;
+  let mdFile: string | null;
   const contentStorage = getContentStorage();
   try {
-    md = await contentStorage.getItem(`politician/${politician}.md`);
-    console.timeLog(`${politician} ${tag}`, 'get md');
+    mdFile = await contentStorage.getItem(`politician/${politician}.md`);
   } catch (error) {
     throw createError({
       statusCode: 500,
     });
   }
 
-  if (!md) {
+  if (!mdFile) {
     throw createError({
       statusCode: 404,
     });
@@ -51,16 +30,20 @@ export default defineEventHandler(async (event) => {
   let blameFile: string | null;
   try {
     blameFile = await contentStorage.getItem(`blame/${politician}.txt`);
-    console.timeLog(`${politician} ${tag}`, 'get blame');
   } catch (error) {
     throw createError({
       statusCode: 500,
     });
   }
 
-  const { content, startingLine, endingLine } = extractContent(md, tag);
+  if (!blameFile) {
+    throw createError({
+      statusCode: 404,
+    });
+  }
+
+  const { content, startingLine, endingLine } = extractContent(mdFile, tag);
   const blames = generateBlames(blameFile, startingLine, endingLine);
-  console.timeLog(`${politician} ${tag}`, 'get blame');
 
   const file = await parse(
     politician,
@@ -85,8 +68,6 @@ export default defineEventHandler(async (event) => {
       },
     },
   );
-  console.timeLog(`${politician} ${tag}`, 'parse');
 
-  console.timeEnd(`${politician} ${tag}`);
   return file.value;
 });
