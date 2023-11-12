@@ -16,27 +16,25 @@ import { visit } from 'unist-util-visit';
 import { matter } from 'vfile-matter';
 
 export const classNames: Options = {
-  h2: 'group relative pb-3 text-xl font-bold underline decoration-primary decoration-4 underline-offset-4',
-  h3: 'group relative pb-3 font-bold underline decoration-primary decoration-2 underline-offset-4',
-  h4: 'group relative pb-3 font-bold underline decoration-primary decoration-2 underline-offset-4',
+  h2: 'group relative text-xl font-bold underline decoration-primary decoration-4 underline-offset-4',
+  h3: 'group relative text-lg font-bold underline decoration-primary decoration-2 underline-offset-4',
+  h4: 'group relative text-md font-bold underline decoration-primary decoration-2 underline-offset-4',
 
   p: 'group relative',
-  a: 'text-blue-600 underline',
-  ul: 'group-ul list-disc pl-4',
-  ol: 'group-ol list-decimal pl-4',
-  li: 'group relative marker:text-primary',
+  a: '',
+  ul: '',
+  ol: '',
+  li: 'group relative',
 
-  img: 'relative h-auto max-w-full rounded border',
-  blockquote: 'rounded-md border-l-4 bg-slate-100 p-4 italic text-slate-500',
-  hr: 'relative my-4 border-slate-100',
+  img: '',
+  blockquote: '',
+  hr: '',
 
-  pre: 'relative rounded bg-slate-700 p-4 text-white',
-  code: 'group relative px-1 rounded bg-slate-100 text-sm',
+  pre: 'relative overflow-visible',
+  code: 'group relative',
 
-  table: 'w-full border border-slate-100',
-  thead: 'bg-slate-100',
-  th: 'group relative border border-slate-100 p-2',
-  td: 'group relative border border-slate-100 p-2',
+  th: 'group relative',
+  td: 'group relative',
 };
 
 export const parse = async (
@@ -90,10 +88,6 @@ export const parse = async (
           footnoteLabel: '資料來源',
           footnoteLabelTagName: 'h2',
           footnoteBackLabel: '返回',
-          footnoteLabelProperties: {
-            class:
-              'pt-4 underline decoration-primary/80 underline-offset-4 decoration-4 text-lg text-slate-500 font-bold pb-2',
-          },
         });
         parser.use(() => {
           return (tree: Node) => {
@@ -156,7 +150,7 @@ export const parse = async (
                     tagName: 'span',
                     properties: {
                       class:
-                        'p-4 opacity-0 w-0 absolute bottom-full group-hover:opacity-100 group-hover:w-80 overflow-hidden transition-[opacity,width] delay-500 z-50 bg-primary',
+                        'p-0 opacity-0 w-0 invisible group-hover:p-4 group-hover:visible absolute bottom-full group-hover:opacity-100 group-hover:w-80 overflow-hidden transition-[opacity,width] delay-500 z-50 text-md text-[16px] text-slate-600 tracking-normal font-sans font-normal rounded-lg bg-white shadow',
                     },
                     children: [
                       {
@@ -165,10 +159,34 @@ export const parse = async (
                         properties: {
                           class: 'block min-w-[20rem]',
                         },
-                        children: blames.map((blame) => ({
-                          type: 'text',
-                          value: blame ? blame.email : '',
-                        })),
+                        children: [
+                          {
+                            type: 'element',
+                            tagName: 'span',
+                            properties: {
+                              class: 'block font-bold',
+                            },
+                            children: [
+                              {
+                                type: 'text',
+                                value: '貢獻者',
+                              },
+                            ],
+                          },
+                          ...blames.map((blame) => ({
+                            type: 'element',
+                            tagName: 'span',
+                            properties: {
+                              class: 'block',
+                            },
+                            children: [
+                              {
+                                type: 'text',
+                                value: blame ? blame.email : '',
+                              },
+                            ],
+                          })),
+                        ],
                       },
                     ],
                   });
