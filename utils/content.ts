@@ -1,4 +1,4 @@
-import { type Element } from 'hast';
+import { type Element, type ElementContent } from 'hast';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeClassNames, { type Options } from 'rehype-class-names';
 import rehypeMinifyAttributeWhitespace from 'rehype-minify-attribute-whitespace';
@@ -173,19 +173,22 @@ export const parse = async (
                               },
                             ],
                           },
-                          ...blames.map((blame) => ({
-                            type: 'element',
-                            tagName: 'span',
-                            properties: {
-                              class: 'block',
-                            },
-                            children: [
-                              {
-                                type: 'text',
-                                value: blame ? blame.email : '',
-                              },
-                            ],
-                          })),
+                          ...blames.map(
+                            (blame) =>
+                              ({
+                                type: 'element',
+                                tagName: 'span',
+                                properties: {
+                                  class: 'block',
+                                },
+                                children: [
+                                  {
+                                    type: 'text',
+                                    value: blame ? blame.email : '',
+                                  },
+                                ],
+                              }) as ElementContent,
+                          ),
                         ],
                       },
                     ],
