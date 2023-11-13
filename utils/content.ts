@@ -142,7 +142,7 @@ export const parse = async (
                     i <= Number(endingLine);
                     i++
                   ) {
-                    blames.push(options['rehype-blames'].blames.get(i));
+                    blames.push(options['rehype-blames'].blameMap.get(i));
                   }
 
                   element.children.push({
@@ -150,7 +150,7 @@ export const parse = async (
                     tagName: 'span',
                     properties: {
                       class:
-                        'p-0 opacity-0 w-0 invisible group-hover:p-4 group-hover:visible absolute bottom-full group-hover:opacity-100 group-hover:w-80 overflow-hidden transition-[opacity,width] delay-500 z-50 text-md text-[16px] text-slate-600 tracking-normal font-sans font-normal rounded-lg bg-white shadow',
+                        'p-0 opacity-0 w-0 invisible group-hover:p-4 group-hover:visible absolute bottom-full group-hover:opacity-100 group-hover:w-80 overflow-hidden transition-[opacity,width] delay-500 z-50 text-md text-[16px] text-slate-600 tracking-normal font-sans font-normal rounded-lg bg-slate-50 shadow',
                     },
                     children: [
                       {

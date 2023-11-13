@@ -11,39 +11,39 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  let mdFile: string | null;
+  let politicianFile: string | null;
+  let blameFile: string | null;
+  let contributorFile: string | null;
+
   const contentStorage = getContentStorage();
   try {
-    mdFile = await contentStorage.getItem(`politician/${politician}.md`);
+    const results = await Promise.all([
+      contentStorage.getItem<string>(`politician/${politician}.md`),
+      contentStorage.getItem<string>(`blame/${politician}.txt`),
+      contentStorage.getItem<string>('contributor.yaml'),
+    ]);
+
+    politicianFile = results[0];
+    blameFile = results[1];
+    contributorFile = results[2];
   } catch (error) {
     throw createError({
       statusCode: 500,
     });
   }
 
-  if (!mdFile) {
+  if (!politicianFile || !blameFile || !contributorFile) {
     throw createError({
       statusCode: 404,
     });
   }
 
-  let blameFile: string | null;
-  try {
-    blameFile = await contentStorage.getItem(`blame/${politician}.txt`);
-  } catch (error) {
-    throw createError({
-      statusCode: 500,
-    });
-  }
-
-  if (!blameFile) {
-    throw createError({
-      statusCode: 404,
-    });
-  }
-
-  const { content, startingLine, endingLine } = extractContent(mdFile, tag);
-  const blames = generateBlames(blameFile, startingLine, endingLine);
+  const { content, startingLine, endingLine } = extractContent(
+    politicianFile,
+    tag,
+  );
+  const blameMap = generateBlameMap(blameFile, startingLine, endingLine);
+  const contributorMap = generateContributorMap(contributorFile);
 
   const file = await parse(
     politician,
@@ -64,7 +64,8 @@ export default defineEventHandler(async (event) => {
         startingLine,
       },
       'rehype-blames': {
-        blames,
+        blameMap,
+        contributorMap,
       },
     },
   );

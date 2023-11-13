@@ -1,3 +1,4 @@
+import { load } from 'js-yaml';
 import { createStorage } from 'unstorage';
 import fsDriver from 'unstorage/drivers/fs';
 import githubDriver from 'unstorage/drivers/github';
@@ -55,17 +56,17 @@ type Blame = {
   timestamp: number;
 };
 
-export function generateBlames(
-  blame: string | null,
+export function generateBlameMap(
+  blameFile: string,
   startingLine: number,
   endingLine: number,
 ): Map<number, Blame> {
-  if (!blame) {
+  if (!blameFile) {
     return new Map();
   }
 
-  const blames = new Map<number, Blame>();
-  blame.split('\n').forEach((row, i) => {
+  const blameMap = new Map<number, Blame>();
+  blameFile.split('\n').forEach((row, i) => {
     const currentLine = i + 1;
     if (currentLine < startingLine || currentLine > endingLine) {
       return;
@@ -77,7 +78,7 @@ export function generateBlames(
     const line = lineNumContentStr.split(')')[0];
     const lineNum = parseInt(line);
 
-    blames.set(lineNum, {
+    blameMap.set(lineNum, {
       hash,
       line: lineNum,
       email,
@@ -85,5 +86,25 @@ export function generateBlames(
     });
   });
 
-  return blames;
+  return blameMap;
+}
+
+type Contributor = {
+  email: string;
+  name: string;
+  isPolitician: boolean;
+  isVerified: boolean;
+};
+
+export function generateContributorMap(
+  contributorFile: string,
+): Map<string, Contributor> {
+  const contributors = load(contributorFile) as Array<Contributor>;
+
+  const contributorMap = new Map<string, Contributor>();
+  for (const contributor of contributors) {
+    contributorMap.set(contributor.email, contributor);
+  }
+
+  return contributorMap;
 }
