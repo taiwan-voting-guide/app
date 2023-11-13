@@ -41,7 +41,8 @@ export function extractContent(md: string, tag: string): ExtractContentResult {
 
   const content =
     contentEnd === -1 ? md.substring(left) : md.substring(left, contentEnd);
-  const endingLine = startingLine + content.split('\n').length - 1;
+  const rightLines = startingLine + content.split('\n').length - 1;
+  const endingLine = contentEnd === -1 ? rightLines - 1 : rightLines;
 
   return {
     startingLine,
@@ -63,6 +64,10 @@ export function generateBlameMap(
   blameFile.split('\n').forEach((row, i) => {
     const currentLine = i + 1;
     if (currentLine < startingLine || currentLine > endingLine) {
+      return;
+    }
+
+    if (!row) {
       return;
     }
 

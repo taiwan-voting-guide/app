@@ -1,4 +1,4 @@
-import { type Element, type ElementContent } from 'hast';
+import { type Element, type ElementContent, type Text } from 'hast';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeClassNames, { type Options } from 'rehype-class-names';
 import rehypeMinifyAttributeWhitespace from 'rehype-minify-attribute-whitespace';
@@ -74,7 +74,7 @@ export const parse = async (
                     generateDataLines(
                       node.position?.start.line,
                       node.position?.end?.line,
-                      options['remark-lines'].startingLine,
+                      options['remark-lines'].startingLine - 1,
                     ) || undefined,
                 },
               };
@@ -125,6 +125,7 @@ export const parse = async (
             visit(tree, 'element', (element: Element) => {
               const dedupedBlameSet = new Set<string>();
               const blameMap = options['rehype-blames'].blameMap;
+              const contributorMap = options['rehype-blames'].contributorMap;
               switch (element.tagName) {
                 case 'p':
                 case 'h3':
@@ -146,61 +147,46 @@ export const parse = async (
 
                   for (let i = startingLine; i <= endingLine; i++) {
                     const blame = blameMap.get(i);
-                    if (dedupedBlameSet.has(blame?.email)) {
+                    if (!blame) {
                       continue;
                     }
+
+                    if (dedupedBlameSet.has(blame.email)) {
+                      continue;
+                    }
+
                     blames.push(blame);
-                    dedupedBlameSet.add(blame?.email);
+                    dedupedBlameSet.add(blame.email);
                   }
 
-                  element.children.push({
-                    type: 'element',
-                    tagName: 'span',
-                    properties: {
-                      class:
-                        'p-0 left-0 opacity-0 w-0 invisible group-hover:p-4 group-hover:visible absolute bottom-full group-hover:opacity-100 group-hover:w-80 overflow-hidden transition-[opacity,width] delay-500 z-50 text-md text-[16px] text-slate-600 tracking-normal font-sans font-normal rounded-lg bg-slate-50 shadow',
-                    },
-                    children: [
-                      {
-                        type: 'element',
-                        tagName: 'span',
-                        properties: {
-                          class: 'block min-w-[20rem]',
-                        },
-                        children: [
-                          {
-                            type: 'element',
-                            tagName: 'span',
-                            properties: {
-                              class: 'block font-bold',
-                            },
-                            children: [
-                              {
-                                type: 'text',
-                                value: '貢獻者',
-                              },
-                            ],
-                          },
-                          ...blames.map(
-                            (blame) =>
-                              ({
-                                type: 'element',
-                                tagName: 'span',
-                                properties: {
-                                  class: 'block',
-                                },
-                                children: [
-                                  {
-                                    type: 'text',
-                                    value: blame ? blame.email : '',
-                                  },
-                                ],
-                              }) as ElementContent,
-                          ),
-                        ],
-                      },
-                    ],
-                  });
+                  element.children.push(
+                    Elem(
+                      'p-0 left-0 opacity-0 h-0 group-hover:h-fit w-0 invisible group-hover:p-3 group-hover:visible absolute bottom-full group-hover:opacity-100 group-hover:w-max overflow-hidden transition-[opacity,width] delay-500 z-50 text-md text-[16px] text-slate-600 tracking-normal font-sans font-normal rounded-lg bg-slate-50 shadow',
+                      [
+                        Elem('block w-max', [
+                          Elem('block font-bold', [Txt('貢獻者')]),
+                          ...blames.map(({ email }) => {
+                            const contributor = contributorMap.get(email);
+
+                            return Elem('block flex gap-2', [
+                              Elem('block flex-none flex items-center', [
+                                Img(
+                                  `contributor/${email}.webp`,
+                                  contributor.name || '',
+                                  'm-0 p-0 w-8 h-8 gap-1 rounded-full bg-primary/50 ',
+                                  `this.onerror=null;this.src='/default-contributor.svg'`,
+                                ),
+                              ]),
+                              Elem('block flex-none flex flex-col text-sm', [
+                                Elem('block', [Txt(contributor.name || '')]),
+                                Elem('block', [Txt(email || '')]),
+                              ]),
+                            ]);
+                          }),
+                        ]),
+                      ],
+                    ),
+                  );
 
                   break;
                 }
@@ -259,4 +245,41 @@ function generateDataLines(
   return `${(startingLine + offset).toString()},${(
     endingLine + offset
   ).toString()}`;
+}
+
+function Elem(classProp: string, children: Array<ElementContent>): Element {
+  return {
+    type: 'element',
+    tagName: 'span',
+    properties: {
+      class: classProp,
+    },
+    children,
+  };
+}
+
+function Img(
+  src: string,
+  alt: string,
+  classProp: string,
+  onerror: string,
+): Element {
+  return {
+    type: 'element',
+    tagName: 'img',
+    properties: {
+      src,
+      alt,
+      onerror,
+      class: classProp,
+    },
+    children: [],
+  };
+}
+
+function Txt(value: string): Text {
+  return {
+    type: 'text',
+    value,
+  };
 }
