@@ -28,7 +28,7 @@ export const classNames: Options = {
   h4: 'group relative text-md font-bold underline decoration-primary decoration-2 underline-offset-4',
 
   p: 'group relative',
-  a: '',
+  a: 'text-blue-600',
   ul: '',
   ol: '',
   li: 'group relative',

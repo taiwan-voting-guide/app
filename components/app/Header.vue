@@ -36,7 +36,7 @@
               to="/data/tag_clicks_last_7_days"
             >
               <ChartBarIcon class="h-5 w-5 stroke-2" />
-              數據
+              數據分析
             </NuxtLink>
           </HeadlessMenuItem>
 
@@ -90,7 +90,7 @@
       to="/data/tag_clicks_last_7_days"
       class="hidden flex-none items-center gap-1 rounded-md px-2 font-bold text-slate-400 hover:text-slate-600 lg:flex"
     >
-      <ChartBarIcon class="h-5 w-5 stroke-2" /> 數據
+      <ChartBarIcon class="h-5 w-5 stroke-2" /> 數據分析
     </NuxtLink>
     <div class="ml-auto hidden lg:flex">
       <NuxtLink

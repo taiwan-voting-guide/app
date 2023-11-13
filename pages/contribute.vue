@@ -60,7 +60,7 @@
       </div>
       <div class="mx-auto h-min w-80 max-w-[20rem]">
         <Card>
-          <div class="p-4" v-html="preview"></div>
+          <div class="prose p-4" v-html="preview"></div>
         </Card>
       </div>
     </div>
