@@ -15,6 +15,13 @@ import { type Node } from 'unist';
 import { visit } from 'unist-util-visit';
 import { matter } from 'vfile-matter';
 
+export type Blame = {
+  line: number;
+  hash: string;
+  email: string;
+  timestamp: number;
+};
+
 export const classNames: Options = {
   h2: 'group relative text-xl font-bold underline decoration-primary decoration-4 underline-offset-4',
   h3: 'group relative text-lg font-bold underline decoration-primary decoration-2 underline-offset-4',
@@ -116,6 +123,8 @@ export const parse = async (
         parser.use(() => {
           return (tree: Node) => {
             visit(tree, 'element', (element: Element) => {
+              const dedupedBlameSet = new Set<string>();
+              const blameMap = options['rehype-blames'].blameMap;
               switch (element.tagName) {
                 case 'p':
                 case 'h3':
@@ -130,19 +139,18 @@ export const parse = async (
                   }
 
                   const lineStr = element.properties.dataLines as string;
-                  const [startingLine, endingLine] = lineStr.split(',');
-                  const blames: Array<{
-                    line: number;
-                    email: string;
-                    timestamp: number;
-                  }> = [];
+                  const [startingLineStr, endingLineStr] = lineStr.split(',');
+                  const startingLine = Number(startingLineStr);
+                  const endingLine = Number(endingLineStr);
+                  const blames: Array<Blame> = [];
 
-                  for (
-                    let i = Number(startingLine);
-                    i <= Number(endingLine);
-                    i++
-                  ) {
-                    blames.push(options['rehype-blames'].blameMap.get(i));
+                  for (let i = startingLine; i <= endingLine; i++) {
+                    const blame = blameMap.get(i);
+                    if (dedupedBlameSet.has(blame?.email)) {
+                      continue;
+                    }
+                    blames.push(blame);
+                    dedupedBlameSet.add(blame?.email);
                   }
 
                   element.children.push({
@@ -150,7 +158,7 @@ export const parse = async (
                     tagName: 'span',
                     properties: {
                       class:
-                        'p-0 opacity-0 w-0 invisible group-hover:p-4 group-hover:visible absolute bottom-full group-hover:opacity-100 group-hover:w-80 overflow-hidden transition-[opacity,width] delay-500 z-50 text-md text-[16px] text-slate-600 tracking-normal font-sans font-normal rounded-lg bg-slate-50 shadow',
+                        'p-0 left-0 opacity-0 w-0 invisible group-hover:p-4 group-hover:visible absolute bottom-full group-hover:opacity-100 group-hover:w-80 overflow-hidden transition-[opacity,width] delay-500 z-50 text-md text-[16px] text-slate-600 tracking-normal font-sans font-normal rounded-lg bg-slate-50 shadow',
                     },
                     children: [
                       {

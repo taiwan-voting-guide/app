@@ -1,3 +1,4 @@
+import { type Blame } from '@/utils/content';
 import { load } from 'js-yaml';
 import { createStorage } from 'unstorage';
 import fsDriver from 'unstorage/drivers/fs';
@@ -48,13 +49,6 @@ export function extractContent(md: string, tag: string): ExtractContentResult {
     content,
   };
 }
-
-type Blame = {
-  line: number;
-  hash: string;
-  email: string;
-  timestamp: number;
-};
 
 export function generateBlameMap(
   blameFile: string,
