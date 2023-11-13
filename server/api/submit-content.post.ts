@@ -1,3 +1,4 @@
+import { load } from 'js-yaml';
 import { Octokit } from 'octokit';
 
 const githubToken = process.env.GITHUB_TOKEN || '';
@@ -65,6 +66,65 @@ export default defineEventHandler(async (event) => {
     },
   });
 
+  // chekc if email is already registered in content/contributor.yaml
+  const { data: contributorData } = await octokit.rest.repos.getContent({
+    owner,
+    repo,
+    path: 'content/contributor.yaml',
+  });
+
+  const { sha: contributorContentSha, content: contributorContentBase64 } =
+    contributorData as {
+      sha: string;
+      content: string;
+    };
+
+  const contributorContent = Buffer.from(
+    contributorContentBase64,
+    'base64',
+  ).toString('utf-8');
+  const contributors = load(contributorContent) as Array<Contributor>;
+  const contributorMap = new Map<string, Contributor>();
+  for (const contributor of contributors) {
+    contributorMap.set(contributor.email, contributor);
+  }
+  const contributor = contributorMap.get(event.context.email);
+
+  let newContributorContent: string = '';
+  if (contributor && contributor.name !== body.name) {
+    newContributorContent = replaceContributorName(
+      contributorContent,
+      event.context.email,
+      contributor.name,
+      body.name,
+    );
+  } else if (!contributor) {
+    newContributorContent = addNewContributor(contributorContent, {
+      email: event.context.email,
+      name: body.name,
+      isPolitician: false,
+      isVerified: false,
+    });
+  }
+
+  // create a new commit if it's a new contributor or if the name is changed
+  if (newContributorContent) {
+    await octokit.rest.repos.createOrUpdateFileContents({
+      owner,
+      repo,
+      path: 'content/contributor.yaml',
+      message: `Contributors Update: [${event.context.email}][${body.name}]`,
+      content: Buffer.from(newContributorContent, 'utf-8').toString('base64'),
+      sha: contributorContentSha,
+      branch,
+
+      committer: {
+        name: body.name,
+        email: event.context.email,
+      },
+    });
+  }
+
   // create a new pull request
   const res = await octokit.rest.pulls.create({
     owner,
@@ -100,4 +160,28 @@ const replaceTagSection = (
     0,
     sectionStart,
   )}\n${section}\n${content.substring(sectionEnd)}`;
+};
+
+const addNewContributor = (
+  content: string,
+  contributor: Contributor,
+): string => {
+  return `${content}-
+  email: ${contributor.email}
+  name: ${contributor.name}
+  isPolitician: ${contributor.isPolitician}
+  isVerified: ${contributor.isVerified}
+`;
+};
+
+const replaceContributorName = (
+  content: string,
+  email: string,
+  oldName: string,
+  newName: string,
+): string => {
+  return content.replace(
+    `email: ${email}\n  name: ${oldName}`,
+    `email: ${email}\n  name: ${newName}`,
+  );
 };

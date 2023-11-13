@@ -88,7 +88,7 @@ export function generateBlameMap(
   return blameMap;
 }
 
-type Contributor = {
+export type Contributor = {
   email: string;
   name: string;
   isPolitician: boolean;
