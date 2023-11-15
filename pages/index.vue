@@ -1,50 +1,78 @@
 <template>
   <AppHeader />
-  <div class="flex w-fit min-w-full px-10 pt-16">
-    <aside class="ml-auto" />
+  <div class="flex w-fit min-w-full gap-2 px-4 pb-[calc(100vh-9rem)] pt-16">
+    <aside class="sticky left-4 z-30 ml-auto">
+      <Draggable
+        v-if="politicians.length > 0"
+        v-model="tags"
+        tag="ul"
+        chosenClass="cursor-grab"
+        class="sticky left-0 top-16 w-max rounded-md bg-slate-100/50 p-4 backdrop-blur"
+        ghostClass="opacity-0"
+        itemKey="id"
+        :animation="150"
+        @start="drag = true"
+        @end="drag = false"
+      >
+        <template #item="{ element: tag }">
+          <li class="cursor-grab">
+            {{ tag }}
+          </li>
+        </template>
+      </Draggable>
+    </aside>
     <main class="mr-auto flex w-fit flex-col gap-3">
-      <ul class="sticky top-16 z-20 flex gap-3 pt-3 backdrop-blur">
-        <li
-          v-for="politician in politicians"
-          :key="politician"
-          class="h-20 w-80 flex-none overflow-visible"
-        >
-          <AppContentHeader :politician="politician">
-            <div class="ml-auto" title="移除">
-              <XMarkIcon
-                @click="remove(politician)"
-                class="h-5 w-5 cursor-pointer stroke-2 text-slate-400"
-              />
-            </div>
-          </AppContentHeader>
-        </li>
-
-        <button
-          title="新增政治人物"
-          @click="onAddPoliticianClicked(politicians.length)"
-          class="group mr-auto flex-none"
-          :class="{
-            'ml-auto': politicians.length === 0,
-          }"
-        >
-          <div
-            class="group flex h-20 w-80 items-center gap-3 rounded-md border-2 border-dashed border-slate-400 bg-white p-4 hover:border-slate-600 group-hover:border-transparent group-hover:shadow"
+      <Draggable
+        tag="ul"
+        class="sticky top-16 z-20 flex gap-3"
+        chosenClass="cursor-grab"
+        ghostClass="opacity-0"
+        v-model="politicians"
+        animation="150"
+        itemKey="id"
+        @start="drag = true"
+        @end="drag = false"
+      >
+        <template #item="{ element: politician }">
+          <li class="h-20 w-80 flex-none cursor-grab overflow-visible">
+            <AppContentHeader :politician="politician">
+              <div class="ml-auto" title="移除">
+                <XMarkIcon
+                  @click="remove(politician)"
+                  class="h-5 w-5 cursor-pointer stroke-2 text-slate-400"
+                />
+              </div>
+            </AppContentHeader>
+          </li>
+        </template>
+        <template #footer>
+          <button
+            title="新增政治人物"
+            @click="onAddPoliticianClicked(politicians.length)"
+            class="group mr-auto flex-none"
+            :class="{
+              'ml-auto': politicians.length === 0,
+            }"
           >
             <div
-              class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-dashed border-slate-400 bg-slate-100"
+              class="group flex h-20 w-80 items-center gap-3 rounded-md border-2 border-dashed border-slate-400 bg-white p-4 hover:border-slate-600 group-hover:border-transparent group-hover:shadow"
             >
-              <PlusIcon
-                class="h-5 w-5 cursor-pointer stroke-2 text-slate-400"
-              />
+              <div
+                class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-dashed border-slate-400 bg-slate-100"
+              >
+                <PlusIcon
+                  class="h-5 w-5 cursor-pointer stroke-2 text-slate-400"
+                />
+              </div>
+              <h1
+                class="text-2xl font-extrabold text-slate-400 group-hover:text-slate-600"
+              >
+                新增政治人物
+              </h1>
             </div>
-            <h1
-              class="text-2xl font-extrabold text-slate-400 group-hover:text-slate-600"
-            >
-              新增政治人物
-            </h1>
-          </div>
-        </button>
-      </ul>
+          </button>
+        </template>
+      </Draggable>
 
       <template v-if="politicians.length > 0">
         <ul
@@ -77,6 +105,7 @@
 
 <script setup lang="ts">
 import { XMarkIcon, PlusIcon } from '@heroicons/vue/24/outline';
+import Draggable from 'vuedraggable';
 
 const {
   politicians,
@@ -89,6 +118,7 @@ const isPoliticianSelectDialogOpen = ref<boolean>(false);
 const addPoliticianPosition = ref<number>(0);
 const isTagSelectDialogOpen = ref<boolean>(false);
 const addTagPosition = ref<number>(0);
+const drag = ref<boolean>(false);
 
 watch([tags, politicians], () => {
   const query: { tags?: string; politicians?: string } = {};

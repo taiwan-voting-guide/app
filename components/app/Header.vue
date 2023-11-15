@@ -12,7 +12,7 @@
         >
           <HeadlessMenuItem>
             <NuxtLink
-              class="flex items-center gap-1 px-3 py-2 font-bold"
+              class="flex items-center gap-1 px-3 py-2"
               to="/docs/introduction"
             >
               <QuestionMarkCircleIcon class="h-5 w-5 stroke-2" />
@@ -22,7 +22,7 @@
 
           <HeadlessMenuItem>
             <NuxtLink
-              class="flex items-center gap-1 px-3 py-2 font-bold"
+              class="flex items-center gap-1 px-3 py-2"
               to="/docs/contribute"
             >
               <PencilSquareIcon class="h-5 w-5 stroke-2" />
@@ -32,7 +32,7 @@
 
           <HeadlessMenuItem>
             <NuxtLink
-              class="flex items-center gap-1 px-3 py-2 font-bold"
+              class="flex items-center gap-1 px-3 py-2"
               to="/data/tag_clicks_last_7_days"
             >
               <ChartBarIcon class="h-5 w-5 stroke-2" />
@@ -42,7 +42,7 @@
 
           <HeadlessMenuItem>
             <NuxtLink
-              class="flex items-center gap-1 px-3 py-2 font-bold"
+              class="flex items-center gap-1 px-3 py-2"
               to="https://github.com/taiwan-voting-guide/app"
             >
               <img
@@ -53,7 +53,7 @@
           </HeadlessMenuItem>
           <HeadlessMenuItem>
             <NuxtLink
-              class="flex items-center gap-1 px-3 py-2 font-bold"
+              class="flex items-center gap-1 px-3 py-2"
               to="https://join.slack.com/t/taiwanvotingguide/shared_invite/zt-1stmgptpf-~D6X8ETZyaNR7uUHrIk~sA"
             >
               <img class="inline h-5 w-5 stroke-2" src="/slack.webp" />Slack
@@ -61,7 +61,7 @@
           </HeadlessMenuItem>
           <HeadlessMenuItem>
             <NuxtLink
-              class="flex items-center gap-1 px-3 py-2 font-bold"
+              class="flex items-center gap-1 px-3 py-2"
               to="https://forms.gle/nAxdNjAqpAb3GEMz8"
             >
               <ChatBubbleLeftEllipsisIcon class="h-5 w-5 stroke-2" />
@@ -74,41 +74,41 @@
 
     <NuxtLink
       to="/docs/introduction"
-      class="hidden flex-none items-center gap-1 rounded-md px-2 font-bold text-slate-400 hover:text-slate-600 lg:flex"
+      class="hidden flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600 lg:flex"
     >
       <QuestionMarkCircleIcon class="h-5 w-5 stroke-2" />
       如何使用
     </NuxtLink>
     <NuxtLink
       to="/contribute"
-      class="hidden flex-none items-center gap-1 rounded-md px-2 font-bold text-slate-400 hover:text-slate-600 lg:flex"
+      class="hidden flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600 lg:flex"
     >
       <PencilSquareIcon class="h-5 w-5 stroke-2" />
       <span class="flex-none">參與貢獻</span>
     </NuxtLink>
     <NuxtLink
       to="/data/tag_clicks_last_7_days"
-      class="hidden flex-none items-center gap-1 rounded-md px-2 font-bold text-slate-400 hover:text-slate-600 lg:flex"
+      class="hidden flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600 lg:flex"
     >
       <ChartBarIcon class="h-5 w-5 stroke-2" /> 數據分析
     </NuxtLink>
     <div class="ml-auto hidden lg:flex">
       <NuxtLink
-        class="flex-none items-center gap-1 rounded-md px-2 font-bold text-slate-400 hover:text-slate-600 lg:flex"
+        class="flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600 lg:flex"
         to="https://github.com/taiwan-voting-guide/app"
         ><div class="flex items-center gap-1">
           <img class="h-5 w-5 stroke-2" src="/github-mark.svg" />GitHub
         </div></NuxtLink
       >
       <NuxtLink
-        class="flex-none items-center gap-1 rounded-md px-2 font-bold text-slate-400 hover:text-slate-600 lg:flex"
+        class="flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600 lg:flex"
         to="https://join.slack.com/t/taiwanvotingguide/shared_invite/zt-1stmgptpf-~D6X8ETZyaNR7uUHrIk~sA"
         ><div class="flex items-center gap-1">
           <img class="h-5 w-5 stroke-2" src="/slack.webp" />Slack
         </div></NuxtLink
       >
       <NuxtLink
-        class="flex-none items-center gap-1 rounded-md px-2 font-bold text-slate-400 hover:text-slate-600 lg:flex"
+        class="flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600 lg:flex"
         to="https://forms.gle/nAxdNjAqpAb3GEMz8"
       >
         <ChatBubbleLeftEllipsisIcon class="h-5 w-5 stroke-2" />
