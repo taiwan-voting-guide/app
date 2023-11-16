@@ -1,4 +1,6 @@
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   html {
@@ -6,5 +8,8 @@
   }
 }
 
-@tailwind components;
-@tailwind utilities;
+@layer components {
+  .ghost {
+    @apply cursor-grabbing opacity-0;
+  }
+}

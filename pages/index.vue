@@ -1,31 +1,60 @@
 <template>
   <AppHeader />
-  <div class="flex w-fit min-w-full gap-2 px-4 pb-[calc(100vh-9rem)] pt-16">
-    <aside class="sticky left-4 z-30 ml-auto">
-      <Draggable
+  <div class="flex w-fit min-w-full gap-2 px-4 py-16">
+    <aside class="sticky left-4 left-4 top-20 z-30 ml-auto flex flex-col">
+      <nav
         v-if="politicians.length > 0"
-        v-model="tags"
-        tag="ul"
-        chosenClass="cursor-grab"
-        class="sticky left-0 top-16 w-max rounded-md bg-slate-100/50 p-4 backdrop-blur"
-        ghostClass="opacity-0"
-        itemKey="id"
-        :animation="150"
-        @start="drag = true"
-        @end="drag = false"
+        class="sticky top-20 flex w-60 flex-col gap-4 rounded-md bg-slate-100/50 p-4 backdrop-blur"
       >
-        <template #item="{ element: tag }">
-          <li class="cursor-grab">
-            {{ tag }}
-          </li>
-        </template>
-      </Draggable>
+        <div>
+          <header class="pb-2 font-bold">已選取</header>
+          <Draggable
+            v-if="politicians.length > 0"
+            v-model="tags"
+            tag="ul"
+            class="w-full"
+            itemKey="id"
+            group="tags"
+            :animation="150"
+            @start="drag = true"
+            @end="drag = false"
+          >
+            <template #item="{ element: tag }">
+              <li class="flex items-center">
+                <span class="flex cursor-grab gap-1 p-1 hover:font-bold">
+                  <span>⠿</span>
+                  {{ tag }}
+                </span>
+                <XMarkIcon
+                  @click="removeTag(tag)"
+                  class="ml-auto h-5 w-5 cursor-pointer stroke-2 text-slate-400"
+                />
+              </li>
+            </template>
+          </Draggable>
+        </div>
+
+        <div>
+          <header class="pb-2 font-bold">未選取</header>
+          <ul>
+            <li
+              v-for="tag in unselectedTags"
+              :key="tag"
+              @click="append(tag)"
+              class="flex cursor-pointer items-center gap-1 p-1 hover:font-bold"
+            >
+              <span class="opacity-0">⠿</span>
+              {{ tag }}
+            </li>
+          </ul>
+        </div>
+      </nav>
     </aside>
     <main class="mr-auto flex w-fit flex-col gap-3">
       <Draggable
         tag="ul"
         class="sticky top-16 z-20 flex gap-3"
-        chosenClass="cursor-grab"
+        chosenClass="cursor-grabbing"
         ghostClass="opacity-0"
         v-model="politicians"
         animation="150"
@@ -55,10 +84,10 @@
             }"
           >
             <div
-              class="group flex h-20 w-80 items-center gap-3 rounded-md border-2 border-dashed border-slate-400 bg-white p-4 hover:border-slate-600 group-hover:border-transparent group-hover:shadow"
+              class="group flex h-20 w-80 items-center gap-3 rounded-md border-2 border-dashed border-slate-200 bg-white p-4 group-hover:border-slate-400 group-hover:shadow"
             >
               <div
-                class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-dashed border-slate-400 bg-slate-100"
+                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100"
               >
                 <PlusIcon
                   class="h-5 w-5 cursor-pointer stroke-2 text-slate-400"
@@ -96,29 +125,32 @@
     :onClose="() => (isPoliticianSelectDialogOpen = false)"
     :onSelect="onPoliticiansSelect"
   />
-  <AppTagSearch
-    :open="isTagSelectDialogOpen"
-    :onClose="() => (isTagSelectDialogOpen = false)"
-    :onSelect="onTagsSelect"
-  />
 </template>
 
 <script setup lang="ts">
 import { XMarkIcon, PlusIcon } from '@heroicons/vue/24/outline';
 import Draggable from 'vuedraggable';
 
+const { data } = await getAllTags();
+
 const {
   politicians,
   inject: injectPoliticians,
   remove,
 } = useSelectPolitician();
-const { tags, tagSet, remove: removeTag, inject: injectTags } = useSelectTag();
+const { tags, tagSet, append, remove: removeTag } = useSelectTag();
 
 const isPoliticianSelectDialogOpen = ref<boolean>(false);
 const addPoliticianPosition = ref<number>(0);
-const isTagSelectDialogOpen = ref<boolean>(false);
-const addTagPosition = ref<number>(0);
 const drag = ref<boolean>(false);
+
+const unselectedTags = computed(() => {
+  if (!data.value) {
+    return [];
+  }
+
+  return data.value.filter((tag) => !tagSet.value.has(tag));
+});
 
 watch([tags, politicians], () => {
   const query: { tags?: string; politicians?: string } = {};
@@ -152,23 +184,5 @@ function onPoliticiansSelect(politicians: Array<string> | string) {
 
   searchText.value = '';
   isPoliticianSelectDialogOpen.value = false;
-}
-
-function onAddTagClicked(position: number) {
-  isTagSelectDialogOpen.value = true;
-  addTagPosition.value = position;
-}
-
-function onTagsSelect(tag: string) {
-  if (tagSet.value.has(tag)) {
-    const i = removeTag(tag);
-    if (i < addTagPosition.value) {
-      addTagPosition.value -= 1;
-    }
-    return;
-  }
-
-  const shift = injectTags(tag, addTagPosition.value);
-  addTagPosition.value += shift;
 }
 </script>
