@@ -55,6 +55,7 @@ export default defineEventHandler(async (event) => {
       'remark-lines',
       'remark-rehype',
       'rehype-blames',
+      'rehype-anchor-links',
       'rehype-class-names',
       'rehype-minify',
       'rehype-stringify',

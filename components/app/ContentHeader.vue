@@ -13,7 +13,7 @@
         v-else
         class="h-12 w-12 animate-pulse rounded-full bg-slate-100"
       ></div>
-      <h1 class="text-2xl font-extrabold text-slate-700">
+      <h1 class="text-2xl font-bold text-slate-700">
         {{ politician }}
       </h1>
       <slot></slot>

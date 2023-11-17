@@ -1,4 +1,5 @@
 <template>
+  <Html class="scroll-pt-40" />
   <AppHeader />
   <div class="flex w-fit min-w-full gap-4 px-4 py-16">
     <aside class="sticky left-4 top-16 z-30 ml-auto flex flex-col">
@@ -36,7 +37,7 @@
             @end="drag = false"
           >
             <template #item="{ element: tag }">
-              <li class="flex items-center">
+              <li class="flex items-center gap-1">
                 <span class="flex cursor-grab gap-1 p-1">
                   <span>⠿</span>
                   {{ tag }}
@@ -45,6 +46,11 @@
                   @click="removeTag(tag)"
                   class="ml-auto h-5 w-5 cursor-pointer stroke-2 text-slate-400"
                 />
+                <a :href="`#${tag}`">
+                  <ArrowUturnRightIcon
+                    class="h-5 w-5 cursor-pointer stroke-2 text-slate-400"
+                  />
+                </a>
               </li>
             </template>
           </Draggable>
@@ -123,7 +129,7 @@
         <ul
           v-for="tag in tags"
           :key="tag"
-          class="mr-auto flex gap-3 overflow-visible"
+          class="mr-auto flex scroll-mt-16 gap-3 overflow-visible"
         >
           <AppContent
             v-for="politician in politicians"
@@ -149,6 +155,7 @@ import {
   PlusIcon,
   BarsArrowDownIcon,
   BarsArrowUpIcon,
+  ArrowUturnRightIcon,
 } from '@heroicons/vue/24/outline';
 import Draggable from 'vuedraggable';
 

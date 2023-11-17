@@ -23,9 +23,9 @@ export type Blame = {
 };
 
 export const classNames: Options = {
-  h2: 'group relative text-xl font-bold underline decoration-primary decoration-4 underline-offset-4',
-  h3: 'group relative text-lg font-bold underline decoration-primary decoration-2 underline-offset-4',
-  h4: 'group relative text-md font-bold underline decoration-primary decoration-2 underline-offset-4',
+  h2: 'group relative text-xl flex text-slate-600 w-fit bg-primary/20 rounded-lg px-1',
+  h3: 'group relative text-lg underline decoration-primary decoration-2 underline-offset-4',
+  h4: 'group relative text-md underline decoration-primary decoration-2 underline-offset-4',
 
   p: 'group relative',
   a: 'text-blue-600',
@@ -219,9 +219,6 @@ export const parse = async (
               delete element.properties.id;
             });
           };
-        });
-        parser.use(rehypeAutolinkHeadings, {
-          behavior: 'wrap',
         });
         break;
       case 'rehype-minify':
