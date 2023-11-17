@@ -1,27 +1,43 @@
 <template>
   <AppHeader />
-  <div class="flex w-fit min-w-full gap-2 px-4 py-16">
-    <aside class="sticky left-4 left-4 top-20 z-30 ml-auto flex flex-col">
+  <div class="flex w-fit min-w-full gap-4 px-4 py-16">
+    <aside class="sticky left-4 top-16 z-30 ml-auto flex flex-col">
       <nav
         v-if="politicians.length > 0"
-        class="sticky top-20 flex w-60 flex-col gap-4 rounded-md bg-slate-100/50 p-4 backdrop-blur"
+        class="sticky top-20 flex flex-col gap-4 rounded-md bg-primary/10 p-4 backdrop-blur"
+        :class="{
+          'w-60': isTagsOpen,
+        }"
       >
-        <div>
-          <header class="pb-2 font-bold">已選取</header>
+        <div v-if="!isTagsOpen">
+          <BarsArrowDownIcon
+            @click="isTagsOpen = true"
+            class="h-5 w-5 cursor-pointer stroke-2"
+          />
+        </div>
+
+        <div v-if="isTagsOpen">
+          <header class="flex items-center pb-2 font-bold">
+            已選取
+            <BarsArrowUpIcon
+              @click="isTagsOpen = false"
+              class="ml-auto h-5 w-5 cursor-pointer stroke-2"
+            />
+          </header>
           <Draggable
             v-if="politicians.length > 0"
             v-model="tags"
             tag="ul"
             class="w-full"
-            itemKey="id"
-            group="tags"
+            itemKey="element"
+            dragClass="opacity-0"
             :animation="150"
             @start="drag = true"
             @end="drag = false"
           >
             <template #item="{ element: tag }">
               <li class="flex items-center">
-                <span class="flex cursor-grab gap-1 p-1 hover:font-bold">
+                <span class="flex cursor-grab gap-1 p-1">
                   <span>⠿</span>
                   {{ tag }}
                 </span>
@@ -34,7 +50,7 @@
           </Draggable>
         </div>
 
-        <div>
+        <div v-if="isTagsOpen">
           <header class="pb-2 font-bold">未選取</header>
           <ul>
             <li
@@ -128,7 +144,12 @@
 </template>
 
 <script setup lang="ts">
-import { XMarkIcon, PlusIcon } from '@heroicons/vue/24/outline';
+import {
+  XMarkIcon,
+  PlusIcon,
+  BarsArrowDownIcon,
+  BarsArrowUpIcon,
+} from '@heroicons/vue/24/outline';
 import Draggable from 'vuedraggable';
 
 const { data } = await getAllTags();
@@ -143,6 +164,8 @@ const { tags, tagSet, append, remove: removeTag } = useSelectTag();
 const isPoliticianSelectDialogOpen = ref<boolean>(false);
 const addPoliticianPosition = ref<number>(0);
 const drag = ref<boolean>(false);
+
+const isTagsOpen = ref<boolean>(true);
 
 const unselectedTags = computed(() => {
   if (!data.value) {
