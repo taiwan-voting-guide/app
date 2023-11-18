@@ -72,7 +72,7 @@
         </div>
       </nav>
     </aside>
-    <main class="mr-auto flex w-fit flex-col gap-3">
+    <main class="mr-auto flex w-fit flex-col gap-3 pb-[calc(100vh-16rem)]">
       <Draggable
         tag="ul"
         class="sticky top-16 z-20 flex gap-3"
