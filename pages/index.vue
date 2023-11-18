@@ -2,7 +2,7 @@
   <Html class="scroll-pl-80 scroll-pt-40" />
   <AppHeader />
   <div class="flex w-fit min-w-full gap-4 px-4 py-16">
-    <aside class="sticky left-4 top-16 z-30 ml-auto flex flex-col">
+    <aside class="top-16 z-30 ml-auto flex flex-col">
       <nav
         v-if="politicians.length > 0"
         class="sticky top-20 flex flex-col gap-4 rounded-md bg-primary/10 p-4 backdrop-blur"
