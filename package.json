@@ -11,6 +11,7 @@
   "devDependencies": {
     "@codemirror/lang-markdown": "^6.2.2",
     "@codemirror/theme-one-dark": "^6.1.2",
+    "@headlessui/tailwindcss": "^0.2.0",
     "@heroicons/vue": "^2.0.18",
     "@nuxt/image": "^1.0.0-rc.1",
     "@nuxtjs/device": "^3.1.1",

@@ -85,7 +85,9 @@
         @end="drag = false"
       >
         <template #item="{ element: politician }">
-          <li class="h-20 w-80 flex-none cursor-grab overflow-visible">
+          <li
+            class="h-20 w-80 flex-none cursor-grab overflow-visible rounded-md shadow-md"
+          >
             <AppContentHeader :politician="politician">
               <div class="ml-auto" title="移除">
                 <XMarkIcon
@@ -131,12 +133,13 @@
           :key="tag"
           class="mr-auto flex gap-3 overflow-visible"
         >
-          <AppContent
+          <li
             v-for="politician in politicians"
             :key="`${politician}-${tag}`"
-            :politician="politician"
-            :tag="tag"
-          />
+            class="w-80 rounded-md shadow-md first:ml-auto last:mr-auto"
+          >
+            <AppContent :politician="politician" :tag="tag" />
+          </li>
         </ul>
       </template>
     </main>

@@ -1,36 +1,107 @@
 <template>
   <Dialog :open="open" :onClose="onClose">
-    <div class="flex h-full flex-col overflow-y-auto">
-      <div class="relative sticky top-0 border-b border-slate-100 bg-white p-4">
-        <input
-          type="text"
-          v-model="searchText"
-          placeholder="2024_總統, 侯友宜, 第八選舉區, ..."
-          class="w-full border-0 py-0 pl-16 placeholder-slate-400 focus:ring-0"
-        />
-        <ArrowLeftIcon
-          @click="onClose"
-          class="absolute inset-y-0 left-4 h-5 h-full w-5 cursor-pointer text-gray-400"
-        />
-        <MagnifyingGlassIcon
-          class="absolute inset-y-0 left-12 h-5 h-full w-5 text-gray-400"
-        />
-      </div>
-      <ul
-        :class="{
-          'pb-[60vh]': isMobile,
-        }"
-      >
-        <li
-          v-for="result in results"
-          :key="result.key"
-          @click="onSelect(result.value)"
-          class="cursor-pointer p-4 hover:bg-slate-100"
+    <HeadlessTabGroup
+      :selectedIndex="selectedTab"
+      @change="changeTab"
+      as="div"
+      class="relative flex h-full flex-col gap-2"
+    >
+      <ArrowLeftIcon
+        @click="onClose"
+        class="absolute left-4 top-5 h-5 w-5 cursor-pointer"
+      />
+      <HeadlessTabList class="flex gap-3 pl-12 pt-3">
+        <HeadlessTab
+          v-for="group in data"
+          class="rounded-md px-3 py-2 ui-selected:bg-primary/30 ui-selected:font-bold ui-not-selected:bg-primary/10"
+          >{{ group.name }}</HeadlessTab
         >
-          {{ result.name }}
-        </li>
-      </ul>
-    </div>
+      </HeadlessTabList>
+      <HeadlessTabPanels class="h-full overflow-y-auto">
+        <HeadlessTabPanel>
+          <div
+            class="relative sticky top-0 border-y border-slate-100 bg-white p-3"
+          >
+            <input
+              type="text"
+              v-model="searchText"
+              placeholder="2024, 總統, 侯友宜, 第八選舉區, ..."
+              class="w-full border-0 py-0 pl-10 placeholder-slate-400 focus:ring-0"
+            />
+            <MagnifyingGlassIcon
+              class="absolute inset-y-0 left-4 h-5 h-full w-5"
+            />
+          </div>
+          <ul
+            :class="{
+              'pb-[60vh]': isMobile,
+            }"
+          >
+            <li
+              v-for="result in results"
+              :key="result.key"
+              @click="onSelect(result.value)"
+              class="flex cursor-pointer flex-col gap-2 px-4 py-2 font-bold hover:bg-primary/20"
+            >
+              {{ result.name }}
+              <ul class="flex items-center gap-2 overflow-x-auto">
+                <li
+                  class="flex flex-none items-center gap-2 font-normal"
+                  v-for="val in result.value"
+                >
+                  <NuxtImg
+                    :src="`/politician/${val}.webp`"
+                    :alt="val"
+                    placeholder="/placeholder.svg"
+                    width="48"
+                    height="48"
+                    class="h-12 w-12 rounded-full bg-slate-100"
+                  />
+                  {{ val }}
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </HeadlessTabPanel>
+        <HeadlessTabPanel>
+          <div
+            class="relative sticky top-0 border-y border-slate-100 bg-white p-3"
+          >
+            <input
+              type="text"
+              v-model="searchText"
+              placeholder="2024, 總統, 侯友宜, 第八選舉區, ..."
+              class="w-full border-0 py-0 pl-10 placeholder-slate-400 focus:ring-0"
+            />
+            <MagnifyingGlassIcon
+              class="absolute inset-y-0 left-4 h-5 h-full w-5"
+            />
+          </div>
+          <ul
+            :class="{
+              'pb-[60vh]': isMobile,
+            }"
+          >
+            <li
+              v-for="result in results"
+              :key="result.key"
+              @click="onSelect(result.value)"
+              class="flex cursor-pointer items-center gap-2 px-4 py-2 hover:bg-primary/20"
+            >
+              <NuxtImg
+                :src="`/politician/${result.value}.webp`"
+                :alt="result.value as string"
+                placeholder="/placeholder.svg"
+                width="48"
+                height="48"
+                class="h-12 w-12 rounded-full bg-slate-100"
+              />
+              {{ result.value }}
+            </li>
+          </ul>
+        </HeadlessTabPanel>
+      </HeadlessTabPanels>
+    </HeadlessTabGroup>
   </Dialog>
 </template>
 
@@ -53,14 +124,18 @@ const searchText = ref<string>('');
 
 const { data } = await getPoliticianSearchOptions();
 
+const selectedTab = ref(0);
+
 const results = computed(() => {
   if (!data?.value) {
     return [];
   }
 
+  const { options } = data.value[selectedTab.value];
+
   const keywords = searchText.value.trim().replace(/\s+/g, ' ').split(' ');
   const results: Array<PoliticianSearchOption> = [];
-  for (const option of data.value) {
+  for (const option of options) {
     for (const keyword of keywords) {
       if (option.key.includes(keyword)) {
         results.push(option);
@@ -71,4 +146,8 @@ const results = computed(() => {
 
   return results;
 });
+
+function changeTab(index: number) {
+  selectedTab.value = index;
+}
 </script>

@@ -27,7 +27,7 @@ export default defineEventHandler(async () => {
     });
   }
 
-  const options: Array<PoliticianSearchOption> = [];
+  const groupOptions: Array<PoliticianSearchOption> = [];
   const allPoliticians = new Map<string, null>();
 
   for (const [groupName, politicians] of Object.entries(data.group)) {
@@ -38,20 +38,25 @@ export default defineEventHandler(async () => {
     const key = `${groupName}_${politicians.join('_')}`;
     const value = politicians;
 
-    options.push({ key, name: groupName, value });
+    groupOptions.push({ key, name: groupName, value });
 
     for (const politician of politicians) {
       allPoliticians.set(politician, null);
     }
   }
 
+  const politicianOptions: Array<PoliticianSearchOption> = [];
   for (const politician of allPoliticians.keys()) {
-    options.push({
+    politicianOptions.push({
       key: politician,
       name: politician,
       value: politician,
     });
   }
 
-  return options;
+  return [
+    { name: '2024總統立委', options: groupOptions },
+    { name: '2024總統立委', options: groupOptions },
+    { name: '所有政治人物', options: politicianOptions },
+  ];
 });

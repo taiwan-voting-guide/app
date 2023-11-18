@@ -174,7 +174,7 @@ export const parse = async (
                                   `contributor/${email}.webp`,
                                   contributor.name || '',
                                   'm-0 p-0 w-8 h-8 gap-1 rounded-full bg-primary/50 ',
-                                  `this.onerror=null;this.src='/default-contributor.svg'`,
+                                  `this.onerror=null;this.src='/placeholder.svg'`,
                                 ),
                               ]),
                               Elem('block flex-none flex flex-col text-sm', [

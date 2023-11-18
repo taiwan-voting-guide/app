@@ -9,8 +9,13 @@ export type PoliticianSearchOption = {
   value: Array<string> | string;
 };
 
+export type PoliticianSearchOptionGroups = Array<{
+  name: string;
+  options: Array<PoliticianSearchOption>;
+}>;
+
 export const getAllPoliticians = () =>
   useFetch<Array<string>>('/api/get-all-politicians');
 export const getAllTags = () => useFetch<Array<string>>('/api/get-all-tags');
 export const getPoliticianSearchOptions = () =>
-  useFetch<Array<PoliticianSearchOption>>('/api/get-politician-search-options');
+  useFetch<PoliticianSearchOptionGroups>('/api/get-politician-search-options');
