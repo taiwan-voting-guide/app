@@ -56,7 +56,6 @@ export default defineEventHandler(async () => {
 
   return [
     { name: '2024總統立委', options: groupOptions },
-    { name: '2024總統立委', options: groupOptions },
     { name: '所有政治人物', options: politicianOptions },
   ];
 });
