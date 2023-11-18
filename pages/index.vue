@@ -1,5 +1,5 @@
 <template>
-  <Html class="scroll-pt-40" />
+  <Html class="scroll-pl-80 scroll-pt-40" />
   <AppHeader />
   <div class="flex w-fit min-w-full gap-4 px-4 py-16">
     <aside class="sticky left-4 top-16 z-30 ml-auto flex flex-col">
@@ -129,7 +129,7 @@
         <ul
           v-for="tag in tags"
           :key="tag"
-          class="mr-auto flex scroll-mt-16 gap-3 overflow-visible"
+          class="mr-auto flex gap-3 overflow-visible"
         >
           <AppContent
             v-for="politician in politicians"
