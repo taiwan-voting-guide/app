@@ -1,5 +1,5 @@
 <template>
-  <Html class="scroll-pl-80 scroll-pt-40" />
+  <Html class="scroll-pl-80 scroll-pt-40 scroll-smooth" />
   <AppHeader />
   <div class="flex w-fit min-w-full gap-4 px-4 py-16">
     <aside class="top-16 z-30 ml-auto flex flex-col">
