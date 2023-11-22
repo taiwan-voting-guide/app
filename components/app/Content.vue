@@ -1,7 +1,15 @@
 <template>
   <Card>
     <div class="p-4">
-      <div class="has-source prose prose-slate" v-if="data" v-html="data"></div>
+      <div
+        class="prose prose-slate"
+        :class="{
+          'hide-source': !showSource,
+          'hide-author': !showAuthor,
+        }"
+        v-if="data"
+        v-html="data"
+      ></div>
       <div v-else class="flex flex-col items-center justify-center">
         <p class="mb-2 flex items-center gap-1">
           <FaceFrownIcon class="inline-block h-4 w-4 text-start" />
@@ -32,6 +40,8 @@ import { FaceFrownIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
 const { tag, politician } = defineProps<{
   tag: string;
   politician: string;
+  showSource: boolean;
+  showAuthor: boolean;
 }>();
 
 const { data } = await useFetch('/api/get-content?politician', {

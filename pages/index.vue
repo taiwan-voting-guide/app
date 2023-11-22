@@ -18,13 +18,26 @@
         v-if="isTagsOpen"
         class="flex w-60 flex-col gap-4 rounded-md bg-primary/10 p-4 backdrop-blur"
       >
+        <button class="ml-auto" @click="isTagsOpen = false">
+          <BarsArrowUpIcon class="h-5 w-5 cursor-pointer stroke-2" />
+        </button>
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center">
+            <span class="font-bold"> 顯示來源 </span>
+            <span class="ml-auto flex items-center">
+              <Switch :name="'顯示來源'" v-model:enabled="showSource" />
+            </span>
+          </div>
+          <div class="flex items-center">
+            <span class="font-bold"> 顯示貢獻者 </span>
+            <span class="ml-auto flex items-center">
+              <Switch :name="'顯示貢獻者'" v-model:enabled="showAuthor" />
+            </span>
+          </div>
+        </div>
+
         <div>
-          <header class="flex items-center pb-2 font-bold">
-            已選取
-            <button class="ml-auto" @click="isTagsOpen = false">
-              <BarsArrowUpIcon class="h-5 w-5 cursor-pointer stroke-2" />
-            </button>
-          </header>
+          <header class="flex items-center pb-2 font-bold">已選取</header>
           <Draggable
             v-if="politicians.length > 0"
             v-model="tags"
@@ -140,7 +153,12 @@
             :key="`${politician}-${tag}`"
             class="w-80 rounded-md shadow-md"
           >
-            <AppContent :politician="politician" :tag="tag" />
+            <AppContent
+              :showSource="showSource"
+              :showAuthor="showAuthor"
+              :politician="politician"
+              :tag="tag"
+            />
           </li>
         </ul>
       </template>
@@ -176,6 +194,8 @@ const { tags, tagSet, append, remove: removeTag } = useSelectTag();
 const isPoliticianSelectDialogOpen = ref<boolean>(false);
 const addPoliticianPosition = ref<number>(0);
 const drag = ref<boolean>(false);
+const showSource = ref<boolean>(true);
+const showAuthor = ref<boolean>(false);
 
 const isTagsOpen = ref<boolean>(true);
 

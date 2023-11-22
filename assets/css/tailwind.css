@@ -28,4 +28,8 @@
   .hide-source .ref {
     @apply hidden;
   }
+
+  .hide-author .author {
+    @apply hidden;
+  }
 }

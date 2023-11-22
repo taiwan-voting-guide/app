@@ -26,8 +26,8 @@ export const classNames: Options = {
   h3: 'text-slate-600 text-lg first:mt-0 ',
   h4: 'text-slate-600 text-md',
 
-  p: 'text-slate-600',
-  a: 'text-blue-600',
+  p: 'relative text-slate-600',
+  a: 'relative text-blue-600',
   ul: '',
   ol: '',
   li: '',
@@ -128,7 +128,6 @@ export const parse = async (
                 return;
               }
 
-              console.log(element);
               element.properties = {
                 ...element.properties,
                 className: [...(className as Array<string>), 'anchor', 'ref'],
@@ -136,6 +135,7 @@ export const parse = async (
             });
           };
         });
+        break;
       case 'rehype-blames':
         parser.use(() => {
           return (tree: Node) => {
@@ -178,15 +178,16 @@ export const parse = async (
 
                   element.children.push(
                     Elem(
-                      'p-0 left-0 opacity-0 h-0 group-hover:h-fit w-0 invisible group-hover:p-3 group-hover:visible absolute bottom-full group-hover:opacity-100 group-hover:w-max overflow-hidden transition-[opacity,width] delay-500 z-50 text-md text-[16px] text-slate-600 tracking-normal font-sans font-normal rounded-lg bg-slate-50 shadow',
+                      'address',
+                      'author p-3 w-full text-md text-slate-600 font-normal rounded-md bg-primary/20',
                       [
-                        Elem('block w-max', [
-                          Elem('block font-bold', [Txt('貢獻者')]),
+                        Elem('div', 'w-max', [
+                          Elem('div', 'font-bold', [Txt('貢獻者')]),
                           ...blames.map(({ email }) => {
                             const contributor = contributorMap.get(email);
 
-                            return Elem('block flex gap-2', [
-                              Elem('block flex-none flex items-center', [
+                            return Elem('div', 'flex gap-2', [
+                              Elem('div', 'flex-none flex items-center', [
                                 Img(
                                   `contributor/${email}.webp`,
                                   contributor.name || '',
@@ -194,9 +195,20 @@ export const parse = async (
                                   `this.onerror=null;this.src='/placeholder.svg'`,
                                 ),
                               ]),
-                              Elem('block flex-none flex flex-col text-sm', [
-                                Elem('block', [Txt(contributor.name || '')]),
-                                Elem('block', [Txt(email || '')]),
+                              Elem('div', 'flex-none flex flex-col text-sm', [
+                                Elem('div', '', [
+                                  Txt(contributor.name || ''),
+                                  Txt(' '),
+                                  contributor.isVerified
+                                    ? Elem(
+                                        'span',
+                                        'text-lime-600',
+                                        [Txt('✓')],
+                                        { title: '已驗證' },
+                                      )
+                                    : Txt(''),
+                                ]),
+                                Elem('div', '', [Txt(email || '')]),
                               ]),
                             ]);
                           }),
@@ -211,7 +223,7 @@ export const parse = async (
             });
           };
         });
-
+        break;
       case 'rehype-class-names':
         // @ts-ignore
         parser.use(rehypeClassNames, classNames);
@@ -226,7 +238,7 @@ export const parse = async (
             visit(tree, 'element', (element: Element) => {
               if (
                 !(
-                  element.tagName === 'h2' &&
+                  element.tagName === 'cite' &&
                   element.properties.id === 'footnote-label'
                 )
               ) {
@@ -261,12 +273,18 @@ function generateDataLines(
   ).toString()}`;
 }
 
-function Elem(classProp: string, children: Array<ElementContent>): Element {
+function Elem(
+  tagName: string,
+  classProp: string,
+  children: Array<ElementContent>,
+  properties?: { [key: string]: string | number | boolean },
+): Element {
   return {
     type: 'element',
-    tagName: 'span',
+    tagName,
     properties: {
       class: classProp,
+      ...properties,
     },
     children,
   };
