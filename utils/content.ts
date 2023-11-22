@@ -1,5 +1,4 @@
 import { type Element, type ElementContent, type Text } from 'hast';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeClassNames, { type Options } from 'rehype-class-names';
 import rehypeMinifyAttributeWhitespace from 'rehype-minify-attribute-whitespace';
 import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
@@ -23,25 +22,25 @@ export type Blame = {
 };
 
 export const classNames: Options = {
-  h2: 'group relative text-xl flex text-slate-600 w-fit bg-primary/20 rounded-lg px-1',
-  h3: 'group relative text-lg underline decoration-primary decoration-2 underline-offset-4',
-  h4: 'group relative text-md underline decoration-primary decoration-2 underline-offset-4',
+  h2: 'anchor text-xl flex text-slate-600 w-fit bg-primary/20 rounded-md px-1',
+  h3: 'text-slate-600 text-lg first:mt-0 ',
+  h4: 'text-slate-600 text-md',
 
-  p: 'group relative',
+  p: 'text-slate-600',
   a: 'text-blue-600',
   ul: '',
   ol: '',
-  li: 'group relative',
+  li: '',
 
   img: '',
   blockquote: '',
   hr: '',
 
-  pre: 'relative overflow-visible',
-  code: 'group relative',
+  pre: 'overflow-visible',
+  code: '',
 
-  th: 'group relative',
-  td: 'group relative',
+  th: '',
+  td: '',
 };
 
 export const parse = async (
@@ -93,9 +92,10 @@ export const parse = async (
         parser.use(remarkRehype, {
           clobberPrefix: `${key}-`,
           footnoteLabel: '資料來源',
-          footnoteLabelTagName: 'h2',
+          footnoteLabelTagName: 'h3',
           footnoteBackLabel: '返回',
         });
+        // refactor footnotes
         parser.use(() => {
           return (tree: Node) => {
             visit(tree, 'element', (element: Element) => {
@@ -119,6 +119,23 @@ export const parse = async (
         });
 
         break;
+      case 'rehype-add-anchor-class':
+        parser.use(() => {
+          return (tree: Node) => {
+            visit(tree, 'element', (element: Element) => {
+              const { id, className } = element.properties;
+              if (!String(id).startsWith(`${key}-`)) {
+                return;
+              }
+
+              console.log(element);
+              element.properties = {
+                ...element.properties,
+                className: [...(className as Array<string>), 'anchor', 'ref'],
+              };
+            });
+          };
+        });
       case 'rehype-blames':
         parser.use(() => {
           return (tree: Node) => {

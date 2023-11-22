@@ -1,7 +1,7 @@
 <template>
   <Card>
     <div class="p-4">
-      <div class="prose prose-slate" v-if="data" v-html="data"></div>
+      <div class="has-source prose prose-slate" v-if="data" v-html="data"></div>
       <div v-else class="flex flex-col items-center justify-center">
         <p class="mb-2 flex items-center gap-1">
           <FaceFrownIcon class="inline-block h-4 w-4 text-start" />

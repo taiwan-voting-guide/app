@@ -12,4 +12,24 @@
   .ghost {
     @apply cursor-grabbing opacity-0;
   }
+
+  .anchor {
+    @apply scroll-mt-[10.5rem];
+  }
+
+  .footnotes {
+    @apply hidden rounded-md bg-slate-100 p-2;
+  }
+
+  .ref {
+    @apply hidden;
+  }
+
+  .has-source .footnotes {
+    @apply block;
+  }
+
+  .has-source .ref {
+    @apply inline;
+  }
 }

@@ -1,29 +1,29 @@
 <template>
-  <Html class="scroll-pl-80 scroll-pt-40 scroll-smooth" />
+  <Html class="scroll-smooth" />
   <AppHeader />
-  <div class="flex w-fit min-w-full gap-4 px-4 py-16">
-    <aside class="top-16 z-30 ml-auto flex flex-col">
-      <nav
-        v-if="politicians.length > 0"
-        class="sticky top-20 flex flex-col gap-4 rounded-md bg-primary/10 p-4 backdrop-blur"
-        :class="{
-          'w-60': isTagsOpen,
-        }"
+  <div class="flex w-fit min-w-full gap-4 px-4 pb-4 pt-16">
+    <aside
+      v-if="politicians.length > 0"
+      class="sticky top-16 ml-auto flex max-h-[calc(100vh-5rem)] flex-col overflow-y-scroll rounded-md"
+    >
+      <button
+        v-if="!isTagsOpen"
+        @click="isTagsOpen = true"
+        class="rounded-md bg-primary/10 p-4 backdrop-blur"
       >
-        <div v-if="!isTagsOpen">
-          <BarsArrowDownIcon
-            @click="isTagsOpen = true"
-            class="h-5 w-5 cursor-pointer stroke-2"
-          />
-        </div>
+        <BarsArrowDownIcon class="h-5 w-5 cursor-pointer stroke-2" />
+      </button>
 
-        <div v-if="isTagsOpen">
+      <nav
+        v-if="isTagsOpen"
+        class="flex w-60 flex-col gap-4 rounded-md bg-primary/10 p-4 backdrop-blur"
+      >
+        <div>
           <header class="flex items-center pb-2 font-bold">
             已選取
-            <BarsArrowUpIcon
-              @click="isTagsOpen = false"
-              class="ml-auto h-5 w-5 cursor-pointer stroke-2"
-            />
+            <button class="ml-auto" @click="isTagsOpen = false">
+              <BarsArrowUpIcon class="h-5 w-5 cursor-pointer stroke-2" />
+            </button>
           </header>
           <Draggable
             v-if="politicians.length > 0"
@@ -56,7 +56,7 @@
           </Draggable>
         </div>
 
-        <div v-if="isTagsOpen">
+        <div>
           <header class="pb-2 font-bold">未選取</header>
           <ul>
             <li
@@ -72,10 +72,15 @@
         </div>
       </nav>
     </aside>
-    <main class="mr-auto flex w-fit flex-col gap-3 pb-[calc(100vh-16rem)]">
+    <main
+      class="mr-auto flex w-fit flex-col gap-2"
+      :class="{
+        'ml-auto': politicians.length === 0,
+      }"
+    >
       <Draggable
         tag="ul"
-        class="sticky top-16 z-20 flex gap-3"
+        class="sticky top-16 z-20 flex gap-2"
         chosenClass="cursor-grabbing"
         ghostClass="opacity-0"
         v-model="politicians"
@@ -102,13 +107,10 @@
           <button
             title="新增政治人物"
             @click="onAddPoliticianClicked(politicians.length)"
-            class="group mr-auto flex-none"
-            :class="{
-              'ml-auto': politicians.length === 0,
-            }"
+            class="flex-none"
           >
             <div
-              class="group flex h-20 w-80 items-center gap-3 rounded-md border-2 border-dashed border-slate-200 bg-white p-4 group-hover:border-slate-400 group-hover:shadow"
+              class="group flex h-20 w-80 items-center gap-2 rounded-md border-2 border-dashed border-slate-200 bg-white p-4 group-hover:border-slate-400 group-hover:shadow"
             >
               <div
                 class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100"
@@ -131,12 +133,12 @@
         <ul
           v-for="tag in tags"
           :key="tag"
-          class="mr-auto flex gap-3 overflow-visible"
+          class="mr-auto flex gap-2 overflow-visible"
         >
           <li
             v-for="politician in politicians"
             :key="`${politician}-${tag}`"
-            class="w-80 rounded-md shadow-md first:ml-auto last:mr-auto"
+            class="w-80 rounded-md shadow-md"
           >
             <AppContent :politician="politician" :tag="tag" />
           </li>
