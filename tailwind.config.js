@@ -19,7 +19,7 @@ module.exports = {
         },
       },
       animation: {
-        'bg-blink': '1s 10 alternate bg-blink',
+        'bg-blink': '0.5s 20 alternate bg-blink',
       },
     },
   },
