@@ -1,5 +1,5 @@
 <template>
-  <Html class="scroll-smooth" />
+  <Html class="touch-auto scroll-smooth" />
   <AppHeader />
   <div class="flex w-fit min-w-full gap-4 px-4 pb-4 pt-16">
     <aside
