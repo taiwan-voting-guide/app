@@ -17,6 +17,10 @@
     @apply scroll-mt-[10.5rem];
   }
 
+  .anchor:target {
+    @apply animate-bg-blink;
+  }
+
   .footnotes {
     @apply rounded-md bg-slate-100 p-2;
   }
