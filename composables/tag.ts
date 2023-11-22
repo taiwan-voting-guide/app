@@ -7,6 +7,9 @@ const useTags = () =>
     return initialTags;
   });
 
+export const useTagCollapse = () =>
+  useState<Set<string>>('collapsed_tags', () => new Set<string>());
+
 const useTagSet = () => computed(() => new Set(useTags().value));
 
 export const useSelectTag = () => {
