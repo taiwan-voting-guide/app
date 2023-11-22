@@ -18,18 +18,14 @@
   }
 
   .footnotes {
-    @apply hidden rounded-md bg-slate-100 p-2;
+    @apply rounded-md bg-slate-100 p-2;
   }
 
-  .ref {
+  .hide-source .footnotes {
     @apply hidden;
   }
 
-  .has-source .footnotes {
-    @apply block;
-  }
-
-  .has-source .ref {
-    @apply inline;
+  .hide-source .ref {
+    @apply hidden;
   }
 }
