@@ -29,7 +29,7 @@
     </div>
 
     <div
-      class="prose prose-slate px-4 pb-4"
+      class="prose-h4:text-md prose prose-slate px-4 pb-4 prose-h2:text-base prose-h3:text-lg prose-a:text-blue-600"
       :class="{
         'hide-source': !showSource,
         'hide-author': !showAuthor,

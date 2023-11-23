@@ -60,7 +60,10 @@
       </div>
       <div class="mx-auto h-min w-80 max-w-[20rem]">
         <Card>
-          <div class="prose p-4" v-html="preview"></div>
+          <div
+            class="prose prose-slate p-4 prose-h2:text-base prose-h3:text-lg prose-a:text-blue-600"
+            v-html="preview"
+          ></div>
         </Card>
       </div>
     </div>
@@ -114,13 +117,7 @@ async function updatePreview() {
     route.query.politician as string,
     route.query.tag as string,
     `## ${route.query.tag}\n\n${editor.value}`,
-    [
-      'remark-parse',
-      'remark-gfm',
-      'remark-rehype',
-      'rehype-class-names',
-      'rehype-stringify',
-    ],
+    ['remark-parse', 'remark-gfm', 'remark-rehype', 'rehype-stringify'],
   );
 
   preview.value = file.value.toString();

@@ -57,7 +57,6 @@ export default defineEventHandler(async (event) => {
 
       'rehype-blames',
       'rehype-anchor-links',
-      'rehype-class-names',
       'rehype-add-anchor-class',
 
       'rehype-minify',

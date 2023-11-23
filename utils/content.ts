@@ -1,5 +1,4 @@
 import { type Element, type ElementContent, type Text } from 'hast';
-import rehypeClassNames, { type Options } from 'rehype-class-names';
 import rehypeMinifyAttributeWhitespace from 'rehype-minify-attribute-whitespace';
 import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
 import rehypeSlug from 'rehype-slug';
@@ -19,28 +18,6 @@ export type Blame = {
   hash: string;
   email: string;
   timestamp: number;
-};
-
-export const classNames: Options = {
-  h2: 'anchor text-xl flex text-slate-600 w-fit bg-primary/20 rounded-md px-1',
-  h3: 'text-slate-600 text-lg first:mt-0 ',
-  h4: 'text-slate-600 text-md',
-
-  p: 'text-slate-600',
-  a: 'relative text-blue-600',
-  ul: '',
-  ol: '',
-  li: '',
-
-  img: '',
-  blockquote: '',
-  hr: '',
-
-  pre: 'overflow-visible',
-  code: '',
-
-  th: '',
-  td: '',
 };
 
 export const parse = async (
@@ -94,8 +71,12 @@ export const parse = async (
           footnoteLabel: '資料來源',
           footnoteLabelTagName: 'h3',
           footnoteBackLabel: '返回',
+          footnoteLabelProperties: {
+            className: 'text-slate-600 mt-0',
+          },
         });
-        // refactor footnotes
+
+        // remove p in li in footnotes
         parser.use(() => {
           return (tree: Node) => {
             visit(tree, 'element', (element: Element) => {
@@ -119,11 +100,22 @@ export const parse = async (
         });
 
         break;
+      case 'rehype-log':
+        parser.use(() => {
+          return (tree: Node) => {
+            visit(tree, 'element', (element: Element) => {
+              if (element.tagName === 'h3') {
+                console.log(element.properties);
+              }
+            });
+          };
+        });
+        break;
       case 'rehype-add-anchor-class':
         parser.use(() => {
           return (tree: Node) => {
             visit(tree, 'element', (element: Element) => {
-              const { id, className } = element.properties;
+              const { id, className = [] } = element.properties;
               if (!String(id).startsWith(`${key}-`)) {
                 return;
               }
@@ -147,6 +139,7 @@ export const parse = async (
                 case 'p':
                 case 'h3':
                 case 'h4':
+                case 'h5':
                 case 'h6':
                 case 'li':
                 case 'code':
@@ -178,16 +171,16 @@ export const parse = async (
 
                   element.children.push(
                     Elem(
-                      'address',
-                      'author p-3 w-full text-md text-slate-600 font-normal rounded-md bg-primary/20',
+                      'span',
+                      'block author p-3 m-0 w-full text-md text-slate-600 font-normal rounded-md bg-primary/20',
                       [
-                        Elem('div', 'w-max', [
-                          Elem('div', 'font-bold', [Txt('貢獻者')]),
+                        Elem('span', '', [
+                          Elem('span', 'font-bold', [Txt('貢獻者')]),
                           ...blames.map(({ email }) => {
                             const contributor = contributorMap.get(email);
 
-                            return Elem('div', 'flex gap-2', [
-                              Elem('div', 'flex-none flex items-center', [
+                            return Elem('span', 'flex gap-2', [
+                              Elem('span', 'flex-none flex items-center', [
                                 Img(
                                   `contributor/${email}.webp`,
                                   contributor.name || '',
@@ -195,8 +188,8 @@ export const parse = async (
                                   `this.onerror=null;this.src='/placeholder.svg'`,
                                 ),
                               ]),
-                              Elem('div', 'flex-none flex flex-col text-sm', [
-                                Elem('div', '', [
+                              Elem('span', 'flex-none flex flex-col text-sm', [
+                                Elem('span', '', [
                                   Txt(contributor.name || ''),
                                   Txt(' '),
                                   contributor.isVerified
@@ -208,7 +201,7 @@ export const parse = async (
                                       )
                                     : Txt(''),
                                 ]),
-                                Elem('div', '', [Txt(email || '')]),
+                                Elem('span', '', [Txt(email || '')]),
                               ]),
                             ]);
                           }),
@@ -223,10 +216,6 @@ export const parse = async (
             });
           };
         });
-        break;
-      case 'rehype-class-names':
-        // @ts-ignore
-        parser.use(rehypeClassNames, classNames);
         break;
       case 'rehype-stringify':
         parser.use(rehypeStringify);
@@ -267,7 +256,7 @@ function Elem(
     type: 'element',
     tagName,
     properties: {
-      class: classProp,
+      class: classProp || undefined,
       ...properties,
     },
     children,
