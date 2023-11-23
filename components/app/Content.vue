@@ -5,6 +5,7 @@
         class="space-between sticky top-36 z-10 flex rounded-md backdrop-blur"
       >
         <h2
+          :id="`${politician}-${tag}`"
           class="anchor flex w-fit rounded-md bg-primary/20 px-2 py-1 text-xl font-bold"
         >
           {{ tag }}

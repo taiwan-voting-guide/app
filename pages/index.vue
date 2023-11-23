@@ -151,7 +151,6 @@
           <li
             v-for="politician in politicians"
             :key="`${politician}-${tag}`"
-            :id="`${politician}-${tag}`"
             class="anchor w-80 scroll-ml-4 scroll-mt-[9.5rem] rounded-md shadow-md"
           >
             <AppContent
