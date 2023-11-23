@@ -2,7 +2,7 @@
   <Card>
     <div class="sticky right-4 top-36 z-10 flex items-center p-4">
       <h2
-        class="anchor flex w-fit rounded-md bg-primary/20 px-2 py-1 text-xl font-bold text-slate-600 backdrop-blur"
+        class="flex w-fit rounded-md bg-primary/20 px-2 py-1 text-xl font-bold text-slate-600 backdrop-blur"
       >
         {{ tag }}
       </h2>

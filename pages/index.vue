@@ -59,7 +59,7 @@
                   @click="removeTag(tag)"
                   class="ml-auto h-5 w-5 cursor-pointer stroke-2 text-slate-400"
                 />
-                <a :href="`#${tag}`">
+                <a :href="`#${politicians[0]}-${tag}`">
                   <ArrowUturnRightIcon
                     class="h-5 w-5 cursor-pointer stroke-2 text-slate-400"
                   />
@@ -144,15 +144,15 @@
 
       <template v-if="politicians.length > 0">
         <ul
-          :id="tag"
           v-for="tag in tags"
           :key="tag"
-          class="mr-auto flex scroll-ml-2 scroll-mt-[9.5rem] gap-2 overflow-visible"
+          class="mr-auto flex gap-2 overflow-visible"
         >
           <li
             v-for="politician in politicians"
             :key="`${politician}-${tag}`"
-            class="w-80 rounded-md shadow-md"
+            :id="`${politician}-${tag}`"
+            class="anchor w-80 scroll-ml-4 scroll-mt-[9.5rem] rounded-md shadow-md"
           >
             <AppContent
               :showSource="showSource"
