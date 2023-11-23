@@ -34,14 +34,16 @@ export function extractContent(md: string, tag: string): ExtractContentResult {
   }
 
   const lines = md.substring(0, left).split('\n');
-  const startingLine = lines.length;
+  const startingLine = lines.length + 1;
 
   const contentStart = left + title.length;
   const contentEnd = md.indexOf('\n## ', contentStart);
 
   const content =
-    contentEnd === -1 ? md.substring(left) : md.substring(left, contentEnd);
-  const rightLines = startingLine + content.split('\n').length - 1;
+    contentEnd === -1
+      ? md.substring(contentStart)
+      : md.substring(contentStart, contentEnd);
+  const rightLines = startingLine + content.split('\n').length - 2;
   const endingLine = contentEnd === -1 ? rightLines - 1 : rightLines;
 
   return {

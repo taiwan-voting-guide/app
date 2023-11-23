@@ -4,7 +4,6 @@
       <NuxtImg
         :src="`/politician/${politician}.webp`"
         :alt="politician"
-        placeholder="/placeholder.svg"
         width="48"
         height="48"
         class="h-12 w-12 rounded-full bg-primary/20"

@@ -1,7 +1,12 @@
 <template>
   <Card>
-    <div class="relative p-4">
-      <div class="absolute right-4 top-5 flex gap-2">
+    <div class="sticky right-4 top-36 z-10 flex items-center p-4">
+      <h2
+        class="anchor flex w-fit rounded-md bg-primary/20 px-2 py-1 text-xl font-bold text-slate-600 backdrop-blur"
+      >
+        {{ tag }}
+      </h2>
+      <div class="ml-auto flex gap-2 rounded-md p-2 backdrop-blur">
         <span v-if="collapsedTags.has(tag)" title="展開">
           <ChevronDoubleDownIcon
             @click="collapsedTags.delete(tag)"
@@ -21,18 +26,17 @@
           />
         </span>
       </div>
-
-      <div
-        class="prose prose-slate"
-        :class="{
-          'hide-source': !showSource,
-          'hide-author': !showAuthor,
-          'h-7 overflow-hidden': collapsedTags.has(tag),
-        }"
-        v-if="data"
-        v-html="data"
-      ></div>
     </div>
+
+    <div
+      class="prose prose-slate px-4 pb-4"
+      :class="{
+        'hide-source': !showSource,
+        'hide-author': !showAuthor,
+      }"
+      v-if="data && !collapsedTags.has(tag)"
+      v-html="data"
+    ></div>
   </Card>
 </template>
 

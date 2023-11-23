@@ -16,7 +16,6 @@ export default defineNuxtConfig({
         },
       ],
     },
-    rootTag: 'body',
   },
   modules: [
     '@nuxtjs/tailwindcss',

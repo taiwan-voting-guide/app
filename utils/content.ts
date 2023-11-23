@@ -26,7 +26,7 @@ export const classNames: Options = {
   h3: 'text-slate-600 text-lg first:mt-0 ',
   h4: 'text-slate-600 text-md',
 
-  p: 'relative text-slate-600',
+  p: 'text-slate-600',
   a: 'relative text-blue-600',
   ul: '',
   ol: '',
