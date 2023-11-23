@@ -8,13 +8,13 @@
       </h2>
       <div class="ml-auto flex gap-2 rounded-md p-2 backdrop-blur">
         <span v-if="collapsedTags.has(tag)" title="展開">
-          <ChevronDoubleDownIcon
+          <BarsArrowDownIcon
             @click="collapsedTags.delete(tag)"
             class="h-5 w-5 cursor-pointer stroke-2 text-slate-400"
           />
         </span>
         <span v-if="!collapsedTags.has(tag)" title="縮小">
-          <ChevronDoubleUpIcon
+          <BarsArrowUpIcon
             @click="collapsedTags.add(tag)"
             class="h-5 w-5 cursor-pointer stroke-2 text-slate-400"
           />
@@ -43,8 +43,8 @@
 <script setup lang="ts">
 import {
   XMarkIcon,
-  ChevronDoubleDownIcon,
-  ChevronDoubleUpIcon,
+  BarsArrowDownIcon,
+  BarsArrowUpIcon,
 } from '@heroicons/vue/24/outline';
 
 const { tag, politician } = defineProps<{
@@ -54,7 +54,7 @@ const { tag, politician } = defineProps<{
   showAuthor: boolean;
 }>();
 
-const { data } = await useFetch('/api/get-content?politician', {
+const { data } = await useFetch('/api/get-content-html?politician', {
   params: { politician: politician, tag: tag },
 });
 

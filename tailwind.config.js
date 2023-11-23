@@ -9,7 +9,7 @@ module.exports = {
       keyframes: {
         'bg-blink': {
           '0%': {
-            backgroundColor: 'rgba(49, 153, 186, 0.1)',
+            backgroundColor: 'rgba(49, 153, 186, 0)',
             borderRadius: '0.375rem',
           },
           '100%': {

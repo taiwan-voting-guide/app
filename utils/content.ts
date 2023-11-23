@@ -115,14 +115,25 @@ export const parse = async (
         parser.use(() => {
           return (tree: Node) => {
             visit(tree, 'element', (element: Element) => {
-              const { id, className = [] } = element.properties;
-              if (!String(id).startsWith(`${key}-`)) {
+              const { id } = element.properties;
+              const idStr = (id as string) || '';
+              if (!idStr.startsWith(`${key}-`)) {
                 return;
+              }
+
+              const className = ['anchor'];
+
+              if (idStr.startsWith(`${key}-fn-`)) {
+                className.push('fn');
+              }
+
+              if (idStr.startsWith(`${key}-fnref-`)) {
+                className.push('fnref');
               }
 
               element.properties = {
                 ...element.properties,
-                className: [...(className as Array<string>), 'anchor', 'ref'],
+                className,
               };
             });
           };

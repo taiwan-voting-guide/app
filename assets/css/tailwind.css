@@ -25,11 +25,15 @@
     @apply rounded-md bg-slate-100 p-2;
   }
 
+  .fnref {
+    @apply rounded-full bg-primary/20 px-1 no-underline;
+  }
+
   .hide-source .footnotes {
     @apply hidden;
   }
 
-  .hide-source .ref {
+  .hide-source .fnref {
     @apply hidden;
   }
 
