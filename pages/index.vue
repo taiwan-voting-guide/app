@@ -144,9 +144,10 @@
 
       <template v-if="politicians.length > 0">
         <ul
+          :id="tag"
           v-for="tag in tags"
           :key="tag"
-          class="mr-auto flex gap-2 overflow-visible"
+          class="mr-auto flex scroll-ml-2 scroll-mt-[9.5rem] gap-2 overflow-visible"
         >
           <li
             v-for="politician in politicians"

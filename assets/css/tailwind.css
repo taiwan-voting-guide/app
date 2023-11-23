@@ -14,7 +14,7 @@
   }
 
   .anchor {
-    @apply scroll-mt-[10.5rem];
+    @apply scroll-ml-2 scroll-mt-[10.5rem];
   }
 
   .anchor:target {

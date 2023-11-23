@@ -233,22 +233,6 @@ export const parse = async (
         break;
       case 'rehype-anchor-links':
         parser.use(rehypeSlug);
-        parser.use(() => {
-          return (tree: Node) => {
-            visit(tree, 'element', (element: Element) => {
-              if (
-                !(
-                  element.tagName === 'cite' &&
-                  element.properties.id === 'footnote-label'
-                )
-              ) {
-                return;
-              }
-
-              delete element.properties.id;
-            });
-          };
-        });
         break;
       case 'rehype-minify':
         parser.use(rehypeMinifyWhitespace);
