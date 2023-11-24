@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 500 });
   }
 
-  return sendRedirect(event, '/', 302);
+  return sendRedirect(event, '/contribute', 302);
 });
 
 function generateSessionKey(email: string, token: string): string {
