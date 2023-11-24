@@ -3,7 +3,6 @@ import rehypeMinifyAttributeWhitespace from 'rehype-minify-attribute-whitespace'
 import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
-import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
@@ -11,7 +10,6 @@ import remarkStringify from 'remark-stringify';
 import { unified } from 'unified';
 import { type Node } from 'unist';
 import { visit } from 'unist-util-visit';
-import { matter } from 'vfile-matter';
 
 export type Blame = {
   line: number;
@@ -57,14 +55,6 @@ export const parse = async (
             });
           };
         });
-      case 'remark-frontmatter':
-        parser.use(remarkFrontmatter);
-        parser.use(() => {
-          return (_, file) => {
-            matter(file);
-          };
-        });
-        break;
       case 'remark-rehype':
         parser.use(remarkRehype, {
           clobberPrefix: `${key}-`,
@@ -99,17 +89,6 @@ export const parse = async (
           };
         });
 
-        break;
-      case 'rehype-log':
-        parser.use(() => {
-          return (tree: Node) => {
-            visit(tree, 'element', (element: Element) => {
-              if (element.tagName === 'h3') {
-                console.log(element.properties);
-              }
-            });
-          };
-        });
         break;
       case 'rehype-add-anchor-class':
         parser.use(() => {

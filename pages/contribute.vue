@@ -60,7 +60,7 @@
   </header>
   <main
     v-if="route.query.politician && route.query.tag"
-    class="flex h-screen flex-1 gap-3 px-3 pb-3 pt-28 md:pt-16"
+    class="flex h-screen flex-1 gap-2 px-2 pb-2 pt-28 md:pt-16"
   >
     <div
       class="h-full flex-1 overflow-hidden rounded-md sm:block"
@@ -76,20 +76,33 @@
     </div>
 
     <div
-      class="flex max-h-full flex-1 flex-col gap-4 overflow-y-auto pb-20 sm:flex"
+      class="flex max-h-full flex-1 flex-col gap-2 overflow-y-auto pb-20 sm:flex"
       :class="{
         hidden: toggleSection === 'editor',
       }"
     >
-      <div class="sticky top-0 z-10 mx-auto h-20 w-80">
+      <div class="sticky top-0 z-10 mx-auto h-20 w-80 rounded-md shadow-md">
         <AppContentHeader :politician="route.query.politician as string" />
       </div>
       <div class="mx-auto h-min w-80 max-w-[20rem]">
         <Card>
-          <div
-            class="prose prose-slate p-4 prose-h2:text-base prose-h3:text-lg prose-a:text-blue-600"
-            v-html="preview"
-          ></div>
+          <div class="w-rull flex h-full flex-col gap-4 p-4">
+            <div
+              class="space-between sticky top-20 z-10 flex rounded-md backdrop-blur"
+            >
+              <h2
+                :id="`${route.query.politician}-${route.query.tag}`"
+                class="anchor flex w-fit rounded-md bg-primary/20 px-2 py-1 text-xl font-bold"
+              >
+                {{ route.query.tag }}
+              </h2>
+              <div class="ml-auto flex gap-2 rounded-md p-2"></div>
+            </div>
+            <div
+              class="prose-h4:text-md prose prose prose-slate prose-slate prose-h2:text-base prose-h3:text-lg prose-a:text-blue-600"
+              v-html="preview"
+            ></div>
+          </div>
         </Card>
       </div>
     </div>
@@ -131,7 +144,7 @@ watch(
       },
     });
 
-    editor.value = data.substring(`## ${route.query.tag}\n\n`.length);
+    editor.value = data;
     if (oldQuery && oldQuery.tag !== newQuery.tag) {
       updatePreview();
     }
@@ -145,8 +158,14 @@ async function updatePreview() {
   const file = await parse(
     route.query.politician as string,
     route.query.tag as string,
-    `## ${route.query.tag}\n\n${editor.value}`,
-    ['remark-parse', 'remark-gfm', 'remark-rehype', 'rehype-stringify'],
+    editor.value,
+    [
+      'remark-parse',
+      'remark-gfm',
+      'remark-rehype',
+      'rehype-add-anchor-class',
+      'rehype-stringify',
+    ],
   );
 
   preview.value = file.value.toString();

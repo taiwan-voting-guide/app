@@ -5,7 +5,6 @@
     @click="onClick"
     :disabled="disabled"
     :class="{
-      '': disabled,
       'cursor-not-allowed bg-primary/10 text-slate-400 hover:bg-primary/20':
         disabled,
     }"
