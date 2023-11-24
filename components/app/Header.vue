@@ -1,45 +1,41 @@
 <template>
   <Header>
     <Logo />
+    <NuxtLink
+      title="如何使用"
+      to="/docs/introduction"
+      class="flex flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600"
+    >
+      <QuestionMarkCircleIcon class="h-5 w-5 stroke-2" />
+      <span class="hidden flex-none sm:inline"> 如何使用 </span>
+    </NuxtLink>
+    <NuxtLink
+      title="參與貢獻"
+      to="/contribute"
+      class="flex flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600"
+    >
+      <PencilSquareIcon class="h-5 w-5 stroke-2" />
+      <span class="hidden flex-none sm:inline">
+        <span class="flex-none">參與貢獻</span>
+      </span>
+    </NuxtLink>
+    <NuxtLink
+      title="數據分析"
+      to="/data/tag_clicks_last_7_days"
+      class="flex flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600"
+    >
+      <ChartBarIcon class="h-5 w-5 stroke-2" />
+      <span class="hidden flex-none sm:inline"> 數據分析 </span>
+    </NuxtLink>
     <div class="ml-auto mr-3 h-6 lg:hidden">
       <HeadlessMenu v-slot="{ close }">
         <HeadlessMenuButton>
-          <Bars3Icon class="h-6 w-6 stroke-2" />
+          <Bars3Icon class="h-6 w-6 stroke-2 text-slate-400" />
         </HeadlessMenuButton>
         <HeadlessMenuItems
           @click="close"
-          class="absolute right-0 mr-2 w-max rounded-md bg-white shadow"
+          class="absolute right-0 mr-2 w-max rounded-md bg-white p-2 shadow"
         >
-          <HeadlessMenuItem>
-            <NuxtLink
-              class="flex items-center gap-1 px-3 py-2"
-              to="/docs/introduction"
-            >
-              <QuestionMarkCircleIcon class="h-5 w-5 stroke-2" />
-              如何使用
-            </NuxtLink>
-          </HeadlessMenuItem>
-
-          <HeadlessMenuItem>
-            <NuxtLink
-              class="flex items-center gap-1 px-3 py-2"
-              to="/docs/contribute"
-            >
-              <PencilSquareIcon class="h-5 w-5 stroke-2" />
-              貢獻
-            </NuxtLink>
-          </HeadlessMenuItem>
-
-          <HeadlessMenuItem>
-            <NuxtLink
-              class="flex items-center gap-1 px-3 py-2"
-              to="/data/tag_clicks_last_7_days"
-            >
-              <ChartBarIcon class="h-5 w-5 stroke-2" />
-              數據分析
-            </NuxtLink>
-          </HeadlessMenuItem>
-
           <HeadlessMenuItem>
             <NuxtLink
               class="flex items-center gap-1 px-3 py-2"
@@ -72,26 +68,6 @@
       </HeadlessMenu>
     </div>
 
-    <NuxtLink
-      to="/docs/introduction"
-      class="hidden flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600 lg:flex"
-    >
-      <QuestionMarkCircleIcon class="h-5 w-5 stroke-2" />
-      如何使用
-    </NuxtLink>
-    <NuxtLink
-      to="/contribute"
-      class="hidden flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600 lg:flex"
-    >
-      <PencilSquareIcon class="h-5 w-5 stroke-2" />
-      <span class="flex-none">參與貢獻</span>
-    </NuxtLink>
-    <NuxtLink
-      to="/data/tag_clicks_last_7_days"
-      class="hidden flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600 lg:flex"
-    >
-      <ChartBarIcon class="h-5 w-5 stroke-2" /> 數據分析
-    </NuxtLink>
     <div class="ml-auto hidden lg:flex">
       <NuxtLink
         class="flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600 lg:flex"
