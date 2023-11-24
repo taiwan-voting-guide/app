@@ -1,12 +1,13 @@
 <template>
   <button
     :type="submit ? 'submit' : 'button'"
-    class="flex h-10 items-center justify-center gap-1 rounded-md bg-primary/80 px-3 py-2 text-white hover:bg-primary/90"
+    class="flex h-10 items-center justify-center gap-1 rounded-md bg-primary/30 px-3 py-2 font-bold hover:bg-primary/40"
     @click="onClick"
     :disabled="disabled"
     :class="{
-      'cursor-not-allowed': disabled,
-      'bg-primary/60': disabled,
+      '': disabled,
+      'cursor-not-allowed bg-primary/10 text-slate-400 hover:bg-primary/20':
+        disabled,
     }"
   >
     <slot></slot>

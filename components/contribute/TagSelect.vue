@@ -1,8 +1,12 @@
 <template>
-  <HeadlessCombobox as="div" class="relative z-10" v-model="selected">
+  <HeadlessCombobox
+    as="div"
+    class="relative z-10 w-40 flex-1"
+    v-model="selected"
+  >
     <div class="relative overflow-hidden rounded-md bg-white shadow">
       <HeadlessComboboxInput
-        class="w-48 border-none px-3 py-2 placeholder-slate-400"
+        class="w-full border-none px-3 py-2 placeholder-slate-400"
         placeholder="標籤"
         @change="query = $event.target.value"
       />
