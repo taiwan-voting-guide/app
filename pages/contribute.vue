@@ -165,6 +165,7 @@ async function updatePreview() {
       'remark-gfm',
       'remark-rehype',
       'rehype-add-anchor-class',
+      'rehype-remove-id',
       'rehype-stringify',
     ],
   );

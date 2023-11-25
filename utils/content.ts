@@ -118,6 +118,18 @@ export const parse = async (
           };
         });
         break;
+      case 'rehype-remove-id':
+        parser.use(() => {
+          return (tree: Node) => {
+            visit(tree, 'element', (element: Element) => {
+              element.properties = {
+                ...element.properties,
+                id: undefined,
+              };
+            });
+          };
+        });
+        break;
       case 'rehype-blames':
         parser.use(() => {
           return (tree: Node) => {
