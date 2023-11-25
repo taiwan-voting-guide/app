@@ -37,7 +37,7 @@
         選擇 '政治人物' 及 '資料標籤'
       </div>
     </div>
-    <div class="flex gap-2 pr-2">
+    <div class="flex gap-2 px-2">
       <ButtonPrimary
         class="sm:hidden"
         :onClick="
