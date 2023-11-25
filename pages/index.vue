@@ -75,7 +75,7 @@
             <li
               v-for="tag in unselectedTags"
               :key="tag"
-              @click="appendTag(tag)"
+              @click="onClickTag(tag)"
               class="flex cursor-pointer items-center gap-1 p-1 hover:font-bold"
             >
               <span class="opacity-0">⠿</span>
@@ -180,6 +180,7 @@ import {
   BarsArrowUpIcon,
   ArrowUturnRightIcon,
 } from '@heroicons/vue/24/outline';
+import mixpanel from 'mixpanel-browser';
 import Draggable from 'vuedraggable';
 
 const { data } = await getAllTags();
@@ -198,6 +199,7 @@ const showSource = ref<boolean>(true);
 const showAuthor = ref<boolean>(false);
 const isTagsOpen = ref<boolean>(true);
 const visited = useCookie('visited');
+const searchText = ref<string>('');
 
 const unselectedTags = computed(() => {
   if (!data.value) {
@@ -205,6 +207,10 @@ const unselectedTags = computed(() => {
   }
 
   return data.value.filter((tag) => !tagSet.value.has(tag));
+});
+
+watch(showAuthor, () => {
+  mixpanel.track('Show Author', { showAuthor: showAuthor.value });
 });
 
 watch([tags, politicians], () => {
@@ -236,7 +242,10 @@ onMounted(() => {
   }
 });
 
-const searchText = ref<string>('');
+function onClickTag(tag: string) {
+  mixpanel.track('Tag Added', { tag });
+  appendTag(tag);
+}
 
 function onAddPoliticianClicked(position: number) {
   addPoliticianPosition.value = position;
