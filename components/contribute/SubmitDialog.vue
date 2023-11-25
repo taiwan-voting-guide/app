@@ -6,7 +6,36 @@
         aria-hidden="true"
       />
       <div class="fixed inset-0 z-40 flex items-center justify-center">
-        <HeadlessDialogPanel class="w-80 rounded-md bg-white p-4 shadow">
+        <HeadlessDialogPanel
+          v-if="!contentChanged"
+          class="flex w-80 flex-col gap-2 rounded-md bg-white p-4 text-center font-bold shadow"
+        >
+          <div class="flex items-center justify-center">
+            <ExclamationTriangleIcon class="h-5 w-5 stroke-2 text-yellow-600" />
+            <p>內容並未更新</p>
+          </div>
+        </HeadlessDialogPanel>
+        <HeadlessDialogPanel
+          v-else-if="prUrl"
+          class="flex w-80 flex-col gap-2 rounded-md bg-white p-4 text-center font-bold shadow"
+        >
+          <div class="flex items-center justify-center">
+            <p>已成功送出審核！</p>
+            <CheckCircleIcon class="h-5 w-5 stroke-2 text-lime-600" />
+          </div>
+          <div class="flex items-center justify-center">
+            <p>有任何問題我們將透過email聯絡你</p>
+          </div>
+
+          <a
+            :href="prUrl"
+            target="_blank"
+            class="flex h-10 items-center justify-center gap-1 rounded-md bg-primary/30 px-3 py-2 font-bold hover:bg-primary/40"
+          >
+            <LinkIcon class="h-5 w-5 stroke-2" /> 查看審查狀態
+          </a>
+        </HeadlessDialogPanel>
+        <HeadlessDialogPanel v-else class="w-80 rounded-md bg-white p-4 shadow">
           <form class="flex flex-col gap-4">
             <label>
               <span>Email</span>
@@ -54,13 +83,23 @@
 import {
   ArrowPathIcon,
   PencilSquareIcon,
-  ExclamationTriangleIcon,
+  LinkIcon,
 } from '@heroicons/vue/24/outline';
+import {
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+} from '@heroicons/vue/24/solid';
 
 const route = useRoute();
 const isOpen = useContributeSubmitDialog();
 const editor = useContributeEditor();
+const unedited = useContributeUnedited();
 const loading = ref(false);
+const prUrl = ref('');
+
+const contentChanged = computed(
+  () => editor.value.trim() !== unedited.value.trim(),
+);
 
 function closeDialog() {
   isOpen.value = false;
@@ -75,11 +114,12 @@ async function submit() {
   const editorTrimed = editor.value.trim();
   const nameTrimed = name.value.trim();
 
-  loading.value = true;
   if (!nameTrimed) {
     error.value = '請輸入貢獻者名稱';
     return;
   }
+
+  loading.value = true;
 
   const { url } = await $fetch<{ url: string }>('/api/submit-content', {
     method: 'POST',
@@ -91,6 +131,6 @@ async function submit() {
     },
   });
 
-  navigateTo(url, { external: true });
+  prUrl.value = url;
 }
 </script>

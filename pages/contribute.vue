@@ -126,8 +126,10 @@ const toggleSection = ref<'editor' | 'preview'>('editor');
 
 const editor = useContributeEditor();
 const preview = useContributePreview();
+const unedited = useContributeUnedited();
 
 const route = useRoute();
+
 watch(
   () => ({
     politician: route.query.politician,
@@ -144,7 +146,7 @@ watch(
         tag: route.query.tag,
       },
     });
-
+    unedited.value = data;
     editor.value = data;
     if (oldQuery && oldQuery.tag !== newQuery.tag) {
       updatePreview();
