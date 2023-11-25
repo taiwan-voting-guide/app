@@ -6,7 +6,7 @@ export type AppData = {
 export type PoliticianSearchOption = {
   key: string;
   name: string;
-  value: Array<string> | string;
+  value: Array<string>;
 };
 
 export type PoliticianSearchOptionGroups = Array<{

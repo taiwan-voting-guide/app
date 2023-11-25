@@ -89,14 +89,14 @@
               class="flex cursor-pointer items-center gap-2 px-4 py-2 hover:bg-primary/20"
             >
               <NuxtImg
-                :src="`/politician/${result.value}.webp`"
-                :alt="result.value as string"
+                :src="`/politician/${result.value[0]}.webp`"
+                :alt="result.value[0]"
                 placeholder="/placeholder.svg"
                 width="48"
                 height="48"
                 class="h-12 w-12 rounded-full bg-slate-100"
               />
-              {{ result.value }}
+              {{ result.value[0] }}
             </li>
           </ul>
         </HeadlessTabPanel>
@@ -115,7 +115,7 @@ const {
 } = defineProps<{
   open: boolean;
   onClose: () => void;
-  onSelect?: (politicians: Array<string> | string) => void;
+  onSelect?: (politicians: Array<string>) => void;
 }>();
 
 const { isMobile } = useDevice();

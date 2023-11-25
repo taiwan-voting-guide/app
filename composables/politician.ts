@@ -29,26 +29,23 @@ export function useSelectPolitician() {
     politicians.value = names;
   }
 
-  function append(name: string) {
-    const names = politicians.value.filter((selected) => selected !== name);
-    politicians.value = [...names, name];
-  }
+  function append(names: Array<string>) {
+    if (names.length === 0) {
+      return;
+    }
 
-  function inject(names: Array<string>, position: number) {
-    const left = politicians.value
-      .slice(0, position)
-      .filter((name) => !names.includes(name));
-    const right = politicians.value
-      .slice(position)
-      .filter((name) => !names.includes(name));
-    politicians.value = [...left, ...names, ...right];
+    const nameSet = new Set(names);
+    const remainNames = politicians.value.filter((name) => {
+      return !nameSet.has(name);
+    });
+
+    politicians.value = [...remainNames, ...names];
   }
 
   return {
     politicians,
     set,
     append,
-    inject,
     remove,
     removeAll,
   };

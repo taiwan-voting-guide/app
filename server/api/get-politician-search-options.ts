@@ -50,7 +50,7 @@ export default defineEventHandler(async () => {
     politicianOptions.push({
       key: politician,
       name: politician,
-      value: politician,
+      value: [politician],
     });
   }
 

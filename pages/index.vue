@@ -75,7 +75,7 @@
             <li
               v-for="tag in unselectedTags"
               :key="tag"
-              @click="append(tag)"
+              @click="appendTag(tag)"
               class="flex cursor-pointer items-center gap-1 p-1 hover:font-bold"
             >
               <span class="opacity-0">⠿</span>
@@ -186,18 +186,18 @@ const { data } = await getAllTags();
 
 const {
   politicians,
-  inject: injectPoliticians,
+  append: appendPoliticians,
   remove,
 } = useSelectPolitician();
-const { tags, tagSet, append, remove: removeTag } = useSelectTag();
+const { tags, tagSet, append: appendTag, remove: removeTag } = useSelectTag();
 
 const isPoliticianSelectDialogOpen = ref<boolean>(false);
 const addPoliticianPosition = ref<number>(0);
 const drag = ref<boolean>(false);
 const showSource = ref<boolean>(true);
 const showAuthor = ref<boolean>(false);
-
 const isTagsOpen = ref<boolean>(true);
+const visited = useCookie('visited');
 
 const unselectedTags = computed(() => {
   if (!data.value) {
@@ -223,6 +223,19 @@ watch([tags, politicians], () => {
   navigateTo({ query });
 });
 
+onMounted(() => {
+  console.log(visited.value);
+  if (
+    !visited.value &&
+    politicians.value.length === 0 &&
+    tags.value.length === 0
+  ) {
+    visited.value = 'visited';
+    appendPoliticians(['侯友宜', '柯文哲', '賴清德']);
+    appendTag('2024政見');
+  }
+});
+
 const searchText = ref<string>('');
 
 function onAddPoliticianClicked(position: number) {
@@ -230,13 +243,8 @@ function onAddPoliticianClicked(position: number) {
   isPoliticianSelectDialogOpen.value = true;
 }
 
-function onPoliticiansSelect(politicians: Array<string> | string) {
-  if (Array.isArray(politicians)) {
-    injectPoliticians(politicians, addPoliticianPosition.value);
-  } else {
-    injectPoliticians([politicians], addPoliticianPosition.value);
-  }
-
+function onPoliticiansSelect(politicians: Array<string>) {
+  appendPoliticians(politicians);
   searchText.value = '';
   isPoliticianSelectDialogOpen.value = false;
 }
