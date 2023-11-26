@@ -5,8 +5,8 @@ const key = `analytics:tag_added_last_7_days`;
 
 export default defineEventHandler(async () => {
   const resStr = await kv.get(key);
-  if (typeof resStr === 'string') {
-    return JSON.parse(resStr);
+  if (resStr) {
+    return resStr;
   }
 
   let response: Response;
@@ -61,7 +61,7 @@ export default defineEventHandler(async () => {
     tagCounts,
   };
 
-  await kv.set(key, JSON.stringify(res), { ex: 60 * 60 });
+  await kv.set(key, res, { ex: 60 * 60 });
 
   return res;
 });
