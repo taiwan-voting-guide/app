@@ -24,7 +24,6 @@
     "@types/hast": "^3.0.3",
     "@types/js-yaml": "^4.0.9",
     "@types/mixpanel-browser": "^2.47.5",
-    "@types/node": "^20.10.0",
     "@types/unist": "^3.0.2",
     "@types/uuid": "^9.0.7",
     "@types/validator": "^13.11.7",
@@ -63,9 +62,10 @@
     "vuedraggable": "^4.1.0"
   },
   "engines": {
-    "node": "^20.10.0"
+    "node": "^18.18.2"
   },
   "dependencies": {
+    "@types/node": "^18.18.13",
     "vue-chartjs": "^5.2.0"
   }
 }
