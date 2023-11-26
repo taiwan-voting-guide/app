@@ -60,5 +60,10 @@ export default defineNuxtConfig({
         'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
       },
     },
+    '/api/get-tag-added-last-7-days': {
+      headers: {
+        'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
+      },
+    },
   },
 });

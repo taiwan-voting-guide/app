@@ -230,7 +230,6 @@ watch([tags, politicians], () => {
 });
 
 onMounted(() => {
-  console.log(visited.value);
   if (
     !visited.value &&
     politicians.value.length === 0 &&
