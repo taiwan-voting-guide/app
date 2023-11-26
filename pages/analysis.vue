@@ -23,9 +23,9 @@
     <HeadlessTabPanels class="px-2">
       <HeadlessTabPanel>
         <template v-if="popularTags">
-          <p class="text-sm font-bold">計算方式為7天內各項標籤點擊次數。</p>
           <p class="text-sm font-bold">
-            於 {{ new Date(popularTags.timestamp).toLocaleString() }} 更新
+            計算方式為7天內各項標籤點擊次數。 於
+            {{ new Date(popularTags.timestamp).toLocaleString() }} 更新
           </p>
           <ul class="flex w-full flex-col gap-1 pt-2">
             <li
