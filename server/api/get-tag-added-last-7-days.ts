@@ -1,3 +1,5 @@
+const projectId = process.env.MIXPANEL_PROJECT_ID;
+
 export default defineEventHandler(async () => {
   let response: Response;
   const currentTime = new Date();
@@ -7,7 +9,7 @@ export default defineEventHandler(async () => {
   const toDate = currentTime.toISOString().substring(0, 10);
   try {
     response = await fetch(
-      `https://data.mixpanel.com/api/2.0/export?project_id=2976709&from_date=${fromDate}&to_date=${toDate}&event=%5B%22Tag%20Added%22%5D`,
+      `https://data.mixpanel.com/api/2.0/export?project_id=${projectId}&from_date=${fromDate}&to_date=${toDate}&event=%5B%22Tag%20Added%22%5D`,
       {
         method: 'GET',
         headers: {
