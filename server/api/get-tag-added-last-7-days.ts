@@ -1,6 +1,14 @@
+import { kv } from '@vercel/kv';
+
 const projectId = process.env.MIXPANEL_PROJECT_ID;
+const key = `analytics:tag_added_last_7_days`;
 
 export default defineEventHandler(async () => {
+  const resStr = await kv.get(key);
+  if (typeof resStr === 'string') {
+    return JSON.parse(resStr);
+  }
+
   let response: Response;
   const currentTime = new Date();
   const fromDate = new Date(currentTime.getTime() - 7 * 24 * 60 * 60 * 1000)
@@ -48,8 +56,12 @@ export default defineEventHandler(async () => {
       return b.count - a.count;
     });
 
-  return {
+  const res = {
     timestamp: currentTime.getTime(),
     tagCounts,
   };
+
+  await kv.set(key, JSON.stringify(res), { ex: 60 * 60 });
+
+  return res;
 });
