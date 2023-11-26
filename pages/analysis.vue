@@ -20,10 +20,10 @@
       </HeadlessTab>
     </HeadlessTabList>
 
-    <HeadlessTabPanels class="px-2">
+    <HeadlessTabPanels>
       <HeadlessTabPanel>
         <template v-if="popularTags">
-          <p class="text-sm font-bold">
+          <p class="px-2 text-sm font-bold">
             計算方式為7天內各項標籤點擊次數。 於
             {{ new Date(popularTags.timestamp).toLocaleString() }} 更新
           </p>
@@ -31,7 +31,7 @@
             <li
               v-for="{ tag, count } in popularTags.tagCounts"
               :key="tag"
-              class="flex items-center justify-between rounded-md bg-primary/10 p-3 font-bold"
+              class="flex items-center justify-between rounded-md bg-primary/10 px-2 py-3 font-bold"
             >
               <span> {{ tag }} </span>
               <span> 點擊 {{ count }} 次 </span>
