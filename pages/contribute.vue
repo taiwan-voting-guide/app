@@ -85,7 +85,7 @@
       <div class="sticky top-0 z-10 mx-auto h-20 w-80 rounded-md shadow-md">
         <AppContentHeader :politician="route.query.politician as string" />
       </div>
-      <div class="mx-auto h-min w-80 max-w-[20rem]">
+      <div class="mx-auto h-min w-80 max-w-[20rem] shadow-md">
         <Card>
           <div class="w-rull flex h-full flex-col gap-4 p-4">
             <div
