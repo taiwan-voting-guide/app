@@ -25,7 +25,9 @@
         <template v-if="popularTags">
           <p class="px-2 text-sm font-bold">
             計算方式為7天內各項標籤點擊次數。 於
-            {{ new Date(popularTags.timestamp).toLocaleString() }} 更新
+            <ClientOnly>
+              {{ new Date(popularTags.timestamp).toLocaleString() }} 更新。
+            </ClientOnly>
           </p>
           <ul class="flex w-full flex-col gap-1 pt-2">
             <li
