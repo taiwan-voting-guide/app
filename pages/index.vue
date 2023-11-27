@@ -126,7 +126,7 @@
               class="group flex h-20 w-80 items-center gap-2 rounded-md border-2 border-dashed border-slate-200 bg-white p-4 group-hover:border-slate-400 group-hover:shadow"
             >
               <div
-                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100"
+                class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/20"
               >
                 <PlusIcon
                   class="h-5 w-5 cursor-pointer stroke-2 text-slate-400"
