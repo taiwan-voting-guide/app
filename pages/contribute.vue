@@ -100,7 +100,7 @@
               <div class="ml-auto flex gap-2 rounded-md p-2"></div>
             </div>
             <div
-              class="prose-h4:text-md prose prose prose-slate prose-slate prose-h2:text-base prose-h3:text-lg prose-a:text-blue-600"
+              class="prose-h4:text-md prose prose-slate prose-h2:text-base prose-h3:text-lg prose-a:text-blue-600"
               v-html="preview"
             ></div>
           </div>

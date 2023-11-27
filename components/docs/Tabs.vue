@@ -4,7 +4,7 @@
   >
     <NuxtLink
       :to="tab.path"
-      v-for="tab in analysisTabs"
+      v-for="tab in docTabs"
       class="cursor-pointer"
       :class="{
         'font-bold text-slate-600': $route.path === tab.path,

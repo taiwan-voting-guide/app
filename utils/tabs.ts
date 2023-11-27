@@ -12,3 +12,18 @@ export const analysisTabs = [
     name: '貢獻者排行',
   },
 ];
+
+export const docTabs = [
+  {
+    path: '/docs/introduction',
+    name: '簡介',
+  },
+  {
+    path: '/docs/how-to-use',
+    name: '如何使用',
+  },
+  {
+    path: '/docs/how-to-contribute',
+    name: '如何貢獻資料',
+  },
+];

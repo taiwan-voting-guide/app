@@ -41,7 +41,7 @@
               v-for="result in results"
               :key="result.key"
               @click="onSelect(result.value)"
-              class="flex cursor-pointer flex-col gap-2 px-4 py-2 font-bold hover:bg-primary/20"
+              class="flex cursor-pointer flex-col gap-2 px-4 py-2 font-bold hover:bg-slate-100"
             >
               {{ result.name }}
               <ul class="flex items-center gap-2 overflow-x-auto">
@@ -55,7 +55,7 @@
                     placeholder="/placeholder.svg"
                     width="48"
                     height="48"
-                    class="h-12 w-12 rounded-full bg-slate-100"
+                    class="h-12 w-12 rounded-full bg-primary/20"
                   />
                   {{ val }}
                 </li>
