@@ -11,6 +11,13 @@ import { unified } from 'unified';
 import { type Node } from 'unist';
 import { visit } from 'unist-util-visit';
 
+export type Contributor = {
+  email: string;
+  name: string;
+  isPolitician: boolean;
+  isVerified: boolean;
+};
+
 export type Blame = {
   line: number;
   hash: string;

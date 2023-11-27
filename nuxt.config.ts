@@ -65,5 +65,15 @@ export default defineNuxtConfig({
         'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
       },
     },
+    '/api/get-politician-added-last-7-days': {
+      headers: {
+        'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
+      },
+    },
+    '/api/get-contribution': {
+      headers: {
+        'Cache-Control': `public, s-max-age=${contentCacheTime} max-age=${contentCacheTime}`,
+      },
+    },
   },
 });

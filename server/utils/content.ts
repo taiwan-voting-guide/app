@@ -1,4 +1,4 @@
-import { type Blame } from '@/utils/content';
+import { type Blame, type Contributor } from '@/utils/content';
 import { load } from 'js-yaml';
 import { createStorage } from 'unstorage';
 import fsDriver from 'unstorage/drivers/fs';
@@ -89,13 +89,6 @@ export function generateBlameMap(
 
   return blameMap;
 }
-
-export type Contributor = {
-  email: string;
-  name: string;
-  isPolitician: boolean;
-  isVerified: boolean;
-};
 
 export function generateContributorMap(
   contributorFile: string,

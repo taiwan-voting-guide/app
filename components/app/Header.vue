@@ -21,7 +21,7 @@
     </NuxtLink>
     <NuxtLink
       title="數據分析"
-      to="/analysis"
+      to="/analysis/popular-tags"
       class="flex flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600"
     >
       <ChartBarIcon class="h-5 w-5 stroke-2" />
