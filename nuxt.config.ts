@@ -24,12 +24,16 @@ export default defineNuxtConfig({
     '@nuxtjs/device',
     'nuxt-clarity-analytics',
     'nuxt-headlessui',
+    'nuxt-gtag',
   ],
   runtimeConfig: {
     public: {
       env: process.env.NODE_ENV,
       mixpanelProjectToken: process.env.MIXPANEL_PROJECT_TOKEN,
     },
+  },
+  gtag: {
+    id: process.env.GA_TRACKING_ID,
   },
   typescript: {
     typeCheck: true,
