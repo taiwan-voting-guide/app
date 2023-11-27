@@ -36,7 +36,40 @@
               class="flex items-center justify-between rounded-md bg-primary/10 px-2 py-3 font-bold"
             >
               <span> {{ tag }} </span>
-              <span> 點擊 {{ count }} 次 </span>
+              <span> 點擊 {{ count.toLocaleString() }} 次 </span>
+            </li>
+          </ul>
+        </template>
+      </HeadlessTabPanel>
+      <HeadlessTabPanel>
+        <template v-if="popularPoliticians">
+          <p class="px-2 text-sm font-bold">
+            計算方式為7天內各項標籤點擊次數。 於
+            <ClientOnly>
+              {{ new Date(popularPoliticians.timestamp).toLocaleString() }}
+              更新。
+            </ClientOnly>
+          </p>
+          <ul class="flex w-full flex-col gap-1 pt-2">
+            <li
+              v-for="{
+                politician,
+                count,
+              } in popularPoliticians.politicianCounts"
+              :key="politician"
+              class="flex items-center justify-between rounded-md bg-primary/10 px-3 py-4 font-bold"
+            >
+              <span class="flex items-center gap-2">
+                <NuxtImg
+                  :src="`/politician/${politician}.webp`"
+                  :alt="politician"
+                  width="48"
+                  height="48"
+                  class="h-12 w-12 rounded-full bg-primary/20"
+                />
+                {{ politician }}
+              </span>
+              <span> 搜尋 {{ count.toLocaleString() }} 次 </span>
             </li>
           </ul>
         </template>
@@ -49,4 +82,6 @@
 const tabs = ['熱門標籤', '熱門政治人物', '貢獻者排行'];
 
 const { data: popularTags } = await getTagAddedLast7Days();
+const { data: popularPoliticians } = await getPoliticianAddedLast7Days();
+console.log(popularTags, popularPoliticians);
 </script>

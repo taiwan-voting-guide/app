@@ -253,6 +253,7 @@ function onAddPoliticianClicked(position: number) {
 
 function onPoliticiansSelect(politicians: Array<string>) {
   appendPoliticians(politicians);
+  mixpanel.track('Politician Added', { politicians });
   searchText.value = '';
   isPoliticianSelectDialogOpen.value = false;
 }

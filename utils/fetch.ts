@@ -19,6 +19,11 @@ export type PopularTags = {
   tagCounts: Array<{ tag: string; count: number }>;
 };
 
+export type PopularPoliticians = {
+  timestamp: number;
+  politicianCounts: Array<{ politician: string; count: number }>;
+};
+
 export const getAllPoliticians = () =>
   useFetch<Array<string>>('/api/get-all-politicians');
 export const getAllTags = () => useFetch<Array<string>>('/api/get-all-tags');
@@ -27,3 +32,5 @@ export const getPoliticianSearchOptions = () =>
 
 export const getTagAddedLast7Days = () =>
   useFetch<PopularTags>('/api/get-tag-added-last-7-days');
+export const getPoliticianAddedLast7Days = () =>
+  useFetch<PopularPoliticians>('/api/get-politician-added-last-7-days');
