@@ -70,7 +70,7 @@
             <input
               type="text"
               v-model="searchText"
-              placeholder="2024, 總統, 侯友宜, 第八選舉區, ..."
+              placeholder="林月真, 趙昌澤, ..."
               class="w-full border-0 py-0 pl-10 placeholder-slate-400 focus:ring-0"
             />
             <MagnifyingGlassIcon

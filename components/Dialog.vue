@@ -8,7 +8,7 @@
       <div class="fixed inset-0 z-40 flex items-center justify-center">
         <HeadlessDialogPanel
           :class="{
-            'h-full w-full': isMobile,
+            'h-full w-full p-1': isMobile,
             'h-96 w-96': !isMobile,
           }"
         >
