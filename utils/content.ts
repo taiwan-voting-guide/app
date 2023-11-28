@@ -32,6 +32,7 @@ export const parse = async (
   pluginNames: string[],
   options: { [pluginNames: string]: any } = {},
 ) => {
+  console.log(options);
   const key = `${politician}-${tag}`;
   const parser = unified();
   for (const name of pluginNames) {
@@ -71,6 +72,8 @@ export const parse = async (
           footnoteLabelProperties: {
             className: 'text-slate-600 mt-0',
           },
+          allowDangerousHtml:
+            options['remark-rehype'].allowDangerousHtml || false,
         });
 
         // remove p in li in footnotes
@@ -227,7 +230,9 @@ export const parse = async (
         });
         break;
       case 'rehype-stringify':
-        parser.use(rehypeStringify);
+        parser.use(rehypeStringify, {
+          allowDangerousHtml: options['rehype-stringify'].allowDangerousHtml,
+        });
         break;
       case 'rehype-anchor-links':
         parser.use(rehypeSlug);

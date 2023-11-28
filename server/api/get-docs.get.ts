@@ -25,13 +25,26 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const html = await parse('', '', doc, [
-    'remark-parse',
-    'remark-gfm',
-    'remark-rehype',
-    'rehype-minify',
-    'rehype-stringify',
-  ]).then(({ value }) => {
+  const html = await parse(
+    '',
+    '',
+    doc,
+    [
+      'remark-parse',
+      'remark-rehype',
+      'rehype-anchor-links',
+      'rehype-minify',
+      'rehype-stringify',
+    ],
+    {
+      'remark-rehype': {
+        allowDangerousHtml: true,
+      },
+      'rehype-stringify': {
+        allowDangerousHtml: true,
+      },
+    },
+  ).then(({ value }) => {
     return value.toString();
   });
 
