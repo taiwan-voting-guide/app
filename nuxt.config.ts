@@ -1,4 +1,4 @@
-const contentCacheTime = 60 * 60;
+const contentCacheTime = 60 * 10;
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({

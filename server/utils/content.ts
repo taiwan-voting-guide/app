@@ -12,6 +12,7 @@ const contentStorage = createStorage({
           branch: 'main',
           token: process.env.GITHUB_TOKEN,
           dir: 'content',
+          ttl: 60 * 60,
         })
       : fsDriver({
           base: './content/content',
