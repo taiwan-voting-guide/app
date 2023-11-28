@@ -13,7 +13,7 @@ module.exports = {
             borderRadius: '0.375rem',
           },
           '100%': {
-            backgroundColor: 'rgba(49, 153, 186, 0.4)',
+            backgroundColor: 'rgba(49, 153, 186, 0.5)',
             borderRadius: '0.375rem',
           },
         },
