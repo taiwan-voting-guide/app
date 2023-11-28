@@ -24,6 +24,10 @@ export const docTabs = [
   },
   {
     path: '/docs/how-to-contribute',
-    name: '如何貢獻資料',
+    name: '如何貢獻',
+  },
+  {
+    path: '/docs/we-need-to-talk',
+    name: '聯絡我們',
   },
 ];

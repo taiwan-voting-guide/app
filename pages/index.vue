@@ -236,7 +236,14 @@ onMounted(() => {
     tags.value.length === 0
   ) {
     visited.value = 'visited';
-    appendPoliticians(['侯友宜', '柯文哲', '賴清德']);
+    appendPoliticians([
+      '侯友宜',
+      '趙少康',
+      '賴清德',
+      '蕭美琴',
+      '柯文哲',
+      '吳欣盈',
+    ]);
     appendTag('2024政見');
   }
 });
