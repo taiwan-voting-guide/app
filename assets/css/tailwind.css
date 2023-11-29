@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    @apply bg-slate-100 text-slate-600;
+    @apply bg-slate-100 text-lg text-slate-600 sm:text-base;
   }
 }
 
