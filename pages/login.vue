@@ -3,10 +3,10 @@
     <AppHeader />
     <main class="flex h-full w-full flex-1 items-center justify-center p-2">
       <div class="flex w-80 flex-col gap-4">
-        <div class="flex items-center gap-1 font-bold">
-          <InformationCircleIcon class="h-5 w-5" />
+        <div class="flex items-center gap-1">
+          <InformationCircleIcon class="h-5 w-5 stroke-2" />
 
-          請進行電子郵件驗證，以繼續編輯內容。
+          請先進行email驗證，以繼續使用編輯器。
         </div>
         <form
           class="flex w-full flex-col gap-4"

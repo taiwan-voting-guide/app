@@ -1,12 +1,12 @@
 <template>
   <header
-    class="fixed inset-x-0 top-0 z-30 flex flex-wrap items-center justify-between gap-2 bg-slate-100/80 py-2 backdrop-blur md:flex-nowrap"
+    class="fixed inset-x-0 top-0 z-30 flex h-16 flex-wrap items-center justify-between gap-2 bg-slate-100/80 py-2 backdrop-blur md:flex-nowrap"
   >
     <div class="flex">
       <Logo />
       <NuxtLink
         title="如何使用"
-        to="/docs/introduction"
+        to="/docs/how-to-contribute"
         class="flex flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600"
       >
         <QuestionMarkCircleIcon class="h-5 w-5 stroke-2" />
@@ -31,10 +31,10 @@
       />
       <div
         v-if="!route.query.politician || !route.query.tag"
-        class="absolute flex w-full items-center justify-center gap-1 pt-16 font-bold text-slate-400"
+        class="absolute flex w-full items-center justify-center gap-1 pt-16 text-slate-400"
       >
         <InformationCircleIcon class="h-5 w-5 stroke-2" />
-        選擇 '政治人物' 及 '資料標籤'
+        請先選擇 '政治人物' 及 '標籤'
       </div>
     </div>
     <div class="flex gap-2 px-2">
@@ -61,7 +61,7 @@
   </header>
   <main
     v-if="route.query.politician && route.query.tag"
-    class="flex h-screen flex-1 gap-2 px-2 pb-2 pt-28 md:pt-16"
+    class="flex h-screen flex-1 gap-2 px-2 pb-2 pt-32 md:pt-16"
   >
     <div
       class="h-full flex-1 overflow-hidden rounded-md sm:block"
