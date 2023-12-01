@@ -48,6 +48,10 @@ export default defineEventHandler(async () => {
       return;
     }
 
+    if (!Array.isArray(event.properties.politicians)) {
+      return;
+    }
+
     event.properties.politicians.forEach((p: string) => {
       const count = countMap.get(p) || 0;
       countMap.set(p, count + 1);
