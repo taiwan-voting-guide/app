@@ -1,267 +1,412 @@
 <template>
-  <Html class="touch-auto scroll-smooth" />
+  <Html class="scroll-smooth" />
   <AppHeader />
-  <div class="flex w-fit min-w-full gap-4 px-4 pb-4 pt-16">
-    <aside
-      v-if="politicians.length > 0"
-      class="sticky top-16 ml-auto flex max-h-[calc(100vh-5rem)] flex-col overflow-y-scroll rounded-md"
+  <div class="mx-auto flex w-fit flex-col gap-2 px-4 pb-16 pt-16">
+    <div
+      @click="isSelectingPoliticians = !isSelectingPoliticians"
+      v-if="title"
+      class="sticky left-4 flex w-max cursor-pointer items-center gap-2 text-xl font-bold"
     >
-      <button
-        v-if="!isTagsOpen"
-        @click="isTagsOpen = true"
-        class="rounded-md bg-primary/10 p-4 backdrop-blur"
+      <ArrowsRightLeftIcon
+        v-if="!isSelectingPoliticians"
+        class="h-5 w-5 stroke-2"
+      />
+      <ArrowLeftIcon v-if="isSelectingPoliticians" class="h-5 w-5 stroke-2" />
+      <h1>
+        {{ title }}
+      </h1>
+    </div>
+    <div
+      v-if="!isSelectingPoliticians && selectedPoliticians.length !== 0"
+      class="flex w-fit gap-4"
+    >
+      <aside
+        v-if="selectedPoliticians.length > 0"
+        class="sticky top-16 ml-auto flex max-h-[calc(100vh-5rem)] flex-col overflow-y-scroll rounded-md"
       >
-        <BarsArrowDownIcon class="h-5 w-5 cursor-pointer stroke-2" />
-      </button>
-
-      <nav
-        v-if="isTagsOpen"
-        class="flex w-60 flex-col gap-4 rounded-md bg-primary/10 p-4 backdrop-blur"
-      >
-        <button class="ml-auto" @click="isTagsOpen = false">
-          <BarsArrowUpIcon class="h-5 w-5 cursor-pointer stroke-2" />
-        </button>
-        <div class="flex flex-col gap-1">
+        <nav class="flex w-60 flex-col gap-2 rounded-md bg-primary/10 p-4">
           <div class="flex items-center">
             <span class="font-bold"> 顯示來源 </span>
             <span class="ml-auto flex items-center">
-              <Switch :name="'顯示來源'" v-model:enabled="showSource" />
+              <Switch name="顯示來源" v-model:enabled="showSource" />
             </span>
           </div>
           <div class="flex items-center">
             <span class="font-bold"> 顯示貢獻者 </span>
             <span class="ml-auto flex items-center">
-              <Switch :name="'顯示貢獻者'" v-model:enabled="showAuthor" />
+              <Switch name="顯示貢獻者" v-model:enabled="showAuthor" />
             </span>
           </div>
-        </div>
 
-        <div>
-          <header class="flex items-center pb-2 font-bold">已選取</header>
-          <Draggable
-            v-if="politicians.length > 0"
-            v-model="tags"
-            tag="ul"
-            class="w-full"
-            itemKey="element"
-            dragClass="opacity-0"
-            :animation="150"
-            @start="drag = true"
-            @end="drag = false"
-          >
-            <template #item="{ element: tag }">
-              <li class="flex items-center gap-1">
-                <span class="flex cursor-grab gap-1 p-1">
-                  <span>⠿</span>
-                  {{ tag }}
-                </span>
-                <XMarkIcon
-                  @click="removeTag(tag)"
-                  class="ml-auto h-5 w-5 cursor-pointer stroke-2 text-slate-400"
-                />
-                <a :href="`#${politicians[0]}-${tag}`">
-                  <ArrowUturnRightIcon
-                    class="h-5 w-5 cursor-pointer stroke-2 text-slate-400"
-                  />
-                </a>
-              </li>
-            </template>
-          </Draggable>
-        </div>
-
-        <div>
-          <header class="pb-2 font-bold">未選取</header>
-          <ul>
-            <li
-              v-for="tag in unselectedTags"
-              :key="tag"
-              @click="onClickTag(tag)"
-              class="flex cursor-pointer items-center gap-1 p-1 hover:font-bold"
+          <div class="flex flex-col gap-2">
+            <header class="font-bold">已選取</header>
+            <Draggable
+              v-if="selectedPoliticians.length > 0"
+              v-model="selectedTags"
+              tag="ul"
+              class="flex w-full flex-col"
+              :itemKey="(item: string) => item"
+              dragClass="opacity-0"
+              handle=".handle"
+              :animation="150"
+              @start="drag = true"
+              @end="drag = false"
             >
-              <span class="opacity-0">⠿</span>
-              {{ tag }}
+              <template #item="{ element: tag }">
+                <li class="flex items-center">
+                  <span class="flex gap-1">
+                    <span class="handle cursor-grab py-1">⠿</span>
+                    <a
+                      class="py-1 hover:font-bold"
+                      :href="`#${selectedPoliticians[0]}-${tag}`"
+                    >
+                      {{ tag }}
+                    </a>
+                  </span>
+                  <XMarkIcon
+                    @click="onRemoveTag(tag)"
+                    class="ml-auto h-5 w-5 cursor-pointer stroke-2 text-slate-400"
+                  />
+                </li>
+              </template>
+            </Draggable>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <header class="font-bold">未選取</header>
+            <ul class="flex w-full flex-col">
+              <li
+                v-for="tag in unselectedTags"
+                :key="tag"
+                @click="onAddTag(tag)"
+                class="cursor-pointer items-center py-1 pl-4 hover:font-bold"
+              >
+                {{ tag }}
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+      <main
+        class="flex w-fit flex-col gap-2"
+        :class="{
+          'ml-auto': selectedPoliticians.length === 0,
+        }"
+      >
+        <Draggable
+          tag="ul"
+          class="sticky top-16 z-20 flex gap-2"
+          chosenClass="cursor-grabbing"
+          ghostClass="opacity-0"
+          v-model="selectedPoliticians"
+          animation="150"
+          :itemKey="(item: string) => item"
+          handle=".handle"
+          @start="drag = true"
+          @end="drag = false"
+        >
+          <template #item="{ element: politician }">
+            <li
+              class="h-20 w-80 flex-none overflow-x-scroll rounded-md shadow-md"
+            >
+              <AppContentHeader :politician="politician">
+                <span
+                  class="handle ml-auto cursor-grab pr-2 text-2xl font-bold text-slate-400"
+                  >⠿</span
+                >
+              </AppContentHeader>
+            </li>
+          </template>
+        </Draggable>
+
+        <template v-if="selectedPoliticians.length > 0">
+          <ul
+            v-for="tag in selectedTags"
+            :key="tag"
+            class="mr-auto flex gap-2 overflow-visible"
+          >
+            <li
+              v-for="politician in selectedPoliticians"
+              :key="`${politician}-${tag}`"
+              class="anchor w-80 scroll-ml-4 scroll-mt-[9.5rem] rounded-md shadow-md"
+            >
+              <AppContent
+                :onRemoveTag="onRemoveTag"
+                :showSource="showSource"
+                :showAuthor="showAuthor"
+                :politician="politician"
+                :tag="tag"
+              />
             </li>
           </ul>
-        </div>
-      </nav>
-    </aside>
-    <main
-      class="mr-auto flex w-fit flex-col gap-2"
-      :class="{
-        'ml-auto': politicians.length === 0,
-      }"
-    >
-      <Draggable
-        tag="ul"
-        class="sticky top-16 z-20 flex gap-2"
-        chosenClass="cursor-grabbing"
-        ghostClass="opacity-0"
-        v-model="politicians"
-        animation="150"
-        itemKey="id"
-        @start="drag = true"
-        @end="drag = false"
-      >
-        <template #item="{ element: politician }">
-          <li
-            class="h-20 w-80 flex-none cursor-grab overflow-visible rounded-md shadow-md"
-          >
-            <AppContentHeader :politician="politician">
-              <div class="ml-auto" title="移除">
-                <XMarkIcon
-                  @click="remove(politician)"
-                  class="h-5 w-5 cursor-pointer stroke-2 text-slate-400"
-                />
-              </div>
-            </AppContentHeader>
-          </li>
         </template>
-        <template #footer>
-          <button
-            title="新增政治人物"
-            @click="onAddPoliticianClicked(politicians.length)"
-            class="flex-none"
-          >
-            <div
-              class="group flex h-20 w-80 items-center gap-2 rounded-md border-2 border-dashed border-slate-200 bg-white p-4 group-hover:border-slate-400 group-hover:shadow"
-            >
-              <div
-                class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/20"
-              >
-                <PlusIcon
-                  class="h-5 w-5 cursor-pointer stroke-2 text-slate-400"
-                />
-              </div>
-              <h1
-                class="text-2xl font-extrabold text-slate-400 group-hover:text-slate-600"
-              >
-                新增政治人物
-              </h1>
-            </div>
-          </button>
-        </template>
-      </Draggable>
-
-      <template v-if="politicians.length > 0">
-        <ul
-          v-for="tag in tags"
-          :key="tag"
-          class="mr-auto flex gap-2 overflow-visible"
+        <div
+          v-if="selectedTags.length === 0 && selectedPoliticians.length !== 0"
+          class="flex items-center justify-center gap-1 py-4"
         >
-          <li
-            v-for="politician in politicians"
-            :key="`${politician}-${tag}`"
-            class="anchor w-80 scroll-ml-4 scroll-mt-[9.5rem] rounded-md shadow-md"
+          <InformationCircleIcon class="h-5 w-5 stroke-2 text-slate-400" />
+          <span class="sticky left-4 text-slate-400"
+            >點擊左側的標籤來新增內容</span
           >
-            <AppContent
-              :showSource="showSource"
-              :showAuthor="showAuthor"
-              :politician="politician"
-              :tag="tag"
+        </div>
+      </main>
+    </div>
+    <HeadlessTabGroup v-if="isSelectingPoliticians">
+      <HeadlessTabList
+        class="flex w-[calc(100vw-2rem)] max-w-screen-sm gap-2 overflow-x-auto"
+      >
+        <HeadlessTab
+          class="flex-none rounded-md px-3 py-2 ui-selected:bg-primary/20 ui-selected:font-bold ui-not-selected:bg-slate-200"
+          >2024總統立委選舉</HeadlessTab
+        >
+        <HeadlessTab
+          class="flex-none rounded-md px-3 py-2 ui-selected:bg-primary/20 ui-selected:font-bold ui-not-selected:bg-slate-200"
+          >自訂組合</HeadlessTab
+        >
+      </HeadlessTabList>
+      <HeadlessTabPanels as="template">
+        <HeadlessTabPanel class="w-[calc(100vw-2rem)] max-w-screen-sm">
+          <div class="sticky top-16 z-10 rounded-md bg-white p-3">
+            <input
+              type="search"
+              v-model="groupSearchText"
+              placeholder="總統, 翁文方, 第八選舉區, ..."
+              class="w-full border-0 py-0 pl-8 pr-0 placeholder-slate-400 focus:ring-0"
             />
-          </li>
-        </ul>
-      </template>
-    </main>
+            <MagnifyingGlassIcon
+              class="absolute inset-y-0 left-4 h-full w-5 stroke-2"
+            />
+          </div>
+          <ul class="flex flex-col gap-2">
+            <li
+              v-for="option in groupOptions"
+              :key="option.key"
+              @click="onSelectPoliticians(option.name)"
+              class="flex cursor-pointer flex-col gap-1 overflow-x-auto rounded-md p-2 font-bold hover:bg-slate-200"
+            >
+              <div class="sticky left-0">{{ option.name }}</div>
+              <ul class="flex items-center gap-2">
+                <li
+                  class="flex flex-none items-center gap-2 rounded-xl bg-primary/10 p-2 font-normal"
+                  v-for="val in option.value"
+                >
+                  <NuxtImg
+                    :src="`/politician/${val}.webp`"
+                    :alt="val"
+                    placeholder="/placeholder.svg"
+                    width="32"
+                    height="32"
+                    class="h-8 w-8 rounded-full bg-primary/20"
+                  />
+                  {{ val }}
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </HeadlessTabPanel>
+        <HeadlessTabPanel class="flex flex-col gap-2">
+          <div class="sticky top-16 z-10 rounded-md bg-white p-3">
+            <input
+              type="search"
+              v-model="groupSearchText"
+              placeholder="翁文方, 趙昌澤, 林月真, ..."
+              class="w-full border-0 py-0 pl-8 pr-0 placeholder-slate-400 focus:ring-0"
+            />
+            <MagnifyingGlassIcon
+              class="absolute inset-y-0 left-4 h-full w-5 stroke-2"
+            />
+          </div>
+          <ul class="flex flex-col gap-2">
+            <li
+              class="flex flex-none items-center gap-2 rounded-xl bg-primary/10 p-2 font-normal font-normal"
+              v-for="politician in allPoliticians"
+              :key="politician"
+            >
+              <NuxtImg
+                :src="`/politician/${politician}.webp`"
+                :alt="politician"
+                placeholder="/placeholder.svg"
+                width="32"
+                height="32"
+                class="h-8 w-8 rounded-full bg-primary/20"
+              />
+              {{ politician }}
+            </li>
+          </ul>
+        </HeadlessTabPanel>
+      </HeadlessTabPanels>
+    </HeadlessTabGroup>
   </div>
-
-  <AppPoliticianSearch
-    :open="isPoliticianSelectDialogOpen"
-    :onClose="() => (isPoliticianSelectDialogOpen = false)"
-    :onSelect="onPoliticiansSelect"
-  />
 </template>
 
 <script setup lang="ts">
 import {
   XMarkIcon,
-  PlusIcon,
-  BarsArrowDownIcon,
-  BarsArrowUpIcon,
-  ArrowUturnRightIcon,
+  InformationCircleIcon,
+  ArrowsRightLeftIcon,
+  ArrowLeftIcon,
+  MagnifyingGlassIcon,
 } from '@heroicons/vue/24/outline';
 import mixpanel from 'mixpanel-browser';
 import Draggable from 'vuedraggable';
 
-const { data } = await getAllTags();
+const route = useRoute();
+const { data: allPoliticians } = await getAllPoliticians();
+const { data: politicianGroups } = await getPoliticianGroups();
+const politicianGroupNamesMap = computed<Map<string, PoliticianGroup>>(() =>
+  politicianGroups.value
+    ? new Map(politicianGroups.value.map((group) => [group.name, group]))
+    : new Map(),
+);
+const allPoliticiansSet = computed(() => new Set(allPoliticians.value));
+const selectedPoliticians = ref<Array<string>>([]);
+const selectedPoliticiansQuery = useSelectedPoliticiansQuery();
 
-const {
-  politicians,
-  append: appendPoliticians,
-  remove,
-} = useSelectPolitician();
-const { tags, tagSet, append: appendTag, remove: removeTag } = useSelectTag();
+const title = ref<string>('');
 
-const isPoliticianSelectDialogOpen = ref<boolean>(false);
-const addPoliticianPosition = ref<number>(0);
-const drag = ref<boolean>(false);
-const showSource = ref<boolean>(true);
-const showAuthor = ref<boolean>(false);
-const isTagsOpen = ref<boolean>(true);
-const visited = useCookie('visited');
-const searchText = ref<string>('');
+const isSelectingPoliticians = ref<boolean>(
+  route.query.politicians === undefined,
+);
 
+watch(
+  () => route.query.politicians as string,
+  (newPoliticians, oldPoliticians) => {
+    if (newPoliticians === oldPoliticians) {
+      return;
+    }
+
+    if (!newPoliticians) {
+      selectedPoliticians.value = [];
+      title.value = '';
+      selectedPoliticiansQuery.value = '';
+      return;
+    }
+
+    if (politicianGroupNamesMap.value.has(newPoliticians)) {
+      selectedPoliticians.value =
+        politicianGroupNamesMap.value.get(newPoliticians)?.value || [];
+      title.value = newPoliticians;
+      selectedPoliticiansQuery.value = newPoliticians;
+      return;
+    }
+
+    selectedPoliticians.value = newPoliticians
+      .split(',')
+      .filter((politician) => allPoliticiansSet.value.has(politician));
+    title.value = '自定組合';
+    selectedPoliticiansQuery.value = newPoliticians;
+  },
+  { immediate: true },
+);
+
+const { data: allTags } = await getAllTags();
+const allTagsSet = computed(() => new Set(allTags.value));
+const selectedTags = ref<Array<string>>([]);
+const selectedTagsSet = computed(() => new Set(selectedTags.value));
 const unselectedTags = computed(() => {
-  if (!data.value) {
+  if (!allTags.value) {
     return [];
   }
 
-  return data.value.filter((tag) => !tagSet.value.has(tag));
+  return allTags.value.filter((tag) => !selectedTagsSet.value.has(tag));
 });
+const selectedTagsQuery = useSelectedTagsQuery();
+
+watch(
+  () => route.query.tags as string,
+  (newTags, oldTags) => {
+    if (newTags === oldTags) {
+      return;
+    }
+
+    if (!newTags) {
+      selectedTags.value = [];
+      selectedTagsQuery.value = '';
+      return;
+    }
+
+    selectedTags.value = newTags
+      .split(',')
+      .filter((tag) => allTagsSet.value.has(tag));
+    selectedTagsQuery.value = newTags;
+  },
+  { immediate: true },
+);
+
+const drag = ref<boolean>(false);
+const showSource = ref<boolean>(true);
+const showAuthor = ref<boolean>(false);
 
 watch(showAuthor, () => {
   mixpanel.track('Show Author', { showAuthor: showAuthor.value });
 });
 
-watch([tags, politicians], () => {
-  const query: { tags?: string; politicians?: string } = {};
+function onSelectPoliticians(politicians: string) {
+  const query = {
+    tags: route.query.tags,
+    politicians,
+  };
 
-  const tagParam = tags.value.join(',');
-  if (tagParam) {
-    query.tags = tagParam;
+  const groupVal = politicianGroupNamesMap.value.get(politicians);
+  if (groupVal) {
+    mixpanel.track('Politician Added', { politicians: groupVal });
+  } else {
+    mixpanel.track('Politician Added', { politicians: politicians.split(',') });
   }
 
-  const politicianParam = politicians.value.join(',');
-  if (politicianParam) {
-    query.politicians = politicianParam;
-  }
+  groupSearchText.value = '';
+  isSelectingPoliticians.value = false;
 
-  navigateTo({ query });
-});
+  navigateTo({ query, hash: '' });
+}
 
-onMounted(() => {
-  if (
-    !visited.value &&
-    politicians.value.length === 0 &&
-    tags.value.length === 0
-  ) {
-    visited.value = 'visited';
-    appendPoliticians([
-      '侯友宜',
-      '趙少康',
-      '賴清德',
-      '蕭美琴',
-      '柯文哲',
-      '吳欣盈',
-    ]);
-    appendTag('2024政見');
-  }
-});
-
-function onClickTag(tag: string) {
+function onAddTag(tag: string) {
   mixpanel.track('Tag Added', { tag });
-  appendTag(tag);
+  const query = {
+    tags: route.query.tags ? `${route.query.tags},${tag}` : tag,
+    politicians: route.query.politicians,
+  };
+  navigateTo({ query, hash: '' });
 }
 
-function onAddPoliticianClicked(position: number) {
-  addPoliticianPosition.value = position;
-  isPoliticianSelectDialogOpen.value = true;
+function onRemoveTag(t: string) {
+  const query: { tags?: string; politicians?: string } = {};
+  const currentTags = (route.query.tags as string)
+    .split(',')
+    .filter((tag) => allTagsSet.value.has(tag))
+    .filter((tag) => tag !== t);
+
+  if (currentTags.length !== 0) {
+    query.tags = currentTags.join(',');
+  }
+
+  query.politicians = route.query.politicians as string;
+  navigateTo({ query, hash: '' });
 }
 
-function onPoliticiansSelect(politicians: Array<string>) {
-  appendPoliticians(politicians);
-  mixpanel.track('Politician Added', { politicians });
-  searchText.value = '';
-  isPoliticianSelectDialogOpen.value = false;
-}
+const groupSearchText = ref<string>('');
+const groupOptions = computed(() => {
+  if (!politicianGroups?.value) {
+    return [];
+  }
+
+  const keywords = groupSearchText.value.trim().replace(/\s+/g, ' ').split(' ');
+  const options: Array<PoliticianGroup> = [];
+
+  for (const option of politicianGroups.value) {
+    let shouldKeep = true;
+    for (const keyword of keywords) {
+      if (!option.key.includes(keyword)) {
+        shouldKeep = false;
+        break;
+      }
+    }
+
+    if (shouldKeep) {
+      options.push(option);
+    }
+  }
+
+  return options;
+});
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <a class="p-3" :href="`/${query}`">
+  <a class="p-4" :href="`/${queryStr}`">
     <svg
       width="144"
       height="24"
@@ -38,21 +38,21 @@
 </template>
 
 <script setup lang="ts">
-const { politicians } = useSelectPolitician();
-const { tags } = useSelectTag();
-const query = computed<string>(() => {
-  const strArr = [];
-  const politiciansStr = politicians.value.join(',') || '';
-  if (politiciansStr) {
-    strArr.push(`politicians=${politiciansStr}`);
+const selectedTagsQuery = useSelectedTagsQuery();
+const selectedPoliticiansQuery = useSelectedPoliticiansQuery();
+const queryStr = ref<string>('');
+
+watchEffect(() => {
+  const querys: Array<string> = [];
+
+  if (selectedPoliticiansQuery.value) {
+    querys.push(`politicians=${selectedPoliticiansQuery.value}`);
   }
 
-  const tagsStr = tags.value.join(',') || '';
-  if (tagsStr) {
-    strArr.push(`tags=${tagsStr}`);
+  if (selectedTagsQuery.value) {
+    querys.push(`tags=${selectedTagsQuery.value}`);
   }
 
-  const str = strArr.join('&');
-  return str ? `?${str}` : '';
+  queryStr.value = querys.length > 0 ? `?${querys.join('&')}` : '';
 });
 </script>

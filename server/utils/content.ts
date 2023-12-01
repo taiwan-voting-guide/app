@@ -19,7 +19,9 @@ const contentStorage = createStorage({
         }),
 });
 
-export const getContentStorage = () => contentStorage;
+export function getContentStorage() {
+  return contentStorage;
+}
 
 type ExtractContentResult = {
   startingLine: number;

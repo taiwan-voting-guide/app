@@ -1,4 +1,3 @@
-import { type AppData } from '@/utils/fetch';
 import { load } from 'js-yaml';
 
 export default defineEventHandler(async () => {
@@ -18,22 +17,20 @@ export default defineEventHandler(async () => {
     });
   }
 
-  let data: AppData;
   try {
-    data = load(yaml) as AppData;
+    const data = load(yaml) as AppData;
+    const politiciansSet = new Set<string>();
+    Object.values<AppDataPoliticianGroup>(data.politician_groups).forEach(
+      (politicians: { value: Array<string> }) => {
+        politicians.value.forEach((politician) => {
+          politiciansSet.add(politician);
+        });
+      },
+    );
+    return Array.from(politiciansSet).sort();
   } catch (error) {
     throw createError({
       statusCode: 500,
     });
   }
-
-  const group = data.group;
-  const politicianSet = new Set<string>();
-  for (const key in group) {
-    for (const politician of group[key]) {
-      politicianSet.add(politician);
-    }
-  }
-
-  return Array.from(politicianSet);
 });

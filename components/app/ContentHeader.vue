@@ -6,9 +6,11 @@
         :alt="politician"
         width="48"
         height="48"
-        class="h-12 w-12 rounded-full bg-primary/20"
+        class="h-12 w-12 flex-none rounded-full bg-primary/20"
       />
-      <h1 class="text-2xl font-bold text-slate-700">
+      <h1
+        class="overflow-x-auto whitespace-nowrap text-2xl font-bold text-slate-700"
+      >
         {{ politician }}
       </h1>
       <slot></slot>
