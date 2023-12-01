@@ -159,11 +159,11 @@
         class="flex w-[calc(100vw-2rem)] max-w-screen-sm gap-2 overflow-x-auto"
       >
         <HeadlessTab
-          class="flex-none rounded-md px-3 py-2 ui-selected:bg-primary/20 ui-selected:font-bold ui-not-selected:bg-slate-200"
+          class="flex-none rounded-md px-3 py-2 outline-none ui-selected:bg-primary/20 ui-selected:font-bold ui-not-selected:bg-slate-200"
           >2024總統立委選舉</HeadlessTab
         >
         <HeadlessTab
-          class="flex-none rounded-md px-3 py-2 ui-selected:bg-primary/20 ui-selected:font-bold ui-not-selected:bg-slate-200"
+          class="flex-none rounded-md px-3 py-2 outline-none ui-selected:bg-primary/20 ui-selected:font-bold ui-not-selected:bg-slate-200"
           >自訂組合</HeadlessTab
         >
       </HeadlessTabList>
@@ -354,7 +354,7 @@ function onSelectPoliticians(politicians: string) {
 
   const groupVal = politicianGroupNamesMap.value.get(politicians);
   if (groupVal) {
-    mixpanel.track('Politician Added', { politicians: groupVal });
+    mixpanel.track('Politician Added', { politicians: groupVal.value });
   } else {
     mixpanel.track('Politician Added', { politicians: politicians.split(',') });
   }
