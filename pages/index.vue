@@ -5,13 +5,16 @@
     <div
       @click="isSelectingPoliticians = !isSelectingPoliticians"
       v-if="title"
-      class="sticky left-4 flex w-max cursor-pointer items-center gap-2 text-xl font-bold"
+      class="sticky left-4 flex w-fit cursor-pointer items-center gap-2 overflow-x-auto text-xl font-bold"
     >
       <ArrowsRightLeftIcon
         v-if="!isSelectingPoliticians"
-        class="h-5 w-5 stroke-2"
+        class="h-5 w-5 flex-none stroke-2"
       />
-      <ArrowLeftIcon v-if="isSelectingPoliticians" class="h-5 w-5 stroke-2" />
+      <ArrowLeftIcon
+        v-if="isSelectingPoliticians"
+        class="h-5 w-5 flex-none stroke-2"
+      />
       <h1>
         {{ title }}
       </h1>
@@ -165,7 +168,9 @@
         >
       </HeadlessTabList>
       <HeadlessTabPanels as="template">
-        <HeadlessTabPanel class="w-[calc(100vw-2rem)] max-w-screen-sm">
+        <HeadlessTabPanel
+          class="flex w-[calc(100vw-2rem)] max-w-screen-sm flex-col gap-2"
+        >
           <div class="sticky top-16 z-10 rounded-md bg-white p-3">
             <input
               type="search"
