@@ -1,7 +1,7 @@
 <template>
   <Html class="scroll-smooth" />
   <AppHeader />
-  <div class="mx-auto flex w-fit flex-col gap-2 px-4 pb-16 pt-16">
+  <div class="mx-auto flex w-fit flex-col gap-2 px-4 pb-4 pt-16">
     <div
       @click="isSelectingPoliticians = !isSelectingPoliticians"
       v-if="title"
@@ -25,7 +25,7 @@
     >
       <aside
         v-if="selectedPoliticians.length > 0"
-        class="sticky top-16 ml-auto flex max-h-[calc(100vh-7rem)] flex-col overflow-y-scroll rounded-md"
+        class="sticky top-16 ml-auto flex max-h-[calc(100vh-7.25rem)] flex-col overflow-y-scroll rounded-md"
       >
         <nav class="flex w-60 flex-col gap-2 rounded-md bg-primary/10 p-4">
           <div class="flex items-center">
@@ -145,12 +145,9 @@
         </template>
         <div
           v-if="selectedTags.length === 0 && selectedPoliticians.length !== 0"
-          class="flex items-center justify-center gap-1 py-4"
+          class="flex items-center gap-1 p-4 text-slate-400"
         >
-          <InformationCircleIcon class="h-5 w-5 stroke-2 text-slate-400" />
-          <span class="sticky left-4 text-slate-400"
-            >點擊左側的標籤來新增內容</span
-          >
+          👈 點標籤來新增內容
         </div>
       </main>
     </div>
@@ -247,7 +244,6 @@
 <script setup lang="ts">
 import {
   XMarkIcon,
-  InformationCircleIcon,
   ArrowsRightLeftIcon,
   ArrowLeftIcon,
   MagnifyingGlassIcon,
