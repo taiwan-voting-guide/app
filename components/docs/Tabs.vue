@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="sticky top-16 flex w-fit gap-4 rounded-md bg-primary/10 p-2 backdrop-blur-md"
+    class="sticky top-16 flex w-fit gap-4 rounded-md bg-primary/10 p-2 backdrop-blur-md flex-wrap"
   >
     <NuxtLink
       :to="tab.path"
