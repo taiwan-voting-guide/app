@@ -19,7 +19,7 @@
       <ChartBarIcon class="h-5 w-5 stroke-2" />
       <span class="hidden flex-none sm:inline"> 數據分析 </span>
     </NuxtLink>
-    <div class="flex ml-auto">
+    <div class="ml-auto flex">
       <NuxtLink
         title="如何貢獻"
         to="/docs/how-to-contribute"
