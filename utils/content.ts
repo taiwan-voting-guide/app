@@ -135,6 +135,15 @@ export const parse = async (
                 ...element.properties,
                 id: undefined,
               };
+
+              const href = element.properties?.href;
+
+              if (element.tagName === 'a' && typeof href === 'string') {
+                element.properties = {
+                  ...element.properties,
+                  href: undefined,
+                };
+              }
             });
           };
         });
