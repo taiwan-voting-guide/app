@@ -25,7 +25,7 @@
     >
       <aside
         v-if="selectedPoliticians.length > 0"
-        class="sticky top-16 ml-auto flex max-h-[calc(100vh-5rem)] flex-col overflow-y-scroll rounded-md"
+        class="sticky top-16 ml-auto flex max-h-[calc(100vh-7rem)] flex-col overflow-y-scroll rounded-md"
       >
         <nav class="flex w-60 flex-col gap-2 rounded-md bg-primary/10 p-4">
           <div class="flex items-center">
