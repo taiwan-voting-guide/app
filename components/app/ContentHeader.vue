@@ -18,7 +18,7 @@
         class="handle h-12 w-12 flex-none cursor-grab rounded-full bg-primary/20"
       ></div>
       <h1
-        class="overflow-x-auto whitespace-nowrap text-2xl font-bold text-slate-700"
+        class="no-scrollbar overflow-x-auto whitespace-nowrap text-2xl font-bold text-slate-700"
       >
         {{ politician }}
       </h1>

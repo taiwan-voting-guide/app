@@ -25,7 +25,7 @@
     >
       <aside
         v-if="selectedPoliticians.length > 0"
-        class="sticky top-16 ml-auto flex max-h-[calc(100vh-7.25rem)] flex-col overflow-y-scroll rounded-md"
+        class="ml-auto flex flex-col rounded-md"
       >
         <nav class="flex w-60 flex-col gap-2 rounded-md bg-primary/10 p-4">
           <div class="flex items-center">
@@ -109,9 +109,7 @@
           @end="drag = false"
         >
           <template #item="{ element: politician }">
-            <li
-              class="h-20 w-80 flex-none overflow-x-scroll rounded-md shadow-md"
-            >
+            <li class="w-80 flex-none overflow-x-auto rounded-md shadow-md">
               <AppContentHeader :politician="politician">
                 <span
                   class="handle ml-auto cursor-grab pr-2 text-2xl font-bold text-slate-400"
@@ -184,7 +182,7 @@
               v-for="option in groupOptions"
               :key="option.key"
               @click="onSelectPoliticians(option.name)"
-              class="flex cursor-pointer flex-col gap-1 overflow-x-auto rounded-md p-2 font-bold hover:bg-slate-200"
+              class="no-scrollbar flex cursor-pointer flex-col gap-1 overflow-x-auto rounded-md p-2 font-bold hover:bg-slate-200"
             >
               <div class="sticky left-0">{{ option.name }}</div>
               <ul class="flex items-center gap-2">
