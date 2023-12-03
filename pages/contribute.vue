@@ -10,7 +10,7 @@
         class="flex flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600"
       >
         <QuestionMarkCircleIcon class="h-5 w-5 stroke-2" />
-        <span class="hidden flex-none lg:inline"> 如何使用 </span>
+        <span class="hidden flex-none xs:inline"> 如何使用 </span>
       </NuxtLink>
     </div>
     <div

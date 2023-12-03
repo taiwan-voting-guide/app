@@ -189,7 +189,7 @@
               <div class="sticky left-0">{{ option.name }}</div>
               <ul class="flex items-center gap-2">
                 <li
-                  class="flex flex-none items-center gap-2 rounded-xl bg-primary/10 p-2 font-normal"
+                  class="flex flex-none items-center gap-2 rounded-md bg-primary/10 p-2 font-normal"
                   v-for="val in option.value"
                 >
                   <NuxtImg

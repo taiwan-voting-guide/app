@@ -2,6 +2,9 @@ module.exports = {
   content: ['./utils/content.ts'],
   theme: {
     extend: {
+      screens: {
+        xs: '320px',
+      },
       colors: {
         primary: '#3199BA',
         secondary: '#EC502B',
