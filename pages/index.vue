@@ -172,7 +172,7 @@
             <input
               type="search"
               v-model="groupSearchText"
-              placeholder="總統, 翁文方, 第八選舉區, ..."
+              placeholder="總統, 內湖, 翁文方, 第8選舉, ..."
               class="w-full border-0 py-0 pl-8 pr-0 placeholder-slate-400 focus:ring-0"
             />
             <MagnifyingGlassIcon
