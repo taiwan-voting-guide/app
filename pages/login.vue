@@ -6,7 +6,7 @@
         <div class="flex items-center gap-1">
           <InformationCircleIcon class="h-5 w-5 stroke-2" />
 
-          請先進行email驗證，以繼續使用編輯器。
+          請先進行Email驗證
         </div>
         <form
           class="flex w-full flex-col gap-4"
