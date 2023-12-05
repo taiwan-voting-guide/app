@@ -237,7 +237,6 @@
       </HeadlessTabPanels>
     </HeadlessTabGroup>
   </div>
-  <OgImage v-bind="ogImageOptions" />
 </template>
 
 <script setup lang="ts">
@@ -410,8 +409,4 @@ const groupOptions = computed(() => {
 
   return options;
 });
-const ogImageOptions = {
-  component: 'OgApp',
-};
-defineOgImage(ogImageOptions);
 </script>
