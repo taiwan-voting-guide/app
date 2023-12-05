@@ -279,6 +279,7 @@ watch(
       selectedPoliticians.value = [];
       title.value = '';
       selectedPoliticiansQuery.value = '';
+      isSelectingPoliticians.value = true;
       return;
     }
 
