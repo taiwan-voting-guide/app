@@ -3,7 +3,7 @@ const contentCacheTime = 60 * 10;
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   site: {
-    url: 'https://voting-guide.tw',
+    url: 'https://www.voting-guide.tw',
   },
   app: {
     head: {
@@ -32,6 +32,8 @@ export default defineNuxtConfig({
     'nuxt-headlessui',
     'nuxt-gtag',
     'nuxt-og-image',
+    'nuxt-simple-sitemap',
+    'nuxt-simple-robots',
   ],
   runtimeConfig: {
     public: {
