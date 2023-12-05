@@ -2,6 +2,9 @@ const contentCacheTime = 60 * 10;
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  site: {
+    url: 'https://voting-guide.tw',
+  },
   app: {
     head: {
       htmlAttrs: {
@@ -17,6 +20,9 @@ export default defineNuxtConfig({
       ],
     },
   },
+  ogImage: {
+    fonts: ['Noto+Sans+TC:400', 'Noto+Sans+TC:700'],
+  },
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/html-validator',
@@ -25,6 +31,7 @@ export default defineNuxtConfig({
     'nuxt-clarity-analytics',
     'nuxt-headlessui',
     'nuxt-gtag',
+    'nuxt-og-image',
   ],
   runtimeConfig: {
     public: {
