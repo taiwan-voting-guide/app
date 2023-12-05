@@ -13,8 +13,8 @@ const { politicians } = defineProps<{
     class="flex h-full w-full flex-col items-center justify-center gap-2 bg-slate-100"
   >
     <svg
-      width="576"
-      height="96"
+      width="864"
+      height="144"
       viewBox="0 0 1029 166"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +46,7 @@ const { politicians } = defineProps<{
         fill="#2584A3"
       />
     </svg>
-    <h1 class="text-5xl tracking-wide text-slate-600">
+    <h1 class="text-6xl tracking-wide text-slate-600">
       快速檢索候選人的各項事實
     </h1>
   </div>
