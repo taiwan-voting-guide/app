@@ -411,8 +411,6 @@ const groupOptions = computed(() => {
 });
 const ogImageOptions = {
   component: 'OgApp',
-  title: '選前大補帖',
-  politician: selectedPoliticians.value[0],
 };
 defineOgImage(ogImageOptions);
 </script>
