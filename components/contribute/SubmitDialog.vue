@@ -103,6 +103,7 @@ const contentChanged = computed(
 
 function closeDialog() {
   isOpen.value = false;
+  prUrl.value = '';
 }
 
 const error = ref('');
@@ -132,5 +133,6 @@ async function submit() {
   });
 
   prUrl.value = url;
+  loading.value = false;
 }
 </script>
