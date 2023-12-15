@@ -47,7 +47,7 @@ const { politicians } = defineProps<{
       />
     </svg>
     <h1 class="text-6xl tracking-wide text-slate-600">
-      快速檢索候選人的各項事實
+      快速檢索候選人的各項資訊
     </h1>
   </div>
 </template>
