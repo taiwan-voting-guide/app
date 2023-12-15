@@ -342,8 +342,12 @@ watch(showAuthor, () => {
 });
 
 function onSelectPoliticians(politicians: string) {
+  let tags = '';
+  if (allTags.value) {
+    tags = allTags.value.join(',') || '';
+  }
   const query = {
-    tags: route.query.tags,
+    tags,
     politicians,
   };
 

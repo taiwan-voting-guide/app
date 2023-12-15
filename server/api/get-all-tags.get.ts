@@ -19,7 +19,7 @@ export default defineEventHandler(async () => {
 
   try {
     const data = load(yaml) as AppData;
-    return data.tags.sort();
+    return data.tags;
   } catch (error) {
     throw createError({
       statusCode: 500,
