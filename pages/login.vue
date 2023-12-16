@@ -54,7 +54,7 @@
             </label>
             <ButtonPrimary
               :submit="true"
-              :disabled="verification_code.length === 0"
+              :disabled="verification_code.length === 0 || verifing"
             >
               驗證信箱
             </ButtonPrimary>
@@ -73,6 +73,7 @@ const verification_code = ref<string>('');
 const loading = ref<boolean>(false);
 const isError = ref<boolean>(false);
 const sent = ref<boolean>(false);
+const verifing = ref<boolean>(false);
 
 const sessionkey = useCookie('user_session');
 onMounted(() => {
@@ -104,6 +105,7 @@ async function sendVerificationCode() {
 }
 
 async function verifyEmail() {
+  verifing.value = true;
   await navigateTo(
     {
       path: '/api/verify-email',
