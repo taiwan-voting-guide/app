@@ -25,7 +25,7 @@
         to="/docs/how-to-contribute"
         class="flex flex-none items-center gap-1 rounded-md px-1 text-slate-400 hover:text-slate-600"
       >
-        <PencilSquareIcon class="h-5 w-5 stroke-2" />
+        <QuestionMarkCircleIcon class="h-5 w-5 stroke-2" />
         <span class="hidden flex-none md:inline">
           <span class="flex-none">如何貢獻</span>
         </span>
@@ -46,10 +46,8 @@
 
 <script setup lang="ts">
 import {
-  WrenchIcon,
   DocumentPlusIcon,
   QuestionMarkCircleIcon,
-  PencilSquareIcon,
   ChartBarIcon,
 } from '@heroicons/vue/24/outline';
 </script>
