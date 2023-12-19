@@ -344,8 +344,35 @@ watch(showAuthor, () => {
 function onSelectPoliticians(politicians: string) {
   let tags = '';
   if (allTags.value) {
-    tags = allTags.value.join(',') || '';
+    console.log('123');
+    // TODO: remove this after the election
+    if (politicians === '2024_總統') {
+      tags = [
+        '發言表態',
+        '個人基本資訊',
+        '政黨',
+        '家庭背景',
+        '連任帶職',
+        '政見',
+        '學經歷',
+        '國防外交',
+        '能源環境',
+        '性別平權',
+        '教育文化',
+        '建設交通',
+        '經濟財政',
+        '社福衛生',
+        '司法紀錄',
+        '爭議事件',
+        '其他',
+      ].join(',');
+    } else {
+      tags = allTags.value.join(',') || '';
+    }
   }
+
+  console.log(tags);
+
   const query = {
     tags,
     politicians,
