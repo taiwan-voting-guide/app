@@ -1,11 +1,11 @@
 <template>
   <Html class="scroll-smooth" />
   <AppHeader />
-  <div class="mx-auto flex w-fit flex-col gap-2 px-4 pb-4 pt-16">
+  <div class="mx-auto flex w-fit flex-col gap-2 pb-4 pt-16">
     <div
       @click="isSelectingPoliticians = !isSelectingPoliticians"
       v-if="title"
-      class="sticky left-4 flex w-fit cursor-pointer items-center gap-2 overflow-x-auto text-xl font-bold"
+      class="sticky left-4 flex w-fit cursor-pointer items-center gap-2 overflow-x-auto px-2 text-2xl font-bold"
     >
       <ArrowsRightLeftIcon
         v-if="!isSelectingPoliticians"
@@ -150,23 +150,16 @@
       </main>
     </div>
     <HeadlessTabGroup v-if="isSelectingPoliticians">
-      <HeadlessTabList
-        class="flex w-[calc(100vw-2rem)] max-w-screen-sm gap-2 overflow-x-auto"
-      >
-        <HeadlessTab
-          class="flex-none rounded-md px-3 py-2 outline-none ui-selected:bg-primary/20 ui-selected:font-bold ui-not-selected:bg-slate-200"
-          >2024總統立委選舉</HeadlessTab
-        >
-        <HeadlessTab
-          class="flex-none rounded-md px-3 py-2 outline-none ui-selected:bg-primary/20 ui-selected:font-bold ui-not-selected:bg-slate-200"
-          >自訂組合</HeadlessTab
-        >
+      <HeadlessTabList class="flex max-w-screen-sm gap-2 overflow-x-auto px-3">
       </HeadlessTabList>
       <HeadlessTabPanels as="template">
         <HeadlessTabPanel
-          class="flex w-[calc(100vw-2rem)] max-w-screen-sm flex-col gap-2"
+          class="flex w-screen max-w-screen-sm flex-col gap-2 px-3"
         >
-          <div class="sticky top-16 z-10 rounded-md bg-white p-3">
+          <div class="w-full px-4 text-lg font-bold">搜尋你想認識的候選人</div>
+          <div
+            class="sticky top-16 z-10 rounded-full border-2 border-primary/40 bg-white p-3"
+          >
             <input
               type="search"
               v-model="groupSearchText"
@@ -177,17 +170,24 @@
               class="absolute inset-y-0 left-4 h-full w-5 stroke-2"
             />
           </div>
-          <ul class="flex flex-col gap-2">
+          <ul class="flex flex-col gap-12 pt-10">
             <li
               v-for="option in groupOptions"
               :key="option.key"
               @click="onSelectPoliticians(option.name)"
-              class="no-scrollbar flex cursor-pointer flex-col gap-1 overflow-x-auto rounded-md p-2 font-bold hover:bg-slate-200"
+              class="no-scrollbar flex cursor-pointer flex-col gap-3 overflow-x-auto rounded-lg"
             >
-              <div class="sticky left-0">{{ option.name }}</div>
-              <ul class="flex items-center gap-2">
+              <div class="sticky left-0 flex gap-2">
+                <span
+                  v-for="key in option.name.split('_')"
+                  class="inline-block flex-none rounded-full bg-secondary/10 px-2"
+                >
+                  {{ key }}
+                </span>
+              </div>
+              <ul class="flex w-fit gap-2">
                 <li
-                  class="flex flex-none items-center gap-2 rounded-md bg-primary/10 p-2 font-normal"
+                  class="flex flex-none items-center gap-2 rounded-full bg-primary/10 p-2 font-normal"
                   v-for="val in option.value"
                 >
                   <NuxtImg
