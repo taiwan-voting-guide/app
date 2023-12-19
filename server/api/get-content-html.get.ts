@@ -63,6 +63,12 @@ export default defineEventHandler(async (event) => {
       'rehype-stringify',
     ],
     {
+      'remark-rehype': {
+        allowDangerousHtml: true,
+      },
+      'rehype-stringify': {
+        allowDangerousHtml: true,
+      },
       'remark-lines': {
         startingLine,
       },

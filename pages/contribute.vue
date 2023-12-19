@@ -170,6 +170,14 @@ async function updatePreview() {
       'rehype-remove-id',
       'rehype-stringify',
     ],
+    {
+      'remark-rehype': {
+        allowDangerousHtml: true,
+      },
+      'rehype-stringify': {
+        allowDangerousHtml: true,
+      },
+    },
   );
 
   preview.value = file.value.toString();
