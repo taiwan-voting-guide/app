@@ -27,6 +27,10 @@ export const docTabs = [
     name: '如何貢獻',
   },
   {
+    path: '/docs/project',
+    name: '專案歷程',
+  },
+  {
     path: '/docs/we-need-to-talk',
     name: '聯絡我們',
   },
