@@ -344,7 +344,6 @@ watch(showAuthor, () => {
 function onSelectPoliticians(politicians: string) {
   let tags = '';
   if (allTags.value) {
-    console.log('123');
     // TODO: remove this after the election
     if (politicians === '2024_總統') {
       tags = [
