@@ -417,7 +417,7 @@ function onSelectPoliticians(politicians: string) {
   navigateTo({ query, hash: '' });
 }
 
-const showDraftTags = ref<boolean>(true);
+const showDraftTags = ref<boolean>(!route.query.tags);
 const draftTags = useCookie('draft_tags');
 const draftTagsMap = ref<Map<string, number>>(new Map());
 
