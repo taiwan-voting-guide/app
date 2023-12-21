@@ -207,7 +207,7 @@
       </HeadlessTabList>
       <HeadlessTabPanels as="template">
         <HeadlessTabPanel
-          class="flex w-[calc(100vw-2rem)] w-screen max-w-screen-sm flex-col gap-2"
+          class="flex w-[calc(100vw-3rem)] max-w-screen-sm flex-col gap-2"
         >
           <div
             class="sticky top-16 z-10 mt-6 rounded-lg border-2 border-primary/40 bg-white p-3"
