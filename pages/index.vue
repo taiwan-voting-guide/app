@@ -1,11 +1,11 @@
 <template>
   <Html class="scroll-smooth" />
   <AppHeader />
-  <div class="mx-auto flex w-fit flex-col gap-2 pb-4 pt-16">
+  <div class="mx-auto flex w-fit flex-col gap-2 px-4 pb-4 pt-16">
     <div
       @click="isSelectingPoliticians = !isSelectingPoliticians"
       v-if="title"
-      class="sticky left-4 flex w-fit cursor-pointer items-center gap-2 overflow-x-auto px-2 text-2xl font-bold"
+      class="sticky left-4 flex w-fit cursor-pointer items-center gap-2 overflow-x-auto text-2xl font-bold"
     >
       <ArrowsRightLeftIcon
         v-if="!isSelectingPoliticians"
@@ -16,7 +16,10 @@
         class="h-5 w-5 flex-none stroke-2"
       />
       <h1>
-        {{ title }}
+        <span v-if="isSelectingPoliticians"> 返回 </span>
+        <span class="rounded-md bg-secondary/20 px-2">{{
+          title.replaceAll('_', ' ')
+        }}</span>
       </h1>
     </div>
     <div
@@ -141,24 +144,18 @@
             </li>
           </ul>
         </template>
-        <div
-          v-if="selectedTags.length === 0 && selectedPoliticians.length !== 0"
-          class="flex items-center gap-1 p-4 text-slate-400"
-        >
-          👈 點標籤來新增內容
-        </div>
       </main>
     </div>
+
     <HeadlessTabGroup v-if="isSelectingPoliticians">
       <HeadlessTabList class="flex max-w-screen-sm gap-2 overflow-x-auto px-3">
       </HeadlessTabList>
       <HeadlessTabPanels as="template">
         <HeadlessTabPanel
-          class="flex w-screen max-w-screen-sm flex-col gap-2 px-3"
+          class="flex w-[calc(100vw-2rem)] w-screen max-w-screen-sm flex-col gap-2"
         >
-          <div class="w-full px-4 text-lg font-bold">搜尋你想認識的候選人</div>
           <div
-            class="sticky top-16 z-10 rounded-full border-2 border-primary/40 bg-white p-3"
+            class="sticky top-16 z-10 mt-6 rounded-lg border-2 border-primary/40 bg-white p-3"
           >
             <input
               type="search"
@@ -170,37 +167,41 @@
               class="absolute inset-y-0 left-4 h-full w-5 stroke-2"
             />
           </div>
-          <ul class="flex flex-col gap-12 pt-10">
+          <div class="w-full px-4 text-lg font-bold text-primary/60">
+            搜尋你想認識的候選人
+          </div>
+          <ul class="flex flex-col gap-4 pt-10">
             <li
               v-for="option in groupOptions"
               :key="option.key"
               @click="onSelectPoliticians(option.name)"
-              class="no-scrollbar flex cursor-pointer flex-col gap-3 overflow-x-auto rounded-lg"
+              class="cursor-pointer rounded-md p-3 hover:bg-slate-200"
             >
-              <div class="sticky left-0 flex gap-2">
-                <span
-                  v-for="key in option.name.split('_')"
-                  class="inline-block flex-none rounded-full bg-secondary/10 px-2"
-                >
-                  {{ key }}
-                </span>
+              <div class="no-scrollbar flex flex-col gap-3 overflow-x-auto">
+                <div class="sticky left-0 flex gap-2">
+                  <span
+                    class="inline-block flex-none rounded-md bg-secondary/20 px-2 font-bold"
+                  >
+                    {{ option.name.replaceAll('_', ' ') }}
+                  </span>
+                </div>
+                <ul class="flex w-fit gap-2">
+                  <li
+                    class="flex flex-none items-center gap-2 rounded-md bg-primary/20 p-2 font-normal"
+                    v-for="val in option.value"
+                  >
+                    <NuxtImg
+                      :src="`/politician/${val}.webp`"
+                      :alt="val"
+                      placeholder="/placeholder.svg"
+                      width="32"
+                      height="32"
+                      class="h-8 w-8 rounded-full bg-primary/20"
+                    />
+                    {{ val }}
+                  </li>
+                </ul>
               </div>
-              <ul class="flex w-fit gap-2">
-                <li
-                  class="flex flex-none items-center gap-2 rounded-full bg-primary/10 p-2 font-normal"
-                  v-for="val in option.value"
-                >
-                  <NuxtImg
-                    :src="`/politician/${val}.webp`"
-                    :alt="val"
-                    placeholder="/placeholder.svg"
-                    width="32"
-                    height="32"
-                    class="h-8 w-8 rounded-full bg-primary/20"
-                  />
-                  {{ val }}
-                </li>
-              </ul>
             </li>
           </ul>
         </HeadlessTabPanel>
