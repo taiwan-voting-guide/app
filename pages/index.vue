@@ -163,18 +163,18 @@
             </li>
           </ul>
           <button
-            @click="draftTags = ''"
-            class="flex cursor-pointer items-center justify-center rounded-lg bg-secondary/30 p-2 font-bold text-slate-600 hover:bg-secondary/40 sm:max-w-screen-sm"
-          >
-            <XMarkIcon class="h-4 w-4 flex-none stroke-2" />
-            全部取消
-          </button>
-          <button
             @click="onSetDraftTags()"
             class="flex cursor-pointer items-center justify-center rounded-lg bg-primary/40 p-2 font-bold text-slate-600 hover:bg-primary/50 sm:max-w-screen-sm"
           >
             <HashtagIcon class="h-4 w-4 flex-none stroke-2" />
             確認
+          </button>
+          <button
+            @click="draftTags = ''"
+            class="flex cursor-pointer items-center justify-center rounded-lg bg-secondary/30 p-2 font-bold text-slate-600 hover:bg-secondary/40 sm:max-w-screen-sm"
+          >
+            <XMarkIcon class="h-4 w-4 flex-none stroke-2" />
+            全部取消
           </button>
         </div>
 
@@ -230,7 +230,7 @@
               v-for="option in groupOptions"
               :key="option.key"
               @click="onSelectPoliticians(option.name)"
-              class="cursor-pointer rounded-lg p-3 hover:bg-slate-200"
+              class="cursor-pointer rounded-lg p-2 hover:bg-slate-200"
             >
               <div class="no-scrollbar flex flex-col gap-3 overflow-x-auto">
                 <div class="sticky left-0 flex gap-2">
