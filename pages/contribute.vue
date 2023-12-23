@@ -12,6 +12,15 @@
         <QuestionMarkCircleIcon class="h-5 w-5 stroke-2" />
         <span class="hidden flex-none xs:inline"> 如何使用 </span>
       </NuxtLink>
+      <NuxtLink
+        title="審查進度"
+        to="https://github.com/taiwan-voting-guide/content/pulls"
+        target="_blank"
+        class="flex flex-none items-center gap-1 rounded-md px-2 text-slate-400 hover:text-slate-600"
+      >
+        <EyeIcon class="h-5 w-5 stroke-2" />
+        <span class="hidden flex-none xs:inline"> 審查進度 </span>
+      </NuxtLink>
     </div>
     <div
       class="relative order-last flex basis-full justify-stretch gap-x-2 px-2 md:order-none md:basis-auto"
@@ -119,6 +128,7 @@ import {
   QuestionMarkCircleIcon,
   InformationCircleIcon,
   ArrowsRightLeftIcon,
+  EyeIcon,
 } from '@heroicons/vue/24/outline';
 import { Codemirror } from 'vue-codemirror';
 
